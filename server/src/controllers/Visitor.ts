@@ -12,7 +12,29 @@ const create = (req: Request, res: Response) => {
 };
 
 const getAll = (req: Request, res: Response) => {
-  Visitor.find().then((visitors) => res.status(200).json({ visitors }));
+  const pageString: string | undefined = req.query.page as string | undefined;
+  const page = pageString ? parseInt(pageString) : 1;
+  const limit = 20;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  Visitor.find()
+    .skip(startIndex)
+    .limit(20)
+
+    .then((visitors) =>
+      res.status(200).json({
+        totalResults: visitors.length,
+        totalPages: Math.ceil(visitors.length / limit),
+        visitors,
+      })
+    );
+};
+
+const getActiveVisitor = (req: Request, res: Response) => {
+  Visitor.find({ endDateTime: { $exists: false } })
+    .then((visitors) => res.status(200).json({ visitors }))
+    .catch((error) => res.status(400).json({ error }));
 };
 
 const getOne = (req: Request, res: Response) => {
@@ -54,6 +76,7 @@ const VisitorCtrl = {
   updateVisitor,
   deleteOne,
   updateEndDateTime,
+  getActiveVisitor,
 };
 
 export default VisitorCtrl;

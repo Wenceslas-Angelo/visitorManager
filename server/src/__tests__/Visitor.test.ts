@@ -20,6 +20,13 @@ const getAllVisitor = async (token: string) => {
   return response;
 };
 
+const getAllActiveVisitor = async (token: string) => {
+  const response = await supertest(App)
+    .get("/visitor/active")
+    .set("Authorization", `bearer ${token}`);
+  return response;
+};
+
 const getOneVisitor = async (token: string, visitorId: string) => {
   const response = await supertest(App)
     .get(`/visitor/${visitorId}`)
@@ -80,6 +87,12 @@ describe("TEST VISITOR API", () => {
     expect(response.body.visitors.length).toBe(1);
   });
 
+  it("Get all Active visitor", async () => {
+    const response = await getAllActiveVisitor(token);
+    expect(response.status).toBe(200);
+    expect(response.body.visitors.length).toBe(1);
+  });
+
   it("Get one visitor", async () => {
     const response = await getOneVisitor(token, visitorId);
     expect(response.status).toBe(200);
@@ -101,7 +114,6 @@ describe("TEST VISITOR API", () => {
 
   it("Update End Date Time Visitor", async () => {
     const response = await updateEndTimeDate(token, visitorId);
-    console.log(response.body);
     expect(response.status).toBe(201);
   });
 

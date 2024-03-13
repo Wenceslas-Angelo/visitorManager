@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/", Auth, VisitorCtrl.create);
 router.get("/", Auth, VisitorCtrl.getAll);
+router.get("/active", Auth, VisitorCtrl.getActiveVisitor);
 router.get("/:id", Auth, VisitorCtrl.getOne);
 router.put("/:id", Auth, VisitorCtrl.updateVisitor);
 router.put("/endDateTime/:id", Auth, VisitorCtrl.updateEndDateTime);
