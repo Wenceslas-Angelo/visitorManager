@@ -29,7 +29,7 @@ const Auth = ({ variant, title }: Props) => {
           <div className="flex items-center justify-center gap-3 md:justify-start md:mb-7">
             <img src={smmcLogo} alt="Logo SMMC" className="w-52" />
           </div>
-          <h1 className="text-3xl text-gray">{title}</h1>
+          <h1 className="text-3xl capitalize text-gray">{title}</h1>
           <form className="pt-5 pb-5 space-y-4">
             {variant === "register" ? (
               <>
