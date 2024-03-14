@@ -1,7 +1,8 @@
 import React from "react";
+import Auth from "../components/Auth";
 
 const Register = () => {
-  return <div>Register</div>;
+  return <Auth variant="register" title="inscription" />;
 };
 
 export default Register;
