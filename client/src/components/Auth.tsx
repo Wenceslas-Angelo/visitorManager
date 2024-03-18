@@ -11,8 +11,8 @@ import useAuthStore from "../stores/AuthStore";
 import { AuthType } from "../types";
 
 // Components
+import Input from "./AuthInput";
 import Button from "./Button";
-import Input from "./Input";
 
 // Assets
 import smmcLogo from "../assets/SMMC-Logo.png";

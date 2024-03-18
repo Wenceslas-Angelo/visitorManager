@@ -1,7 +1,7 @@
 export type AuthType = {
   name: string;
   firstName: string;
-  matricule: string;
+  matricule: number;
   password: string;
 };
 
@@ -23,4 +23,7 @@ export type SignUpResponse = {
 export type LoginResponse = {
   userId: string;
   token: string;
+  name: string;
+  firstName: string;
+  matricule: number;
 };

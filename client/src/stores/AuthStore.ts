@@ -4,7 +4,13 @@ import { AuthType } from "../types";
 
 type AuthStore = {
   isAuthenticated: boolean;
-  user: { userId: string; token: string } | null;
+  user: {
+    userId: string;
+    token: string;
+    name: string;
+    firstName: string;
+    matricule: number;
+  } | null;
   errorMsg: string | null;
   signUpIsSuccess: boolean;
   successMsg: string | null;
