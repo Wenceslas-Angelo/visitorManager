@@ -37,7 +37,10 @@ const Input = ({
         autoComplete="off"
         data-testid="input"
         {...register(id, {
-          required,
+          required: {
+            value: required,
+            message: `Field ${id} is required`,
+          },
         })}
       />
     </div>

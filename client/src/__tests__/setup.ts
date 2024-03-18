@@ -1,7 +1,13 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
+import { setupServer } from "msw/node";
+import authHandlers from "../mock/auth";
+
+const server = setupServer(...authHandlers);
+
+beforeAll(() => server.listen());
 
 afterEach(() => {
-  cleanup();
+  server.resetHandlers();
 });
+
+afterAll(() => server.close());

@@ -15,3 +15,12 @@ export type VisitorType = {
   endDateTime?: Date;
   badgeNumber: number;
 };
+
+export type SignUpResponse = {
+  message: string;
+};
+
+export type LoginResponse = {
+  userId: string;
+  token: string;
+};

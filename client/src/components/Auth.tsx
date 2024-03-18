@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+
+// Store
+import useAuthStore from "../stores/AuthStore";
+
+// Types
+import { AuthType } from "../types";
+
+// Components
+import Button from "./Button";
+import Input from "./Input";
+
+// Assets
 import smmcLogo from "../assets/SMMC-Logo.png";
 import loginImg from "../assets/login.png";
 import registerImg from "../assets/register.png";
-import { AuthType } from "../types";
-import Button from "./Button";
-import Input from "./Input";
 
 type Props = {
   variant: "register" | "login";
@@ -17,17 +28,41 @@ const Auth = ({ variant, title }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm<AuthType>();
+  const {
+    login,
+    signup,
+    errorMsg,
+    successMsg,
+    signUpIsSuccess,
+    isAuthenticated,
+  } = useAuthStore();
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<AuthType> = (data) => {
-    console.log(data);
+  useEffect(() => {
+    if (errorMsg) {
+      toast.error(errorMsg);
+    } else if (signUpIsSuccess && successMsg) {
+      navigate("/login");
+      toast.success(successMsg);
+    } else if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, errorMsg, successMsg, signUpIsSuccess, isAuthenticated]);
+
+  const onSubmit: SubmitHandler<AuthType> = async (data) => {
+    if (variant === "login") {
+      login(data.matricule, data.password);
+    } else if (variant === "register") {
+      signup(data);
+    }
   };
 
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-2 bg-primary-200/50">
       <div
-        className={`flex items-center justify-center bg-gray-200 border-gray-400 ${
+        className={`hidden md:flex items-center justify-center bg-gray-200 border-gray-400 ${
           variant === "login" ? "order-1 border-l-2" : "order-0 border-r-2"
         }`}
       >
@@ -36,12 +71,15 @@ const Auth = ({ variant, title }: Props) => {
           alt="Authentication illustration"
         />
       </div>
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center h-full px-5">
         <div className="w-full max-w-md">
           <div className="flex items-center justify-center gap-3 md:justify-start md:mb-7">
             <img src={smmcLogo} alt="Logo SMMC" className="w-52" />
           </div>
-          <h1 className="text-3xl capitalize text-gray">{title}</h1>
+          <h1 className="mt-5 text-3xl font-bold text-center capitalize text-gray md:text-start">
+            {title}
+          </h1>
+
           <form
             className="pt-5 pb-5 space-y-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -78,7 +116,11 @@ const Auth = ({ variant, title }: Props) => {
               placeholder="Mot de passe"
               errors={errors}
             />
-            <Button type="submit">{title}</Button>
+
+            <Button type="submit" isLoading={isLoading}>
+              {title}
+            </Button>
+            <ToastContainer />
           </form>
           {variant === "login" ? (
             <h2 className="text-caption4 text-primary">

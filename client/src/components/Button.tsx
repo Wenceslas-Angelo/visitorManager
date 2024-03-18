@@ -1,4 +1,5 @@
 import React from "react";
+import Spinner from "./Spinner";
 
 type Props = {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ const Button = ({
   type,
   size = "medium",
   variant = "primary",
-  disabled = false,
+  isLoading = false,
 }: Props) => {
   let variantStyles: string = "";
   let sizeStyles: string = "";
@@ -57,10 +58,12 @@ const Button = ({
   return (
     <button
       type={type}
-      disabled={disabled}
-      className={`${variantStyles} ${sizeStyles} px-2 py-2 capitalize w-full transition-all`}
+      disabled={isLoading}
+      className={`${variantStyles} ${sizeStyles} ${
+        isLoading ? "cursor-not-allowed" : "cursor-pointer"
+      } px-2 py-2 capitalize w-full transition-all`}
     >
-      {children}
+      {isLoading ? <Spinner /> : children}
     </button>
   );
 };

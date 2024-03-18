@@ -8,7 +8,7 @@ describe("TEST REGISTER USER", () => {
     const fields = screen.getAllByTestId("input");
     expect(fields.length).toBe(4);
   });
-  it("User should be registered", async () => {
+  it("User should not be registered", async () => {
     render(<Register />);
 
     const fields = screen.getAllByTestId("input");
