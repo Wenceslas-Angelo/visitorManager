@@ -41,6 +41,9 @@ const login = (req: Request, res: Response) => {
             token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
             }),
+            name: user.name,
+            firstName: user.firstName,
+            matricule: user.matricule,
           });
         })
         .catch((error) => res.status(500).json({ error }));
