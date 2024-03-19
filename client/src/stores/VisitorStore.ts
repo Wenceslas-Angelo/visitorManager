@@ -11,7 +11,7 @@ type VisitorStore = {
     results: VisitorType[];
   };
   createVisitor: (visitorData: VisitorType, token: string) => void;
-  readAllVisitors: (token: string) => void;
+  readAllVisitors: (token: string, page?: number) => void;
 };
 
 const useVisitorStore = create<VisitorStore>()((set) => ({
@@ -33,9 +33,9 @@ const useVisitorStore = create<VisitorStore>()((set) => ({
       console.error(error);
     }
   },
-  readAllVisitors: async (token: string) => {
+  readAllVisitors: async (token: string, page: number = 1) => {
     try {
-      const allVisitors = await visitorApi.readAll(token);
+      const allVisitors = await visitorApi.readAll(token, page);
       set({ visitors: allVisitors });
     } catch (error) {
       console.error(error);

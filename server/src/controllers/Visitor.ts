@@ -20,7 +20,7 @@ const getAll = (req: Request, res: Response) => {
 
   Visitor.find()
     .skip(startIndex)
-    .limit(20)
+    .limit(limit)
 
     .then((visitors) =>
       res.status(200).json({
