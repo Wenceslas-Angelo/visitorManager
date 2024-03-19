@@ -14,7 +14,7 @@ const create = (req: Request, res: Response) => {
 const getAll = (req: Request, res: Response) => {
   const pageString: string | undefined = req.query.page as string | undefined;
   const page = pageString ? parseInt(pageString) : 1;
-  const limit = 20;
+  const limit = 10;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
@@ -26,7 +26,7 @@ const getAll = (req: Request, res: Response) => {
       res.status(200).json({
         totalResults: visitors.length,
         totalPages: Math.ceil(visitors.length / limit),
-        visitors,
+        results: visitors,
       })
     );
 };

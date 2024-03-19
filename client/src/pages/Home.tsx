@@ -8,9 +8,9 @@ import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 
 const Home = () => {
-  const { isAuthenticated, successMsg } = useAuthStore();
+  const { isAuthenticated, successMsg, user } = useAuthStore();
   const navigate = useNavigate();
-  const { formModalIsOpen } = useVisitorStore();
+  const { formModalIsOpen, readAllVisitors, visitors } = useVisitorStore();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -19,18 +19,21 @@ const Home = () => {
       if (successMsg) {
         toast.success(successMsg);
       }
+      if (user && user.token) {
+        readAllVisitors(user.token);
+      }
     }
-  }, [navigate, isAuthenticated, successMsg]);
+  }, [navigate, isAuthenticated, successMsg, user, readAllVisitors]);
 
   return (
     <div>
       <Header />
       <div className="px-5 mt-10">
-        <ReactTableCours />
+        <ReactTableCours visitorsData={visitors.results} />
       </div>
       {formModalIsOpen ? (
-        <div className="absolute top-0 left-0 h-screen w-full bg-black/50 ">
-          <div className="flex justify-center items-center h-full max-w-3xl mx-auto">
+        <div className="absolute top-0 left-0 w-full h-screen bg-black/50 ">
+          <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
             <FormVisitor />
           </div>
         </div>

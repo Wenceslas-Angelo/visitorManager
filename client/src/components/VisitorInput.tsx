@@ -9,7 +9,7 @@ type Props = {
   register: UseFormRegister<VisitorType>;
   errors: FieldErrors<VisitorType>;
   required?: boolean;
-  id: "name" | "firstName" | "nationalId" | "purpose";
+  id: "name" | "firstName" | "nationalId" | "purpose" | "badgeNumber";
   label: string;
 };
 
@@ -33,7 +33,7 @@ const Input = ({
   label,
 }: Props) => {
   return (
-    <div className="flex flex-col m-2 w-full">
+    <div className="flex flex-col w-full m-2">
       <label>{label}</label>
       {id === "purpose" ? (
         <select

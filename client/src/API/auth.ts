@@ -25,7 +25,7 @@ export const authApi = {
   },
 
   login: async (
-    matricule: string,
+    matricule: number,
     password: string
   ): Promise<LoginResponse> => {
     // eslint-disable-next-line no-useless-catch

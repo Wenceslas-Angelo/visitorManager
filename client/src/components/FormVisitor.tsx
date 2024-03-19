@@ -1,6 +1,7 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
+import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 import { VisitorType } from "../types";
 import Button from "./Button";
@@ -8,22 +9,32 @@ import Input from "./VisitorInput";
 
 const FormVisitor = () => {
   const {
+    handleSubmit,
     register,
     formState: { errors },
   } = useForm<VisitorType>();
-  const { setFormModalIsOpen } = useVisitorStore();
+  const { setFormModalIsOpen, createVisitor } = useVisitorStore();
+  const { user } = useAuthStore();
+
+  const onSubmit: SubmitHandler<VisitorType> = async (data) => {
+    if (user && user.token) {
+      createVisitor({ ...data, userId: user.userId }, user.token);
+      setFormModalIsOpen();
+    }
+  };
+
   return (
-    <div className="text-xl p-5 bg-white rounded-md w-full">
-      <div className="flex justify-between items-center my-5">
-        <h2 className="font-semibold text-2xl">Visitors Details</h2>
+    <div className="w-full p-5 m-2 text-xl bg-white rounded-md">
+      <div className="flex items-center justify-between my-5">
+        <h2 className="text-2xl font-semibold">Visitors Details</h2>
         <div
           onClick={() => setFormModalIsOpen()}
-          className="text-rose-400 text-xl p-2 cursor-pointer hover:text-rose-600"
+          className="p-2 text-xl cursor-pointer text-rose-400 hover:text-rose-600"
         >
           <FaTimes />
         </div>
       </div>
-      <form action="">
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex">
           <Input
             type="text"
@@ -44,7 +55,7 @@ const FormVisitor = () => {
         </div>
         <div className="flex">
           <Input
-            type="number"
+            type="text"
             placeholder="Purpose"
             id="purpose"
             register={register}
@@ -54,7 +65,7 @@ const FormVisitor = () => {
           <Input
             type="number"
             placeholder="National Number"
-            id="firstName"
+            id="nationalId"
             register={register}
             errors={errors}
             label="National Number"
@@ -63,13 +74,13 @@ const FormVisitor = () => {
         <Input
           type="number"
           placeholder="Badge Number"
-          id="firstName"
+          id="badgeNumber"
           register={register}
           errors={errors}
           label="Badge Number"
         />
 
-        <div className="flex justify-between items-center mt-5 px-5">
+        <div className="flex items-center justify-between px-5 mt-5">
           <div>
             <Button type="submit">Save</Button>
           </div>

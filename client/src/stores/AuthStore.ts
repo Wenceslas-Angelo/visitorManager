@@ -14,7 +14,7 @@ type AuthStore = {
   errorMsg: string | null;
   signUpIsSuccess: boolean;
   successMsg: string | null;
-  login: (matricule: string, password: string) => void;
+  login: (matricule: number, password: string) => void;
   logout: () => void;
   signup: (userData: AuthType) => void;
 };
@@ -41,7 +41,7 @@ const useAuthStore = create<AuthStore>()((set) => ({
       set({ errorMsg: error.message });
     }
   },
-  login: async (matricule: string, password: string) => {
+  login: async (matricule: number, password: string) => {
     try {
       set({ errorMsg: null });
       const user = await authApi.login(matricule, password);

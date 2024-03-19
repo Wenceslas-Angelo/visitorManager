@@ -8,10 +8,10 @@ import useVisitorStore from "../stores/VisitorStore";
 import Button from "./Button";
 
 const Header = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { setFormModalIsOpen } = useVisitorStore();
   return (
-    <header className="flex justify-between items-center px-2 py-1">
+    <header className="flex items-center justify-between px-2 py-1">
       <div className="">
         <img src={smmcLogo} alt="Logo SMMC" className=" w-44" />
       </div>
@@ -29,11 +29,11 @@ const Header = () => {
           </div>
         </Button>
 
-        <div className="cursor-pointer hover:bg-gray-100 border border-gray-200 px-2 py-1 flex items-center rounded-md ml-5 text-lg">
-          <div className="border p-2 rounded-full">
+        <div className="flex items-center px-2 py-1 ml-5 text-lg border border-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
+          <div className="p-2 border rounded-full">
             <FaRegUser />
           </div>
-          <div className="px-2">
+          <div className="px-2" onClick={() => logout()}>
             <p className="text-[16px] flex w-20">
               {user ? `W. ${user.firstName}` : "Unknown firstName"}
             </p>
