@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import FormVisitor from "../components/FormVisitor";
 import Header from "../components/Header";
-import ReactTableCours from "../components/ReactTableCours";
+import VisitorTable from "../components/VisitorTable";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 
@@ -29,7 +29,7 @@ const Home = () => {
     <div>
       <Header />
       <div className="px-5 mt-10">
-        <ReactTableCours visitorsData={visitors.results} />
+        <VisitorTable visitorsData={visitors.results} />
       </div>
       {formModalIsOpen ? (
         <div className="absolute top-0 left-0 w-full h-screen bg-black/50 ">
