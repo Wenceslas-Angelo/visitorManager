@@ -61,34 +61,24 @@ const VisitorTable = ({ visitorsData }: Props) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows?.length
-            ? table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="bg-white border-b">
-                  {row.getVisibleCells().map((cell) => (
-                    <th
-                      key={cell.id}
-                      className="px-6 py-4  text-center font-medium text-gray-900 whitespace-nowrap"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))
-            : null}
-          {/* <tr className="bg-white">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-              Magic Mouse 2
-            </th>
-            <td className="px-6 py-4">Black</td>
-            <td className="px-6 py-4">Accessories</td>
-            <td className="px-6 py-4">$99</td>
-          </tr> */}
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="bg-white border-b">
+                {row.getVisibleCells().map((cell) => (
+                  <th
+                    key={cell.id}
+                    className="px-6 py-4  text-center font-medium text-gray-900 whitespace-nowrap"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <th>NO RESULTS</th>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
