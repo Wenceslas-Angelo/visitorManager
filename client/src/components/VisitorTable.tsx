@@ -4,6 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import moment from "moment";
 import React from "react";
 import { VisitorType } from "../types";
 
@@ -15,6 +16,17 @@ const VisitorTable = ({ visitorsData }: Props) => {
   const data = visitorsData;
   const columns: ColumnDef<VisitorType>[] = [
     {
+      header: "Date",
+      accessorKey: "startDateTime",
+      cell: ({ row }) => {
+        const formattedDate = moment(row.getValue("startDateTime")).format(
+          "YYYY-MM-DD"
+        );
+
+        return <span>{formattedDate}</span>;
+      },
+    },
+    {
       header: "Name",
       accessorKey: "name",
     },
@@ -23,11 +35,7 @@ const VisitorTable = ({ visitorsData }: Props) => {
       accessorKey: "firstName",
     },
     {
-      header: "National Id",
-      accessorKey: "nationalId",
-    },
-    {
-      header: "Purpose",
+      header: "Motif",
       accessorKey: "purpose",
     },
     {
