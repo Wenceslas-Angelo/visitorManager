@@ -30,7 +30,7 @@ export const visitorApi = {
 
   readAll: async (
     token: string,
-    page: number = 1
+    page = 1
   ): Promise<ReadAllVisitorAPIResponse> => {
     // eslint-disable-next-line no-useless-catch
     try {

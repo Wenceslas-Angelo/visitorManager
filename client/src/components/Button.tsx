@@ -60,7 +60,9 @@ const Button = ({
       type={type}
       disabled={isLoading}
       className={`${variantStyles} ${sizeStyles} ${
-        isLoading ? "cursor-not-allowed" : "cursor-pointer"
+        isLoading || variant === "disabled"
+          ? "cursor-not-allowed"
+          : "cursor-pointer"
       } px-2 py-2 capitalize w-full transition-all`}
     >
       {isLoading ? <Spinner /> : children}

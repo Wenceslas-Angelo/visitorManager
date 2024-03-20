@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import FormVisitor from "../components/FormVisitor";
 import Header from "../components/Header";
+import Pagination from "../components/Pagination";
 import VisitorTable from "../components/VisitorTable";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
@@ -20,11 +21,10 @@ const Home = () => {
         toast.success(successMsg);
       }
       if (user && user.token) {
-        readAllVisitors(user.token);
+        readAllVisitors(user.token, 1);
       }
     }
   }, [navigate, isAuthenticated, successMsg, user, readAllVisitors]);
-
   return (
     <div>
       <Header />
@@ -38,6 +38,11 @@ const Home = () => {
           </div>
         </div>
       ) : null}
+      <Pagination
+        totalPages={visitors.totalPages}
+        currentPage={visitors.page}
+        token={user ? user.token : ""}
+      />
       <ToastContainer />
     </div>
   );

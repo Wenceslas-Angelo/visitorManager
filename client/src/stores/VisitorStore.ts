@@ -9,6 +9,7 @@ type VisitorStore = {
     totalPages: number;
     totalResults: number;
     results: VisitorType[];
+    page: number;
   };
   createVisitor: (visitorData: VisitorType, token: string) => void;
   readAllVisitors: (token: string, page?: number) => void;
@@ -16,7 +17,7 @@ type VisitorStore = {
 
 const useVisitorStore = create<VisitorStore>()((set) => ({
   formModalIsOpen: false,
-  visitors: { totalPages: 0, totalResults: 0, results: [] },
+  visitors: { totalPages: 0, totalResults: 0, results: [], page: 1 },
   setFormModalIsOpen: () =>
     set((state) => ({ formModalIsOpen: !state.formModalIsOpen })),
   createVisitor: async (visitorData: VisitorType, token: string) => {
@@ -27,6 +28,7 @@ const useVisitorStore = create<VisitorStore>()((set) => ({
           totalPages: state.visitors.totalPages,
           totalResults: state.visitors.totalResults + 1,
           results: [...state.visitors.results, newVisitor],
+          page: state.visitors.page,
         },
       }));
     } catch (error) {
