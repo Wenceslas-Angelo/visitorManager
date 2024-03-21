@@ -2,6 +2,7 @@ import React from "react";
 import { FaChevronDown, FaRegUser } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 
+import { Link } from "react-router-dom";
 import smmcLogo from "../assets/SMMC-Logo.png";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
@@ -15,6 +16,11 @@ const Header = () => {
       <div className="">
         <img src={smmcLogo} alt="Logo SMMC" className=" w-44" />
       </div>
+
+      <nav className="">
+        <Link to="/">Home</Link>
+        <Link to="/active">Active</Link>
+      </nav>
 
       <div className="flex items-center">
         <Button type="button" variant="primary" size="small">

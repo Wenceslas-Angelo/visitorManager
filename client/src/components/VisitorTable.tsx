@@ -1,48 +1,28 @@
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import moment from "moment";
 import React from "react";
+import useAuthStore from "../stores/AuthStore";
+import useVisitorStore from "../stores/VisitorStore";
 import { VisitorType } from "../types";
+import { columnDefVisitor } from "../utils/columnDef";
 
 type Props = {
   visitorsData: VisitorType[];
+  visitorActive?: boolean;
 };
 
-const VisitorTable = ({ visitorsData }: Props) => {
+const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
+  const { user } = useAuthStore();
+  const { updateActiveVisitor } = useVisitorStore();
   const data = visitorsData;
-  const columns: ColumnDef<VisitorType>[] = [
-    {
-      header: "Date",
-      accessorKey: "startDateTime",
-      cell: ({ row }) => {
-        const formattedDate = moment(row.getValue("startDateTime")).format(
-          "YYYY-MM-DD"
-        );
-
-        return <span>{formattedDate}</span>;
-      },
-    },
-    {
-      header: "Name",
-      accessorKey: "name",
-    },
-    {
-      header: "First Name",
-      accessorKey: "firstName",
-    },
-    {
-      header: "Motif",
-      accessorKey: "purpose",
-    },
-    {
-      header: "Badge",
-      accessorKey: "badgeNumber",
-    },
-  ];
+  const columns = columnDefVisitor(
+    visitorActive,
+    user ? user.token : "",
+    updateActiveVisitor
+  );
   const table = useReactTable({
     columns,
     data,
@@ -71,7 +51,7 @@ const VisitorTable = ({ visitorsData }: Props) => {
         <tbody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="bg-white border-b">
+              <tr key={row.id} className="bg-white border-b hover:bg-gray-300">
                 {row.getVisibleCells().map((cell) => (
                   <th
                     key={cell.id}

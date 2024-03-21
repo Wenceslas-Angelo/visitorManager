@@ -6,6 +6,7 @@ export type AuthType = {
 };
 
 export type VisitorType = {
+  _id: string;
   name: string;
   firstName: string;
   nationalId: string;

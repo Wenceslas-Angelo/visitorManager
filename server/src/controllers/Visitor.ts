@@ -17,8 +17,12 @@ const getAll = async (req: Request, res: Response) => {
     const page = pageString ? parseInt(pageString) : 1;
     const limit = 10;
     const startIndex = (page - 1) * limit;
-    const totalResults = await Visitor.countDocuments();
-    const visitors = await Visitor.find().skip(startIndex).limit(limit);
+    const totalResults = await Visitor.find({
+      endDateTime: { $exists: true },
+    }).countDocuments();
+    const visitors = await Visitor.find({ endDateTime: { $exists: true } })
+      .skip(startIndex)
+      .limit(limit);
     const totalPages = Math.ceil(totalResults / limit);
 
     res.status(200).json({
@@ -33,15 +37,35 @@ const getAll = async (req: Request, res: Response) => {
   }
 };
 
-const getActiveVisitor = (req: Request, res: Response) => {
-  Visitor.find({ endDateTime: { $exists: false } })
-    .then((visitors) => res.status(200).json({ visitors }))
-    .catch((error) => res.status(400).json({ error }));
+const getActiveVisitor = async (req: Request, res: Response) => {
+  try {
+    const pageString: string | undefined = req.query.page as string | undefined;
+    const page = pageString ? parseInt(pageString) : 1;
+    const limit = 10;
+    const startIndex = (page - 1) * limit;
+    const totalResults = await Visitor.find({
+      endDateTime: { $exists: false },
+    }).countDocuments();
+    const visitors = await Visitor.find({ endDateTime: { $exists: false } })
+      .skip(startIndex)
+      .limit(limit);
+    const totalPages = Math.ceil(totalResults / limit);
+
+    res.status(200).json({
+      totalResults,
+      totalPages,
+      results: visitors,
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const getOne = (req: Request, res: Response) => {
   Visitor.findOne({ _id: req.params.id })
-    .then((visitor) => res.status(200).json({ visitor }))
+    .then((visitor) => res.status(200).json(visitor))
     .catch((error) => res.status(400).json({ error }));
 };
 
