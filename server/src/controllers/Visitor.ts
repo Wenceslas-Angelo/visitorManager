@@ -7,7 +7,16 @@ const create = (req: Request, res: Response) => {
   });
   newVisitor
     .save()
-    .then((visitor) => res.status(201).json({ visitor }))
+    .then(async (visitor) => {
+      const limit = 10;
+      const totalResults = await Visitor.find({
+        endDateTime: { $exists: false },
+      }).countDocuments();
+      const totalPages = Math.ceil(totalResults / limit);
+      return res
+        .status(201)
+        .json({ totalPages, totalResults, result: visitor });
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -21,6 +30,7 @@ const getAll = async (req: Request, res: Response) => {
       endDateTime: { $exists: true },
     }).countDocuments();
     const visitors = await Visitor.find({ endDateTime: { $exists: true } })
+      .sort({ _id: -1 })
       .skip(startIndex)
       .limit(limit);
     const totalPages = Math.ceil(totalResults / limit);

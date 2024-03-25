@@ -1,17 +1,12 @@
 import { create } from "zustand";
 import { visitorApi } from "../API/visitor";
-import { VisitorType } from "../types";
+import { CreateVisitorAPIResponse, VisitorAPIResponse } from "../types";
 
 type VisitorStore = {
   formModalIsOpen: boolean;
   setFormModalIsOpen: () => void;
-  visitors: {
-    totalPages: number;
-    totalResults: number;
-    results: VisitorType[];
-    page: number;
-  };
-  createVisitor: (visitorData: VisitorType, token: string) => void;
+  visitors: VisitorAPIResponse;
+  createVisitor: (visitorData: CreateVisitorAPIResponse) => void;
   readAllVisitors: (token: string, page?: number) => void;
   readAllActiveVisitors: (token: string, page?: number) => void;
   updateActiveVisitor: (token: string, visitorId: string) => void;
@@ -20,23 +15,20 @@ type VisitorStore = {
 const useVisitorStore = create<VisitorStore>()((set) => ({
   formModalIsOpen: false,
   visitors: { totalPages: 0, totalResults: 0, results: [], page: 1 },
-  setFormModalIsOpen: () =>
-    set((state) => ({ formModalIsOpen: !state.formModalIsOpen })),
-  createVisitor: async (visitorData: VisitorType, token: string) => {
-    try {
-      const newVisitor = await visitorApi.create(visitorData, token);
-      set((state) => ({
-        visitors: {
-          totalPages: state.visitors.totalPages,
-          totalResults: state.visitors.totalResults + 1,
-          results: [...state.visitors.results, newVisitor],
-          page: state.visitors.page,
-        },
-      }));
-    } catch (error) {
-      console.error(error);
-    }
+  setFormModalIsOpen: () => {
+    return set((state) => ({ formModalIsOpen: !state.formModalIsOpen }));
   },
+  createVisitor: (newVisitor: CreateVisitorAPIResponse) => {
+    set((state) => ({
+      visitors: {
+        totalPages: newVisitor.totalPages,
+        totalResults: newVisitor.totalResults,
+        results: [...state.visitors.results, newVisitor.result],
+        page: state.visitors.page,
+      },
+    }));
+  },
+
   readAllVisitors: async (token: string, page: number = 1) => {
     try {
       const allVisitors = await visitorApi.readAll(token, page);
@@ -45,6 +37,7 @@ const useVisitorStore = create<VisitorStore>()((set) => ({
       console.error(error);
     }
   },
+
   readAllActiveVisitors: async (token: string, page: number = 1) => {
     try {
       const allVisitors = await visitorApi.readAllActive(token, page);
@@ -53,6 +46,7 @@ const useVisitorStore = create<VisitorStore>()((set) => ({
       console.error(error);
     }
   },
+
   updateActiveVisitor: async (token: string, visitorId: string) => {
     try {
       await visitorApi.updateActiveVisitor(token, visitorId);

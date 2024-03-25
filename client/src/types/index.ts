@@ -29,9 +29,15 @@ export type LoginResponse = {
   matricule: number;
 };
 
-export type ReadAllVisitorAPIResponse = {
+export type VisitorAPIResponse = {
   totalPages: number;
   totalResults: number;
   results: VisitorType[];
   page: number;
+};
+
+export type CreateVisitorAPIResponse = {
+  totalPages: number;
+  totalResults: number;
+  result: VisitorType;
 };

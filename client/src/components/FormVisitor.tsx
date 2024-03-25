@@ -1,6 +1,7 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
+import { useCreateVisitor } from "../hooks/useVisitorQuery";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 import { VisitorType } from "../types";
@@ -13,13 +14,16 @@ const FormVisitor = () => {
     register,
     formState: { errors },
   } = useForm<VisitorType>();
-  const { setFormModalIsOpen, createVisitor } = useVisitorStore();
   const { user } = useAuthStore();
+  const createVisitorMutation = useCreateVisitor();
+  const { setFormModalIsOpen } = useVisitorStore();
 
   const onSubmit: SubmitHandler<VisitorType> = async (data) => {
     if (user && user.token) {
-      createVisitor({ ...data, userId: user.userId }, user.token);
-      setFormModalIsOpen();
+      createVisitorMutation.mutate({
+        visitorData: { ...data, userId: user.userId },
+        token: user.token,
+      });
     }
   };
 
