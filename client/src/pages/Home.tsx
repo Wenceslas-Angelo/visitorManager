@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import FormVisitor from "../components/FormVisitor";
 import Header from "../components/Header";
 import Pagination from "../components/Pagination";
@@ -9,7 +9,7 @@ import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 
 const Home = () => {
-  const { isAuthenticated, successMsg, user } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
   const { formModalIsOpen, readAllVisitors, visitors } = useVisitorStore();
 
@@ -17,14 +17,11 @@ const Home = () => {
     if (!isAuthenticated) {
       navigate("/login");
     } else {
-      if (successMsg) {
-        toast.success(successMsg);
-      }
       if (user && user.token) {
         readAllVisitors(user.token, 1);
       }
     }
-  }, [navigate, isAuthenticated, successMsg, user, readAllVisitors]);
+  }, [navigate, isAuthenticated, user, readAllVisitors]);
   return (
     <div>
       <Header />

@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
-
-// Store
-import useAuthStore from "../stores/AuthStore";
 
 // Types
 import { AuthType } from "../types";
@@ -18,6 +15,7 @@ import Button from "./Button";
 import smmcLogo from "../assets/SMMC-Logo.png";
 import loginImg from "../assets/login.png";
 import registerImg from "../assets/register.png";
+import { useLogin, useRegister } from "../hooks/useAuthQuery";
 
 type Props = {
   variant: "register" | "login";
@@ -28,34 +26,17 @@ const Auth = ({ variant, title }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isLoading },
+    formState: { errors },
   } = useForm<AuthType>();
-  const {
-    login,
-    signup,
-    errorMsg,
-    successMsg,
-    signUpIsSuccess,
-    isAuthenticated,
-  } = useAuthStore();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (errorMsg) {
-      toast.error(errorMsg);
-    } else if (signUpIsSuccess && successMsg) {
-      navigate("/login");
-      toast.success(successMsg);
-    } else if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [navigate, errorMsg, successMsg, signUpIsSuccess, isAuthenticated]);
+  const registerMutation = useRegister();
+  const loginMutation = useLogin();
 
   const onSubmit: SubmitHandler<AuthType> = async (data) => {
     if (variant === "login") {
-      login(data.matricule, data.password);
+      loginMutation.mutate(data);
     } else if (variant === "register") {
-      signup(data);
+      registerMutation.mutate(data);
     }
   };
 
@@ -117,7 +98,14 @@ const Auth = ({ variant, title }: Props) => {
               errors={errors}
             />
 
-            <Button type="submit" isLoading={isLoading}>
+            <Button
+              type="submit"
+              isLoading={
+                variant === "login"
+                  ? loginMutation.isPending
+                  : registerMutation.isPending
+              }
+            >
               {title}
             </Button>
             <ToastContainer />

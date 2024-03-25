@@ -41,7 +41,7 @@ const Header = () => {
           </div>
           <div className="px-2" onClick={() => logout()}>
             <p className="text-[16px] flex w-20">
-              {user ? `W. ${user.firstName}` : "Unknown firstName"}
+              {user ? `${user.firstName}` : "Unknown firstName"}
             </p>
             <p className="text-sm text-gray-400">Admin</p>
           </div>
