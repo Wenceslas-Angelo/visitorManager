@@ -11,7 +11,7 @@ export const useRegister = () => {
     mutationFn: (userData: AuthType) => authApi.signup(userData),
     onSuccess: (data) => {
       toast.success(data.message);
-      navigate("/login");
+      navigate("/connexion");
     },
     onError: (error) => {
       toast.error(error.message);

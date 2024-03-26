@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/connexion");
     } else {
       if (user && user.token) {
         readAllVisitors(user.token, 1);

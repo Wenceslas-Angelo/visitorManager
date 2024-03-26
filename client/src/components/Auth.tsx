@@ -61,6 +61,22 @@ const Auth = ({ variant, title }: Props) => {
             {title}
           </h1>
 
+          {variant === "login" ? (
+            <div className="flex items-center gap-2 mt-1 text-lg">
+              <h2 className="text-gray-600">Tu n' as pas de compte ? </h2>
+              <h2 className="text-indigo-600">
+                <Link to="/inscription">S' inscrire</Link>
+              </h2>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 mt-1 text-lg">
+              <h2 className="text-gray-600">Tu as déjà un compte ?</h2>
+              <h2 className="text-indigo-600">
+                <Link to="/connexion">Connexion</Link>
+              </h2>
+            </div>
+          )}
+
           <form
             className="pt-5 pb-5 space-y-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -78,7 +94,7 @@ const Auth = ({ variant, title }: Props) => {
                   type="text"
                   register={register}
                   id="firstName"
-                  placeholder="Prenom"
+                  placeholder="Prénom"
                   errors={errors}
                 />
               </>
@@ -111,10 +127,10 @@ const Auth = ({ variant, title }: Props) => {
             <ToastContainer />
           </form>
           {variant === "login" ? (
-            <h2 className="text-caption4 text-primary">
+            <h2 className="text-lg text-indigo-600">
               <Link
                 className="flex justify-center"
-                to="/connexion/mots-de-passe-perdu"
+                to="/connexion/mot-de-passe-perdu"
               >
                 Mot de pass perdu ?
               </Link>
