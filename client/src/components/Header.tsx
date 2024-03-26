@@ -14,13 +14,10 @@ const Header = () => {
   return (
     <header className="flex items-center justify-between px-2 py-1">
       <div className="">
-        <img src={smmcLogo} alt="Logo SMMC" className=" w-44" />
+        <Link to="/">
+          <img src={smmcLogo} alt="Logo SMMC" className=" w-44" />
+        </Link>
       </div>
-
-      <nav className="">
-        <Link to="/">Home</Link>
-        <Link to="/active">Active</Link>
-      </nav>
 
       <div className="flex items-center">
         <Button type="button" variant="primary" size="small">

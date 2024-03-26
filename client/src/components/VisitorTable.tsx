@@ -32,11 +32,14 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-gray-700 uppercase bg-gray-200">
+        <thead className="text-gray-700 bg-gray-200">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="px-6 py-3 text-lg text-center">
+                <th
+                  key={header.id}
+                  className="px-6 py-3 text-[16px] text-center"
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(

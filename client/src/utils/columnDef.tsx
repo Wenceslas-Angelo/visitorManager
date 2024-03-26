@@ -20,7 +20,7 @@ export const columnDefVisitor = (
       },
     },
     {
-      header: "Check in/out",
+      header: "Arrivee-Depart",
       accessorKey: "endDateTime",
       cell: ({ row }) => {
         const formattedTimeIn = moment(row.getValue("startDateTime")).format(
@@ -37,34 +37,30 @@ export const columnDefVisitor = (
       },
     },
     {
-      header: "Name",
+      header: "Nom",
       accessorKey: "name",
     },
     {
-      header: "First Name",
+      header: "Prénom",
       accessorKey: "firstName",
     },
     {
       header: "Motif",
       accessorKey: "purpose",
     },
-    {
-      header: "Badge",
-      accessorKey: "badgeNumber",
-    },
   ];
 
   const columnsVisitorActive: ColumnDef<VisitorType>[] = [
     {
-      header: "Name",
+      header: "Nom",
       accessorKey: "name",
     },
     {
-      header: "First Name",
+      header: "Prénom",
       accessorKey: "firstName",
     },
     {
-      header: "National ID",
+      header: "ID national",
       accessorKey: "nationalId",
     },
     {
@@ -76,7 +72,7 @@ export const columnDefVisitor = (
       accessorKey: "badgeNumber",
     },
     {
-      header: "Check out",
+      header: "Depart",
       accessorKey: "_id",
       cell: ({ row }) => {
         return (
