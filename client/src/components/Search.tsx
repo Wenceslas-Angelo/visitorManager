@@ -1,46 +1,23 @@
 import React from "react";
-import { FaChevronDown, FaRegUser } from "react-icons/fa6";
-import { IoMdAdd } from "react-icons/io";
+import { FiSearch } from "react-icons/fi";
 
-import useAuthStore from "../stores/AuthStore";
-import useVisitorStore from "../stores/VisitorStore";
-import Button from "./Button";
-
-const Header = () => {
-  const { user, logout } = useAuthStore();
-  const { setFormModalIsOpen } = useVisitorStore();
+const Search = () => {
   return (
-    <header className="flex items-center justify-between px-2 py-1">
-      <div className="flex items-center">
-        <Button type="button" variant="primary" size="small">
-          <div
-            className="flex items-center"
-            onClick={() => setFormModalIsOpen()}
-          >
-            <span className="text-xl">
-              <IoMdAdd />
-            </span>
-            Add Visitor
-          </div>
-        </Button>
-
-        <div className="flex items-center px-2 py-1 ml-5 text-lg border border-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
-          <div className="p-2 border rounded-full">
-            <FaRegUser />
-          </div>
-          <div className="px-2" onClick={() => logout()}>
-            <p className="text-[16px] flex w-20">
-              {user ? `${user.firstName}` : "Unknown firstName"}
-            </p>
-            <p className="text-sm text-gray-400">Admin</p>
-          </div>
-          <div>
-            <FaChevronDown />
-          </div>
+    <form className="mt-10 w-full">
+      <div className="relative">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Rechercher"
+          className="outline-none border border-gray-400 rounded-lg text-lg px-4 py-2 pl-10 focus:border-green-600 focus:ring-green-600 placeholder-gray-600"
+        />
+        <div className="absolute text-gray-400 left-2 font-bold text-xl top-[50%] translate-y-[-50%]">
+          <FiSearch />
         </div>
       </div>
-    </header>
+    </form>
   );
 };
 
-export default Header;
+export default Search;
