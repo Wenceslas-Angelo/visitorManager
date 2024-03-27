@@ -2,8 +2,6 @@ import React from "react";
 import { FaChevronDown, FaRegUser } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 
-import { Link } from "react-router-dom";
-import smmcLogo from "../assets/SMMC-Logo.png";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 import Button from "./Button";
@@ -13,12 +11,6 @@ const Header = () => {
   const { setFormModalIsOpen } = useVisitorStore();
   return (
     <header className="flex items-center justify-between px-2 py-1">
-      <div className="">
-        <Link to="/">
-          <img src={smmcLogo} alt="Logo SMMC" className=" w-44" />
-        </Link>
-      </div>
-
       <div className="flex items-center">
         <Button type="button" variant="primary" size="small">
           <div

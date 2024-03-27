@@ -60,19 +60,20 @@ export const columnDefVisitor = (
       accessorKey: "firstName",
     },
     {
-      header: "ID national",
-      accessorKey: "nationalId",
-    },
-    {
       header: "Motif",
       accessorKey: "purpose",
     },
+    {
+      header: "ID national",
+      accessorKey: "nationalId",
+    },
+
     {
       header: "Badge",
       accessorKey: "badgeNumber",
     },
     {
-      header: "Depart",
+      header: "Check Out",
       accessorKey: "_id",
       cell: ({ row }) => {
         return (

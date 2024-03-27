@@ -8,26 +8,27 @@ import VisitorTable from "../components/VisitorTable";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
 
-const Home = () => {
+const Visitors = () => {
   const { isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
-  const { formModalIsOpen, readAllVisitors, visitors } = useVisitorStore();
+  const { formModalIsOpen, readAllActiveVisitors, visitors } =
+    useVisitorStore();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/connexion");
+      navigate("/login");
     } else {
       if (user && user.token) {
-        readAllVisitors(user.token, 1);
+        readAllActiveVisitors(user.token, 1);
       }
     }
-  }, [navigate, isAuthenticated, user, readAllVisitors]);
+  }, [navigate, isAuthenticated, user, readAllActiveVisitors]);
   return (
     <main className="flex flex-row">
       <SideBar />
       <div className="flex min-h-screen flex-1 flex-col items-center px-6">
         <div className="mt-10 w-full">
-          <VisitorTable visitorsData={visitors.results} />
+          <VisitorTable visitorsData={visitors.results} visitorActive={true} />
         </div>
         {formModalIsOpen ? (
           <div className="absolute top-0 left-0 w-full h-screen bg-black/50 ">
@@ -47,4 +48,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Visitors;

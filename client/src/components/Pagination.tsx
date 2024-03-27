@@ -22,7 +22,7 @@ const Pagination = ({ totalPages, currentPage, token }: Props) => {
     }
   };
   return (
-    <div className="flex items-center justify-between max-w-xl py-10 mx-auto my-5 text-center">
+    <div className="w-full flex items-center justify-between max-w-xl py-10 mx-auto my-5 text-center">
       <div className="w-20" onClick={() => handlePreviousPage()}>
         <Button
           type="button"
