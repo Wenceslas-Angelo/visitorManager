@@ -8,7 +8,7 @@ import useAuthStore from "../stores/AuthStore";
 const SideBar = () => {
   const { logout } = useAuthStore();
   return (
-    <div
+    <section
       className="sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-gray-300 pb-5 pt-10 max-md:hidden;
 "
     >
@@ -44,7 +44,7 @@ const SideBar = () => {
         </span>
         <p>Deconnexion</p>
       </div>
-    </div>
+    </section>
   );
 };
 
