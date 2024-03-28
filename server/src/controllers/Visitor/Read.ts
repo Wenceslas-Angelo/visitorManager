@@ -4,7 +4,7 @@ import Visitor from "../../models/Visitor";
 export const readTodayVisitors = async (
   req: Request,
   res: Response,
-  filterOptions: { [key: string]: any }
+  filterOptions: {}
 ) => {
   try {
     const pageString: string | undefined = req.query.page as string | undefined;
@@ -12,23 +12,12 @@ export const readTodayVisitors = async (
     const limit = 10;
     const startIndex = (page - 1) * limit;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
     const totalResults = await Visitor.find({
-      ...filterOptions,
-      ...{
-        $gte: today,
-        $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
-      },
+      filterOptions,
     }).countDocuments();
 
     const visitors = await Visitor.find({
-      ...filterOptions,
-      ...{
-        $gte: today,
-        $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
-      },
+      filterOptions,
     })
       .sort({ _id: -1 })
       .skip(startIndex)
@@ -49,15 +38,39 @@ export const readTodayVisitors = async (
 };
 
 export const ReadAllToday = async (req: Request, res: Response) => {
-  await readTodayVisitors(req, res, {});
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  await readTodayVisitors(req, res, {
+    startDateTime: {
+      $gte: today,
+      $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+    },
+  });
 };
 
 export const ReadAllInToday = async (req: Request, res: Response) => {
-  await readTodayVisitors(req, res, { endDateTime: { $exists: false } });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  await readTodayVisitors(req, res, {
+    endDateTime: {
+      $exists: false,
+      $gte: today,
+      $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+    },
+  });
 };
 
 export const ReadAllOutToday = async (req: Request, res: Response) => {
-  await readTodayVisitors(req, res, { endDateTime: { $exists: true } });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  await readTodayVisitors(req, res, {
+    endDateTime: {
+      $exists: true,
+      $gte: today,
+      $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+    },
+  });
 };
 
 export const ReadOne = (req: Request, res: Response) => {

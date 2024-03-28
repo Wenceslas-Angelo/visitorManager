@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { visitorApi } from "../API/visitor";
 import { CreateVisitorAPIResponse, VisitorAPIResponse } from "../types";
 
 type VisitorStore = {
@@ -7,9 +6,8 @@ type VisitorStore = {
   setFormModalIsOpen: () => void;
   visitors: VisitorAPIResponse;
   createVisitor: (visitorData: CreateVisitorAPIResponse) => void;
-  readAllVisitors: (token: string, page?: number) => void;
-  readAllActiveVisitors: (token: string, page?: number) => void;
-  updateActiveVisitor: (token: string, visitorId: string) => void;
+  readAllVisitors: (visitors: VisitorAPIResponse) => void;
+  // updateActiveVisitor: (token: string, visitorId: string) => void;
 };
 
 const useVisitorStore = create<VisitorStore>()((set) => ({
@@ -29,41 +27,25 @@ const useVisitorStore = create<VisitorStore>()((set) => ({
     }));
   },
 
-  readAllVisitors: async (token: string, page: number = 1) => {
-    try {
-      const allVisitors = await visitorApi.readAll(token, page);
-      set({ visitors: allVisitors });
-    } catch (error) {
-      console.error(error);
-    }
-  },
+  readAllVisitors: (visitors: VisitorAPIResponse) => set({ visitors }),
 
-  readAllActiveVisitors: async (token: string, page: number = 1) => {
-    try {
-      const allVisitors = await visitorApi.readAllActive(token, page);
-      set({ visitors: allVisitors });
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  updateActiveVisitor: async (token: string, visitorId: string) => {
-    try {
-      await visitorApi.updateActiveVisitor(token, visitorId);
-      set((state) => ({
-        visitors: {
-          totalPages: state.visitors.totalPages,
-          totalResults: state.visitors.totalResults + 1,
-          results: state.visitors.results.filter(
-            (visitor) => visitor._id !== visitorId
-          ),
-          page: state.visitors.page,
-        },
-      }));
-    } catch (error) {
-      console.error(error);
-    }
-  },
+  // updateActiveVisitor: async (token: string, visitorId: string) => {
+  //   try {
+  //     await visitorApi.updateActiveVisitor(token, visitorId);
+  //     set((state) => ({
+  //       visitors: {
+  //         totalPages: state.visitors.totalPages,
+  //         totalResults: state.visitors.totalResults + 1,
+  //         results: state.visitors.results.filter(
+  //           (visitor) => visitor._id !== visitorId
+  //         ),
+  //         page: state.visitors.page,
+  //       },
+  //     }));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // },
 }));
 
 export default useVisitorStore;

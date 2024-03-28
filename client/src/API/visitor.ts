@@ -26,8 +26,11 @@ export const visitorApi = {
     return (await response.json()) as CreateVisitorAPIResponse;
   },
 
-  readAll: async (token: string, page = 1): Promise<VisitorAPIResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor?page=${page}`, {
+  readAllToday: async (
+    token: string,
+    page: unknown
+  ): Promise<VisitorAPIResponse> => {
+    const response = await fetch(`${API_BASE_URL}/visitor/today?page=${page}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,12 +46,12 @@ export const visitorApi = {
     return responseAsJson as VisitorAPIResponse;
   },
 
-  readAllActive: async (
+  readAllInToday: async (
     token: string,
-    page = 1
+    page: unknown
   ): Promise<VisitorAPIResponse> => {
     const response = await fetch(
-      `${API_BASE_URL}/visitor/active?page=${page}`,
+      `${API_BASE_URL}/visitor/today/in?page=${page}`,
       {
         method: "GET",
         headers: {
@@ -65,10 +68,30 @@ export const visitorApi = {
     const responseAsJson = await response.json();
     return responseAsJson as VisitorAPIResponse;
   },
-  updateActiveVisitor: async (
+  readAllOutToday: async (
     token: string,
-    idVisitor: string
-  ): Promise<VisitorType> => {
+    page: unknown
+  ): Promise<VisitorAPIResponse> => {
+    const response = await fetch(
+      `${API_BASE_URL}/visitor/today/out?page=${page}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseAsJson = await response.json();
+    return responseAsJson as VisitorAPIResponse;
+  },
+
+  checkOut: async (token: string, idVisitor: string): Promise<VisitorType> => {
     const response = await fetch(
       `${API_BASE_URL}/visitor/endDateTime/${idVisitor}`,
       {
