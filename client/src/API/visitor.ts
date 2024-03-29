@@ -1,15 +1,11 @@
 import { API_BASE_URL } from "../config";
-import {
-  CreateVisitorAPIResponse,
-  VisitorAPIResponse,
-  VisitorType,
-} from "../types";
+import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const visitorApi = {
   create: async (
     visitorData: VisitorType,
     token: string
-  ): Promise<CreateVisitorAPIResponse> => {
+  ): Promise<VisitorAPIResponse> => {
     const response = await fetch(`${API_BASE_URL}/visitor`, {
       method: "POST",
       headers: {
@@ -23,14 +19,11 @@ export const visitorApi = {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return (await response.json()) as CreateVisitorAPIResponse;
+    return (await response.json()) as VisitorAPIResponse;
   },
 
-  readAllToday: async (
-    token: string,
-    page: number
-  ): Promise<VisitorAPIResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor/today?page=${page}`, {
+  readAllToday: async (token: string): Promise<VisitorAPIResponse> => {
+    const response = await fetch(`${API_BASE_URL}/visitor/today`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +41,7 @@ export const visitorApi = {
 
   checkOut: async (token: string, idVisitor: string): Promise<VisitorType> => {
     const response = await fetch(
-      `${API_BASE_URL}/visitor/endDateTime/${idVisitor}`,
+      `${API_BASE_URL}/visitor/checkout/${idVisitor}`,
       {
         method: "PUT",
         headers: {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import FormVisitor from "../components/FormVisitor";
 import Pagination from "../components/Pagination";
@@ -8,19 +8,12 @@ import useVisitorStore from "../stores/VisitorStore";
 import Container from "../utils/Container";
 
 const Visitors = () => {
-  const { isAuthenticated, user } = useAuthStore();
-  const { formModalIsOpen, readAllActiveVisitors, visitors } =
-    useVisitorStore();
-
-  useEffect(() => {
-    if (isAuthenticated && user && user.token) {
-      readAllActiveVisitors(user.token, 1);
-    }
-  }, [isAuthenticated, user, readAllActiveVisitors]);
+  const { user } = useAuthStore();
+  const { formModalIsOpen, visitors } = useVisitorStore();
 
   return (
     <Container>
-      <div className="mt-10 w-full">
+      <div className="w-full mt-10">
         <VisitorTable visitorsData={visitors.results} visitorActive={true} />
       </div>
       {formModalIsOpen ? (

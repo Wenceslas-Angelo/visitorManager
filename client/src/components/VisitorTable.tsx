@@ -4,8 +4,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
+import { useCheckOutVisitor } from "../hooks/useVisitorQuery";
 import useAuthStore from "../stores/AuthStore";
-import useVisitorStore from "../stores/VisitorStore";
 import { VisitorType } from "../types";
 import { columnDefVisitor } from "../utils/columnDef";
 
@@ -16,12 +16,12 @@ type Props = {
 
 const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
   const { user } = useAuthStore();
-  const { updateActiveVisitor } = useVisitorStore();
+  const checkOut = useCheckOutVisitor();
   const data = visitorsData;
   const columns = columnDefVisitor(
     visitorActive,
     user ? user.token : "",
-    updateActiveVisitor
+    checkOut
   );
   const table = useReactTable({
     columns,

@@ -1,3 +1,4 @@
+import { UseMutationResult } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import React from "react";
@@ -6,7 +7,15 @@ import { VisitorType } from "../types";
 export const columnDefVisitor = (
   visitorActive = false,
   token: string,
-  updateActiveVisitor: (token: string, visitorId: string) => void
+  checkOut: UseMutationResult<
+    VisitorType,
+    Error,
+    {
+      token: string;
+      idVisitor: string;
+    },
+    unknown
+  >
 ) => {
   const columns: ColumnDef<VisitorType>[] = [
     {
@@ -26,9 +35,9 @@ export const columnDefVisitor = (
         const formattedTimeIn = moment(row.getValue("startDateTime")).format(
           "HH:mm"
         );
-        const formattedTimeOut = moment(row.getValue("endDateTime")).format(
-          "HH:mm"
-        );
+        const formattedTimeOut = row.getValue("endDateTime")
+          ? moment(row.getValue("endDateTime")).format("HH:mm")
+          : "__:__";
         return (
           <span>
             {formattedTimeIn} - {formattedTimeOut}
@@ -79,7 +88,10 @@ export const columnDefVisitor = (
         return (
           <input
             type="checkbox"
-            onClick={() => updateActiveVisitor(token, row.getValue("_id"))}
+            onClick={() => {
+              const idVisitor: string = row.getValue("_id");
+              checkOut.mutate({ token, idVisitor });
+            }}
           />
         );
       },

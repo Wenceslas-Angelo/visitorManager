@@ -5,7 +5,7 @@ import useVisitorStore from "../stores/VisitorStore";
 import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
-  const { createVisitor, setFormModalIsOpen } = useVisitorStore();
+  const { setFormModalIsOpen } = useVisitorStore();
   const createVisitorMutation = useMutation({
     mutationFn: ({
       visitorData,
@@ -14,8 +14,7 @@ export const useCreateVisitor = () => {
       visitorData: VisitorType;
       token: string;
     }) => visitorApi.create(visitorData, token),
-    onSuccess: (data) => {
-      createVisitor(data);
+    onSuccess: () => {
       setFormModalIsOpen();
     },
     onError: (error) => {
@@ -26,11 +25,24 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitorToday = (token: string, page: number) => {
+export const useReadAllVisitorToday = (token: string) => {
   const visitorToday = useQuery<VisitorAPIResponse>({
     queryKey: ["allVisitorToday"],
-    queryFn: () => visitorApi.readAllToday(token, page),
+    queryFn: () => visitorApi.readAllToday(token),
   });
 
   return visitorToday;
+};
+
+export const useCheckOutVisitor = () => {
+  const checkOutVisitorMutation = useMutation({
+    mutationFn: ({ token, idVisitor }: { token: string; idVisitor: string }) =>
+      visitorApi.checkOut(token, idVisitor),
+    onSuccess: () => {},
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  return checkOutVisitorMutation;
 };

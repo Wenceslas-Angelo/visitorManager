@@ -8,14 +8,8 @@ export const Create = (req: Request, res: Response) => {
   newVisitor
     .save()
     .then(async (visitor) => {
-      const limit = 10;
-      const totalResults = await Visitor.find({
-        endDateTime: { $exists: false },
-      }).countDocuments();
-      const totalPages = Math.ceil(totalResults / limit);
-      return res
-        .status(201)
-        .json({ totalPages, totalResults, result: visitor });
+      const totalResults = await Visitor.find().countDocuments();
+      return res.status(201).json({ totalResults, result: visitor });
     })
     .catch((error) => res.status(400).json({ error }));
 };

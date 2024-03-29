@@ -3,10 +3,10 @@ import { IoMdAdd } from "react-icons/io";
 import useVisitorStore from "../stores/VisitorStore";
 import Button from "./Button";
 
-const AddVisitor = () => {
+const BtnAddVisitor = () => {
   const { setFormModalIsOpen } = useVisitorStore();
   return (
-    <div className="mt-10 flex justify-end">
+    <div className="flex justify-end mt-10">
       <Button type="button" variant="primary" size="small">
         <div className="flex items-center" onClick={() => setFormModalIsOpen()}>
           <span className="text-xl">
@@ -19,4 +19,4 @@ const AddVisitor = () => {
   );
 };
 
-export default AddVisitor;
+export default BtnAddVisitor;

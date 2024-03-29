@@ -3,26 +3,12 @@ import Visitor from "../../models/Visitor";
 
 export const ReadAllToday = async (req: Request, res: Response) => {
   try {
-    const pageString: string | undefined = req.query.page as string | undefined;
-    const page = pageString ? parseInt(pageString) : 1;
-    const limit = 10;
-    const startIndex = (page - 1) * limit;
-    const today = new Date();
-
-    const totalResults = await Visitor.find({}).countDocuments();
-
-    const visitors = await Visitor.find({})
-      .sort({ _id: -1 })
-      .skip(startIndex)
-      .limit(limit);
-
-    const totalPages = Math.ceil(totalResults / limit);
+    const totalResults = await Visitor.find().countDocuments();
+    const visitors = await Visitor.find().sort({ _id: -1 });
 
     res.status(200).json({
       totalResults,
-      totalPages,
       results: visitors,
-      page,
     });
   } catch (error) {
     console.error("Error fetching visitors:", error);

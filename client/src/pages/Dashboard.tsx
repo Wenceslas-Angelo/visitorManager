@@ -1,8 +1,7 @@
-import React from "react";
-import AddVisitor from "../components/AddVisitor";
+import React, { useState } from "react";
+import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
-import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import VisitorTable from "../components/VisitorTable";
 import { useReadAllVisitorToday } from "../hooks/useVisitorQuery";
@@ -12,9 +11,10 @@ import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
 const Dashboard = () => {
+  const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const { user } = useAuthStore();
   const { formModalIsOpen } = useVisitorStore();
-  const todayAllvisitors = useReadAllVisitorToday(user ? user.token : "", 1);
+  const todayAllvisitors = useReadAllVisitorToday(user ? user.token : "");
 
   if (!todayAllvisitors.data) {
     return;
@@ -32,23 +32,50 @@ const Dashboard = () => {
   return (
     <Container>
       <div className="grid w-full grid-cols-3 gap-6 mt-10">
-        <CardStat
-          title="Visiteur today"
-          number={todayAllvisitors.data.totalResults}
-        />
-        <CardStat title="Visiteur Out" number={visitorOut.length} />
-        <CardStat title="Visiteur In" number={visitorIn.length} />
+        <div
+          className={`border-b-4 ${
+            tab === "all" ? "border-b-green-600" : "border-b-green-100"
+          } cursor-pointer rounded-md`}
+          onClick={() => setTab("all")}
+        >
+          <CardStat
+            title="Visiteur today"
+            number={todayAllvisitors.data.totalResults}
+          />
+        </div>
+        <div
+          className={`border-b-4 ${
+            tab === "out" ? "border-b-green-600" : "border-b-green-100"
+          } cursor-pointer rounded-md`}
+          onClick={() => setTab("out")}
+        >
+          <CardStat title="Visiteur Out" number={visitorOut.length} />
+        </div>
+        <div
+          className={`border-b-4 ${
+            tab === "in" ? " border-b-green-600" : "border-b-green-100"
+          } cursor-pointer rounded-md`}
+          onClick={() => setTab("in")}
+        >
+          <CardStat title="Visiteur In" number={visitorIn.length} />
+        </div>
       </div>
 
       <div className="w-full">
         <div className="flex items-center justify-between">
           <Search />
           <div className="w-40 ">
-            <AddVisitor />
+            <BtnAddVisitor />
           </div>
         </div>
         <div className="w-full mt-10">
-          <VisitorTable visitorsData={todayAllvisitors.data.results} />
+          {tab === "all" ? (
+            <VisitorTable visitorsData={todayAllvisitors.data.results} />
+          ) : tab === "in" ? (
+            <VisitorTable visitorsData={visitorIn} visitorActive={true} />
+          ) : (
+            <VisitorTable visitorsData={visitorOut} />
+          )}
         </div>
         {formModalIsOpen ? (
           <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
@@ -57,11 +84,6 @@ const Dashboard = () => {
             </div>
           </div>
         ) : null}
-        <Pagination
-          totalPages={todayAllvisitors.data.totalPages}
-          currentPage={todayAllvisitors.data.page}
-          token={user ? user.token : ""}
-        />
       </div>
     </Container>
   );
