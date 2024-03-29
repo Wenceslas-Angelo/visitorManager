@@ -28,7 +28,7 @@ export const visitorApi = {
 
   readAllToday: async (
     token: string,
-    page: unknown
+    page: number
   ): Promise<VisitorAPIResponse> => {
     const response = await fetch(`${API_BASE_URL}/visitor/today?page=${page}`, {
       method: "GET",
@@ -37,51 +37,6 @@ export const visitorApi = {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
-  },
-
-  readAllInToday: async (
-    token: string,
-    page: unknown
-  ): Promise<VisitorAPIResponse> => {
-    const response = await fetch(
-      `${API_BASE_URL}/visitor/today/in?page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
-  },
-  readAllOutToday: async (
-    token: string,
-    page: unknown
-  ): Promise<VisitorAPIResponse> => {
-    const response = await fetch(
-      `${API_BASE_URL}/visitor/today/out?page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

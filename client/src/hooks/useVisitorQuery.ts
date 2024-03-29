@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import useVisitorStore from "../stores/VisitorStore";
@@ -26,35 +26,11 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-const useReadAllVisitor = (
-  queryKey: string,
-  queryFn: (token: string, pageParam: unknown) => Promise<VisitorAPIResponse>,
-  token: string
-) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<VisitorAPIResponse>({
-      queryKey: [queryKey],
-      initialPageParam: 1,
-      queryFn: ({ pageParam }) => queryFn(token, pageParam),
-      getNextPageParam: (lastPage) => {
-        lastPage.page = lastPage.page + 1;
-        return lastPage.page;
-      },
-    });
+export const useReadAllVisitorToday = (token: string, page: number) => {
+  const visitorToday = useQuery<VisitorAPIResponse>({
+    queryKey: ["allVisitorToday"],
+    queryFn: () => visitorApi.readAllToday(token, page),
+  });
 
-  return {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  };
+  return visitorToday;
 };
-
-export const useReadAllTodayVisitor = (token: string) =>
-  useReadAllVisitor("visitorToday", visitorApi.readAllToday, token);
-
-export const useReadAllTodayVisitorIn = (token: string) =>
-  useReadAllVisitor("visitorTodayIn", visitorApi.readAllInToday, token);
-
-export const useReadAllTodayVisitorOut = (token: string) =>
-  useReadAllVisitor("visitorTodayOut", visitorApi.readAllOutToday, token);
