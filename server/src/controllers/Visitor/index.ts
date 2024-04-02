@@ -1,5 +1,5 @@
 import { Create } from "./Create";
-import { DeleteOne } from "./Delete";
+import { DeleteAll, DeleteOne } from "./Delete";
 import { ReadAllToday, ReadOne } from "./Read";
 import { CheckOut, UpdateOne } from "./Update";
 
@@ -10,6 +10,7 @@ const VisitorCtrl = {
   DeleteOne,
   ReadAllToday,
   ReadOne,
+  DeleteAll,
 };
 
 export default VisitorCtrl;

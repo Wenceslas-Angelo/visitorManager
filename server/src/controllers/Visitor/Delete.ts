@@ -6,3 +6,9 @@ export const DeleteOne = (req: Request, res: Response) => {
     .then((visitor) => res.status(200).json({ visitor }))
     .catch((error) => res.status(400).json({ error }));
 };
+
+export const DeleteAll = (req: Request, res: Response) => {
+  Visitor.deleteMany({})
+    .then((visitor) => res.status(200).json({ visitor }))
+    .catch((error) => res.status(400).json({ error }));
+};

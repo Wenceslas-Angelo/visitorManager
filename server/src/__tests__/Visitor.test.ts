@@ -13,17 +13,11 @@ const createVisitor = async (token: string, visitorData: Visitor) => {
   return response;
 };
 
-const getAllVisitor = async (token: string) => {
+const getAllVisitorToday = async (token: string) => {
   const response = await supertest(App)
-    .get("/visitor")
+    .get("/visitor/today")
     .set("Authorization", `bearer ${token}`);
-  return response;
-};
-
-const getAllActiveVisitor = async (token: string) => {
-  const response = await supertest(App)
-    .get("/visitor/active")
-    .set("Authorization", `bearer ${token}`);
+  console.log(response.body);
   return response;
 };
 
@@ -48,12 +42,12 @@ const updateVisitor = async (
 
 const updateEndTimeDate = async (token: string, visitorId: string) => {
   const response = await supertest(App)
-    .put(`/visitor/endDateTime/${visitorId}`)
+    .put(`/visitor/checkout/${visitorId}`)
     .set("Authorization", `bearer ${token}`);
   return response;
 };
 
-const deleteVisitor = async (token: string, visitorId: string) => {
+const deleteOneVisitor = async (token: string, visitorId: string) => {
   const response = await supertest(App)
     .delete(`/visitor/${visitorId}`)
     .set("Authorization", `bearer ${token}`);
@@ -78,19 +72,13 @@ describe("TEST VISITOR API", () => {
   it("Create Visitor", async () => {
     const response = await createVisitor(token, { ...VisitorData, userId });
     expect(response.status).toBe(201);
-    visitorId = response.body.visitor._id;
+    visitorId = response.body.result._id;
   });
 
-  it("Get all visitor", async () => {
-    const response = await getAllVisitor(token);
+  it("Get all visitor today", async () => {
+    const response = await getAllVisitorToday(token);
     expect(response.status).toBe(200);
-    expect(response.body.visitors.length).toBe(1);
-  });
-
-  it("Get all Active visitor", async () => {
-    const response = await getAllActiveVisitor(token);
-    expect(response.status).toBe(200);
-    expect(response.body.visitors.length).toBe(1);
+    expect(response.body.results.length).toBe(1);
   });
 
   it("Get one visitor", async () => {
@@ -118,7 +106,7 @@ describe("TEST VISITOR API", () => {
   });
 
   it("Delete one visitor", async () => {
-    const response = await deleteVisitor(token, visitorId);
+    const response = await deleteOneVisitor(token, visitorId);
     expect(response.status).toBe(200);
   });
 
