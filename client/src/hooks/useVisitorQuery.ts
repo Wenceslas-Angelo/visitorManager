@@ -30,6 +30,23 @@ export const useReadAllVisitorToday = (token: string) => {
     queryKey: ["allVisitorToday"],
     queryFn: () => visitorApi.readAllToday(token),
   });
+  return visitorToday;
+};
+
+export const useReadAllVisitorOutToday = (token: string) => {
+  const visitorToday = useQuery<VisitorAPIResponse>({
+    queryKey: ["allVisitorOutToday"],
+    queryFn: () => visitorApi.readAllOutToday(token),
+  });
+
+  return visitorToday;
+};
+
+export const useReadAllVisitorInToday = (token: string) => {
+  const visitorToday = useQuery<VisitorAPIResponse>({
+    queryKey: ["allVisitorInToday"],
+    queryFn: () => visitorApi.readAllInToday(token),
+  });
 
   return visitorToday;
 };

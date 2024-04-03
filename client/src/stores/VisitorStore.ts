@@ -4,16 +4,29 @@ import { VisitorAPIResponse } from "../types";
 type VisitorStore = {
   formModalIsOpen: boolean;
   setFormModalIsOpen: () => void;
-  visitors: VisitorAPIResponse;
+  allVisitorsToday: VisitorAPIResponse;
+  setAllVisitorsToday: (visitors: VisitorAPIResponse) => void;
+  allVisitorsInToday: VisitorAPIResponse;
+  setAllVisitorsInToday: () => void;
+  allVisitorsOutToday: VisitorAPIResponse;
+  setAllVisitorsOutToday: () => void;
 };
 
 const useVisitorStore = create<VisitorStore>()((set) => ({
   formModalIsOpen: false,
-  visitors: { totalResults: 0, results: [] },
+  allVisitorsToday: { totalResults: 0, results: [] },
+  allVisitorsOutToday: { totalResults: 0, results: [] },
+  allVisitorsInToday: { totalResults: 0, results: [] },
 
   setFormModalIsOpen: () => {
     return set((state) => ({ formModalIsOpen: !state.formModalIsOpen }));
   },
+
+  setAllVisitorsToday: (visitors: VisitorAPIResponse) => {
+    set({ allVisitorsToday: visitors });
+  },
+  setAllVisitorsInToday: () => {},
+  setAllVisitorsOutToday: () => {},
 }));
 
 export default useVisitorStore;

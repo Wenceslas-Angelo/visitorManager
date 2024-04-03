@@ -4,30 +4,22 @@ import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
 import Search from "../components/Search";
 import VisitorTable from "../components/VisitorTable";
-import { useReadAllVisitorToday } from "../hooks/useVisitorQuery";
 import useAuthStore from "../stores/AuthStore";
 import useVisitorStore from "../stores/VisitorStore";
-import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
 const Dashboard = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const { user } = useAuthStore();
-  const { formModalIsOpen } = useVisitorStore();
-  const todayAllvisitors = useReadAllVisitorToday(user ? user.token : "");
-
-  if (!todayAllvisitors.data) {
-    return;
-  }
-
-  let visitorIn: VisitorType[] = [];
-  let visitorOut: VisitorType[] = [];
-
-  todayAllvisitors.data.results.forEach((visitor) =>
-    visitor.endDateTime
-      ? (visitorOut = [...visitorOut, visitor])
-      : (visitorIn = [...visitorIn, visitor])
-  );
+  const {
+    formModalIsOpen,
+    allVisitorsToday,
+    allVisitorsInToday,
+    allVisitorsOutToday,
+    setAllVisitorsToday,
+    setAllVisitorsInToday,
+    setAllVisitorsOutToday,
+  } = useVisitorStore();
 
   return (
     <Container>
@@ -40,7 +32,7 @@ const Dashboard = () => {
         >
           <CardStat
             title="Visiteur today"
-            number={todayAllvisitors.data.totalResults}
+            number={allVisitorsToday.totalResults}
           />
         </div>
         <div
@@ -49,7 +41,10 @@ const Dashboard = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat title="Visiteur Out" number={visitorOut.length} />
+          <CardStat
+            title="Visiteur Out"
+            number={allVisitorsOutToday.totalResults}
+          />
         </div>
         <div
           className={`border-b-4 ${
@@ -57,7 +52,10 @@ const Dashboard = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat title="Visiteur In" number={visitorIn.length} />
+          <CardStat
+            title="Visiteur In"
+            number={allVisitorsInToday.totalResults}
+          />
         </div>
       </div>
 
@@ -70,11 +68,14 @@ const Dashboard = () => {
         </div>
         <div className="w-full mt-10">
           {tab === "all" ? (
-            <VisitorTable visitorsData={todayAllvisitors.data.results} />
+            <VisitorTable visitorsData={allVisitorsToday.results} />
           ) : tab === "in" ? (
-            <VisitorTable visitorsData={visitorIn} visitorActive={true} />
+            <VisitorTable
+              visitorsData={allVisitorsInToday.results}
+              visitorActive={true}
+            />
           ) : (
-            <VisitorTable visitorsData={visitorOut} />
+            <VisitorTable visitorsData={allVisitorsOutToday.results} />
           )}
         </div>
         {formModalIsOpen ? (

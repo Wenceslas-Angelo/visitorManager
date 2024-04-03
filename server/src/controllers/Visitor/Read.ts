@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Visitor from "../../models/Visitor";
 
-export const ReadAllToday = async (req: Request, res: Response) => {
+const getVisitorsToday = async (endDateTimeIsExist: boolean | undefined) => {
   try {
     const today = new Date();
     const startOfDay = new Date(
@@ -20,16 +20,49 @@ export const ReadAllToday = async (req: Request, res: Response) => {
       0,
       0
     );
-    const query = {
+    const query: any = {
       startDateTime: { $gte: startOfDay, $lt: endOfDay },
     };
+
+    if (endDateTimeIsExist !== undefined) {
+      query.endDateTime = { $exists: endDateTimeIsExist };
+    }
     const totalResults = await Visitor.find(query).countDocuments();
     const visitors = await Visitor.find(query).sort({ _id: -1 });
-
-    res.status(200).json({
+    return {
       totalResults,
       results: visitors,
-    });
+    };
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+    throw error;
+  }
+};
+
+export const ReadAllToday = async (req: Request, res: Response) => {
+  try {
+    const response = await getVisitorsToday(undefined);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const ReadAllOutToday = async (req: Request, res: Response) => {
+  try {
+    const response = await getVisitorsToday(true);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const ReadAllInToday = async (req: Request, res: Response) => {
+  try {
+    const response = await getVisitorsToday(false);
+    res.status(200).json(response);
   } catch (error) {
     console.error("Error fetching visitors:", error);
     res.status(500).json({ error: "Internal server error" });
