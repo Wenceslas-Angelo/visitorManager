@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
 import Search from "../components/Search";
-import Container from "../utils/Container";
+import VisitorTable from "../components/VisitorTable";
 import { useFormModalStore } from "../features/store";
+import { readAllToday } from "../features/visitor/visitorSlice";
+import { useReadAllVisitorToday } from "../hooks/useVisitorQuery";
+import Container from "../utils/Container";
 
 const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const { formModalIsOpen } = useFormModalStore();
+  const user = useAppSelector((state) => state.auth.user);
+  const visitorsToday = useReadAllVisitorToday(user ? user.token : "");
+  const dispatch = useAppDispatch();
+  const todayVisitor = useAppSelector((state) => state.visitor.todayVisitors);
+  const todayVisitorOut = useAppSelector(
+    (state) => state.visitor.todayVisitorsOut
+  );
+  const todayVisitorIn = useAppSelector(
+    (state) => state.visitor.todayVisitorsIn
+  );
+
+  useEffect(() => {
+    if (!visitorsToday.data) return;
+    dispatch(readAllToday(visitorsToday.data));
+  }, [dispatch, visitorsToday.data]);
+
   return (
     <Container>
       <div className="grid w-full grid-cols-3 gap-6 mt-10">
@@ -18,7 +38,10 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("all")}
         >
-          <CardStat title="Visiteur today" number={0} />
+          <CardStat
+            title="Visiteur today"
+            number={todayVisitor.results.length}
+          />
         </div>
         <div
           className={`border-b-4 ${
@@ -26,7 +49,10 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat title="Visiteur Out" number={0} />
+          <CardStat
+            title="Visiteur Out"
+            number={todayVisitorOut.totalResults}
+          />
         </div>
         <div
           className={`border-b-4 ${
@@ -34,7 +60,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat title="Visiteur In" number={0} />
+          <CardStat title="Visiteur In" number={todayVisitorIn.totalResults} />
         </div>
       </div>
 
@@ -45,15 +71,18 @@ const TodayVisitors = () => {
             <BtnAddVisitor />
           </div>
         </div>
-        {/* <div className="w-full mt-10">
+        <div className="w-full mt-10">
           {tab === "all" ? (
-            <VisitorTable visitorsData={} />
+            <VisitorTable visitorsData={todayVisitor.results} />
           ) : tab === "in" ? (
-            <VisitorTable visitorsData={} visitorActive={true} />
+            <VisitorTable
+              visitorsData={todayVisitorIn.results}
+              visitorActive={true}
+            />
           ) : (
-            <VisitorTable visitorsData={} />
+            <VisitorTable visitorsData={todayVisitorOut.results} />
           )}
-        </div> */}
+        </div>
         {formModalIsOpen ? (
           <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
             <div className="flex items-center justify-center h-full max-w-3xl mx-auto">

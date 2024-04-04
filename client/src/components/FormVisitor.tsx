@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import { useAppSelector } from "../app/hooks";
 import { useFormModalStore } from "../features/store";
-// import { useCreateVisitor } from "../hooks/useVisitorQuery";
+import { useCreateVisitor } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import Button from "./Button";
 import Input from "./VisitorInput";
@@ -15,16 +15,15 @@ const FormVisitor = () => {
     formState: { errors },
   } = useForm<VisitorType>();
   const user = useAppSelector((state) => state.auth.user);
-  // const createVisitorMutation = useCreateVisitor();
+  const createVisitorMutation = useCreateVisitor();
   const { setFormModalIsOpen } = useFormModalStore();
 
   const onSubmit: SubmitHandler<VisitorType> = async (data) => {
     if (user && user.token) {
-      console.log(data);
-      // createVisitorMutation.mutate({
-      //   visitorData: { ...data, userId: user.userId },
-      //   token: user.token,
-      // });
+      createVisitorMutation.mutate({
+        visitorData: { ...data, userId: user.userId },
+        token: user.token,
+      });
     }
   };
 

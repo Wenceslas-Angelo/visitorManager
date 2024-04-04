@@ -1,11 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
-import useVisitorStore from "../stores/VisitorStore";
+import { useAppDispatch } from "../app/hooks";
+import { useFormModalStore } from "../features/store";
+import { addVisitor } from "../features/visitor/visitorSlice";
 import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
-  const { setFormModalIsOpen } = useVisitorStore();
+  const { setFormModalIsOpen } = useFormModalStore();
+  const dispatch = useAppDispatch();
   const createVisitorMutation = useMutation({
     mutationFn: ({
       visitorData,
@@ -14,7 +17,8 @@ export const useCreateVisitor = () => {
       visitorData: VisitorType;
       token: string;
     }) => visitorApi.create(visitorData, token),
-    onSuccess: () => {
+    onSuccess: (user) => {
+      dispatch(addVisitor(user));
       setFormModalIsOpen();
     },
     onError: (error) => {
