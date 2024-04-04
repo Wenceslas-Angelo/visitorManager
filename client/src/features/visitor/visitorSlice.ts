@@ -3,8 +3,8 @@ import { VisitorAPIResponse, VisitorType } from "../../types";
 
 type VisitorState = {
   todayVisitors: VisitorAPIResponse;
-  todayVisitorsOut: VisitorAPIResponse;
-  todayVisitorsIn: VisitorAPIResponse;
+  todayVisitorsOut: VisitorType[];
+  todayVisitorsIn: VisitorType[];
 };
 
 const initialState: VisitorState = {
@@ -12,14 +12,8 @@ const initialState: VisitorState = {
     totalResults: 0,
     results: [],
   },
-  todayVisitorsOut: {
-    totalResults: 0,
-    results: [],
-  },
-  todayVisitorsIn: {
-    totalResults: 0,
-    results: [],
-  },
+  todayVisitorsOut: [],
+  todayVisitorsIn: [],
 };
 
 const visitorSlice = createSlice({
@@ -29,15 +23,12 @@ const visitorSlice = createSlice({
     readAllToday(state, action) {
       const allVisitorsToday: VisitorAPIResponse = action.payload;
       state.todayVisitors = allVisitorsToday;
-      state.todayVisitorsOut.results = allVisitorsToday.results.filter(
-        (visitor) => (visitor.endDateTime ? visitor : null)
+      state.todayVisitorsOut = allVisitorsToday.results.filter((visitor) =>
+        visitor.endDateTime ? visitor : null
       );
-      state.todayVisitorsOut.totalResults =
-        state.todayVisitorsOut.results.length;
-      state.todayVisitorsIn.results = allVisitorsToday.results.filter(
-        (visitor) => (visitor.endDateTime ? null : visitor)
+      state.todayVisitorsIn = allVisitorsToday.results.filter((visitor) =>
+        visitor.endDateTime ? null : visitor
       );
-      state.todayVisitorsIn.totalResults = state.todayVisitorsIn.results.length;
     },
     addVisitor(state, action) {
       const newVisitor = action.payload;
@@ -46,24 +37,17 @@ const visitorSlice = createSlice({
         ...state.todayVisitors.results,
       ];
       state.todayVisitors.totalResults = newVisitor.totalResults;
-      state.todayVisitorsIn.results = [
-        newVisitor.result,
-        ...state.todayVisitorsIn.results,
-      ];
-      state.todayVisitorsIn.totalResults = state.todayVisitorsIn.results.length;
+      state.todayVisitorsIn = [newVisitor.result, ...state.todayVisitorsIn];
     },
     checkOutVisitor(state, action) {
       const checkVisitor: VisitorType = action.payload;
       state.todayVisitors.results = state.todayVisitors.results.map((visitor) =>
         visitor._id === checkVisitor._id ? checkVisitor : visitor
       );
-      state.todayVisitorsIn.results = state.todayVisitorsIn.results.filter(
-        (visitor) => (visitor._id !== checkVisitor._id ? visitor : null)
+      state.todayVisitorsIn = state.todayVisitorsIn.filter((visitor) =>
+        visitor._id !== checkVisitor._id ? visitor : null
       );
-      state.todayVisitorsOut.results = [
-        checkVisitor,
-        ...state.todayVisitorsOut.results,
-      ];
+      state.todayVisitorsOut = [checkVisitor, ...state.todayVisitorsOut];
     },
   },
 });

@@ -49,10 +49,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat
-            title="Visiteur Out"
-            number={todayVisitorOut.totalResults}
-          />
+          <CardStat title="Visiteur Out" number={todayVisitorOut.length} />
         </div>
         <div
           className={`border-b-4 ${
@@ -60,7 +57,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat title="Visiteur In" number={todayVisitorIn.totalResults} />
+          <CardStat title="Visiteur In" number={todayVisitorIn.length} />
         </div>
       </div>
 
@@ -75,12 +72,9 @@ const TodayVisitors = () => {
           {tab === "all" ? (
             <VisitorTable visitorsData={todayVisitor.results} />
           ) : tab === "in" ? (
-            <VisitorTable
-              visitorsData={todayVisitorIn.results}
-              visitorActive={true}
-            />
+            <VisitorTable visitorsData={todayVisitorIn} visitorActive={true} />
           ) : (
-            <VisitorTable visitorsData={todayVisitorOut.results} />
+            <VisitorTable visitorsData={todayVisitorOut} />
           )}
         </div>
         {formModalIsOpen ? (
