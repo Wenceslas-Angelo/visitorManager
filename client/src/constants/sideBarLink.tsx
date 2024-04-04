@@ -7,8 +7,8 @@ import { RxDashboard } from "react-icons/rx";
 export const sideBarLinks = [
   {
     icon: <RxDashboard fontSize={20} />,
-    route: "/dashboard",
-    label: "Dashboard",
+    route: "/today",
+    label: "Today",
   },
   {
     icon: <HiOutlineUserGroup fontSize={25} />,
