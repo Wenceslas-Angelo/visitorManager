@@ -1,10 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Visitors from "./pages/Visitors";
+import TodayVisitors from "./pages/TodayVisitors";
 import PrivateRoute from "./utils/PrivateRoute";
 
 const App = () => {
@@ -12,9 +10,7 @@ const App = () => {
     <>
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/visiteurs" element={<Visitors />} />
+          <Route path="/today" element={<TodayVisitors />} />
         </Route>
         <Route path="/inscription" element={<Register />} />
         <Route path="/connexion" element={<Login />} />

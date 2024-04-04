@@ -1,10 +1,10 @@
 import React from "react";
 import { IoMdAdd } from "react-icons/io";
-import useVisitorStore from "../stores/VisitorStore";
+import { useFormModalStore } from "../features/store";
 import Button from "./Button";
 
 const BtnAddVisitor = () => {
-  const { setFormModalIsOpen } = useVisitorStore();
+  const { setFormModalIsOpen } = useFormModalStore();
   return (
     <div className="flex justify-end mt-10">
       <Button type="button" variant="primary" size="small">

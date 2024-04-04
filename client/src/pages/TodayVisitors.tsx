@@ -3,24 +3,12 @@ import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
 import Search from "../components/Search";
-import VisitorTable from "../components/VisitorTable";
-import useAuthStore from "../stores/AuthStore";
-import useVisitorStore from "../stores/VisitorStore";
 import Container from "../utils/Container";
+import { useFormModalStore } from "../features/store";
 
-const Dashboard = () => {
+const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
-  const { user } = useAuthStore();
-  const {
-    formModalIsOpen,
-    allVisitorsToday,
-    allVisitorsInToday,
-    allVisitorsOutToday,
-    setAllVisitorsToday,
-    setAllVisitorsInToday,
-    setAllVisitorsOutToday,
-  } = useVisitorStore();
-
+  const { formModalIsOpen } = useFormModalStore();
   return (
     <Container>
       <div className="grid w-full grid-cols-3 gap-6 mt-10">
@@ -30,10 +18,7 @@ const Dashboard = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("all")}
         >
-          <CardStat
-            title="Visiteur today"
-            number={allVisitorsToday.totalResults}
-          />
+          <CardStat title="Visiteur today" number={0} />
         </div>
         <div
           className={`border-b-4 ${
@@ -41,10 +26,7 @@ const Dashboard = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat
-            title="Visiteur Out"
-            number={allVisitorsOutToday.totalResults}
-          />
+          <CardStat title="Visiteur Out" number={0} />
         </div>
         <div
           className={`border-b-4 ${
@@ -52,10 +34,7 @@ const Dashboard = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat
-            title="Visiteur In"
-            number={allVisitorsInToday.totalResults}
-          />
+          <CardStat title="Visiteur In" number={0} />
         </div>
       </div>
 
@@ -66,18 +45,15 @@ const Dashboard = () => {
             <BtnAddVisitor />
           </div>
         </div>
-        <div className="w-full mt-10">
+        {/* <div className="w-full mt-10">
           {tab === "all" ? (
-            <VisitorTable visitorsData={allVisitorsToday.results} />
+            <VisitorTable visitorsData={} />
           ) : tab === "in" ? (
-            <VisitorTable
-              visitorsData={allVisitorsInToday.results}
-              visitorActive={true}
-            />
+            <VisitorTable visitorsData={} visitorActive={true} />
           ) : (
-            <VisitorTable visitorsData={allVisitorsOutToday.results} />
+            <VisitorTable visitorsData={} />
           )}
-        </div>
+        </div> */}
         {formModalIsOpen ? (
           <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
             <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
@@ -90,4 +66,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default TodayVisitors;

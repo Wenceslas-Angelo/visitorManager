@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import useAuthStore from "../stores/AuthStore";
+import { useAppSelector } from "../app/hooks";
 
 const PrivateRoute = () => {
-  const { isAuthenticated } = useAuthStore();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   return isAuthenticated ? <Outlet /> : <Navigate to="/connexion" />;
 };
 

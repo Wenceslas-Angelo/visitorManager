@@ -3,10 +3,9 @@ import { MdLogout } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 import smmcLogo from "../assets/SMMC-Logo.png";
 import { sideBarLinks } from "../constants/sideBarLink";
-import useAuthStore from "../stores/AuthStore";
+import { logout } from "../features/auth/authSlice";
 
 const SideBar = () => {
-  const { logout } = useAuthStore();
   return (
     <section
       className="sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-gray-300 pb-5 pt-10 max-md:hidden;
