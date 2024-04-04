@@ -1,11 +1,16 @@
 import React from "react";
 import { MdLogout } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
 import smmcLogo from "../assets/SMMC-Logo.png";
 import { sideBarLinks } from "../constants/sideBarLink";
 import { logout } from "../features/auth/authSlice";
 
 const SideBar = () => {
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => dispatch(logout());
+
   return (
     <section
       className="sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-gray-300 pb-5 pt-10 max-md:hidden;
@@ -35,7 +40,7 @@ const SideBar = () => {
         ))}
       </div>
       <div
-        onClick={() => logout()}
+        onClick={() => handleLogout()}
         className="bg-gray-200 hover:bg-gray-300 text-gray-600 cursor-pointer mx-2 text-lg font-medium flex justify-start items-center rounded-lg p-2 gap-4"
       >
         <span>
