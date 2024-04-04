@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
 import { useFormModalStore } from "../features/store";
-import { addVisitor } from "../features/visitor/visitorSlice";
+import { addVisitor, checkOutVisitor } from "../features/visitor/visitorSlice";
 import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
@@ -56,10 +56,13 @@ export const useReadAllVisitorInToday = (token: string) => {
 };
 
 export const useCheckOutVisitor = () => {
+  const dispatch = useAppDispatch();
   const checkOutVisitorMutation = useMutation({
     mutationFn: ({ token, idVisitor }: { token: string; idVisitor: string }) =>
       visitorApi.checkOut(token, idVisitor),
-    onSuccess: () => {},
+    onSuccess: (data) => {
+      dispatch(checkOutVisitor(data));
+    },
     onError: (error) => {
       toast.error(error.message);
     },

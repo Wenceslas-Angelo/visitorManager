@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { VisitorAPIResponse } from "../../types";
+import { VisitorAPIResponse, VisitorType } from "../../types";
 
 type VisitorState = {
   todayVisitors: VisitorAPIResponse;
@@ -52,7 +52,19 @@ const visitorSlice = createSlice({
       ];
       state.todayVisitorsIn.totalResults = state.todayVisitorsIn.results.length;
     },
-    checkOutVisitor() {},
+    checkOutVisitor(state, action) {
+      const checkVisitor: VisitorType = action.payload;
+      state.todayVisitors.results = state.todayVisitors.results.map((visitor) =>
+        visitor._id === checkVisitor._id ? checkVisitor : visitor
+      );
+      state.todayVisitorsIn.results = state.todayVisitorsIn.results.filter(
+        (visitor) => (visitor._id !== checkVisitor._id ? visitor : null)
+      );
+      state.todayVisitorsOut.results = [
+        checkVisitor,
+        ...state.todayVisitorsOut.results,
+      ];
+    },
   },
 });
 
