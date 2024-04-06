@@ -77,13 +77,7 @@ const TodayVisitors = () => {
             <VisitorTable visitorsData={todayVisitorOut} />
           )}
         </div>
-        {formModalIsOpen ? (
-          <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
-            <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
-              <FormVisitor />
-            </div>
-          </div>
-        ) : null}
+        {formModalIsOpen ? <FormVisitor /> : null}
       </div>
     </Container>
   );
