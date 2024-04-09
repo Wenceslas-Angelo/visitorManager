@@ -1,14 +1,14 @@
 export type AuthData = {
   name: string;
   firstName: string;
-  matricule: string;
+  matricule: number;
   password: string;
 };
 
 export type Visitor = {
   name: string;
   firstName: string;
-  nationalId: string;
+  nationalId: number;
   userId?: string;
   purpose: string;
   startDateTime: Date;

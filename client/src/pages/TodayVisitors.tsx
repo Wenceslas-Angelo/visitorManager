@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { FiSearch } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
-import Search from "../components/Search";
 import VisitorTable from "../components/VisitorTable";
 import { useFormModalStore } from "../features/store";
 import { readAllToday } from "../features/visitor/visitorSlice";
 import { useReadAllVisitorToday } from "../hooks/useVisitorQuery";
+import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
 const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
+  const [query, setQuery] = useState("");
   const { formModalIsOpen } = useFormModalStore();
   const user = useAppSelector((state) => state.auth.user);
   const visitorsToday = useReadAllVisitorToday(user ? user.token : "");
@@ -28,6 +30,15 @@ const TodayVisitors = () => {
     if (!visitorsToday.data) return;
     dispatch(readAllToday(visitorsToday.data));
   }, [dispatch, visitorsToday.data]);
+
+  const search = (data: VisitorType[]) => {
+    return data.filter(
+      (visitor) =>
+        visitor.name.toLowerCase().includes(query.toLowerCase()) ||
+        visitor.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        visitor.purpose.toLowerCase().includes(query.toLowerCase())
+    );
+  };
 
   return (
     <Container>
@@ -63,18 +74,35 @@ const TodayVisitors = () => {
 
       <div className="w-full">
         <div className="flex items-center justify-between">
-          <Search />
+          <form className="w-full mt-10">
+            <div className="relative">
+              <input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="Rechercher"
+                className="px-4 py-2 pl-10 text-lg placeholder-gray-600 border border-gray-400 rounded-lg outline-none focus:border-green-600 focus:ring-green-600"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <div className="absolute text-gray-400 left-2 font-bold text-xl top-[50%] translate-y-[-50%]">
+                <FiSearch />
+              </div>
+            </div>
+          </form>
           <div className="w-40 ">
             <BtnAddVisitor />
           </div>
         </div>
         <div className="w-full mt-10">
           {tab === "all" ? (
-            <VisitorTable visitorsData={todayVisitor.results} />
+            <VisitorTable visitorsData={search(todayVisitor.results)} />
           ) : tab === "in" ? (
-            <VisitorTable visitorsData={todayVisitorIn} visitorActive={true} />
+            <VisitorTable
+              visitorsData={search(todayVisitorIn)}
+              visitorActive={true}
+            />
           ) : (
-            <VisitorTable visitorsData={todayVisitorOut} />
+            <VisitorTable visitorsData={search(todayVisitorOut)} />
           )}
         </div>
         {formModalIsOpen ? <FormVisitor /> : null}

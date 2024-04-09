@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   matricule: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },

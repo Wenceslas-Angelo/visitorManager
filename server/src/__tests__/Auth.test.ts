@@ -3,7 +3,7 @@ import { AuthData } from "types";
 import App from "../App";
 import { authData } from "./Mock";
 
-export const Login = async (matricule: string, password: string) => {
+export const Login = async (matricule: number, password: string) => {
   const response = await supertest(App).post("/auth/login").send({
     matricule,
     password,
@@ -51,7 +51,7 @@ describe("AUTH USER", () => {
   });
 
   it("Login with wrong matricule", async () => {
-    const response = await Login("wrong matricule", authData.password);
+    const response = await Login(999999, authData.password);
     expect(response.status).toBe(401);
     expect(response.body.message).toBe("User not found");
   });
