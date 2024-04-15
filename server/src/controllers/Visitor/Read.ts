@@ -33,7 +33,7 @@ export const ReadAllToday = async (req: Request, res: Response) => {
   }
 };
 
-export const ReadAll = async (res: Response, req: Request) => {
+export const ReadAll = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const pageSize = 10;
@@ -45,6 +45,7 @@ export const ReadAll = async (res: Response, req: Request) => {
     const totalVisitors = await Visitor.countDocuments();
     const totalPages = Math.ceil(totalVisitors / pageSize);
     res.status(200).json({
+      totalResults: totalVisitors,
       results: visitors,
       totalPages,
       currentPage: page,

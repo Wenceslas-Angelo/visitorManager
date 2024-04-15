@@ -5,6 +5,7 @@ type VisitorState = {
   todayVisitors: VisitorAPIResponse;
   todayVisitorsOut: VisitorType[];
   todayVisitorsIn: VisitorType[];
+  allVisitors: VisitorAPIResponse;
 };
 
 const initialState: VisitorState = {
@@ -14,6 +15,10 @@ const initialState: VisitorState = {
   },
   todayVisitorsOut: [],
   todayVisitorsIn: [],
+  allVisitors: {
+    totalResults: 0,
+    results: [],
+  },
 };
 
 const visitorSlice = createSlice({
@@ -49,10 +54,14 @@ const visitorSlice = createSlice({
       );
       state.todayVisitorsOut = [checkVisitor, ...state.todayVisitorsOut];
     },
+    readAllVisitors(state, action) {
+      const all: VisitorAPIResponse = action.payload;
+      state.allVisitors = all;
+    },
   },
 });
 
-export const { addVisitor, readAllToday, checkOutVisitor } =
+export const { addVisitor, readAllToday, checkOutVisitor, readAllVisitors } =
   visitorSlice.actions;
 
 export default visitorSlice.reducer;
