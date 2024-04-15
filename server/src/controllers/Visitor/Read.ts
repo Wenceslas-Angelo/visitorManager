@@ -33,10 +33,32 @@ export const ReadAllToday = async (req: Request, res: Response) => {
   }
 };
 
+export const ReadAll = async (res: Response, req: Request) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+    const visitors = await Visitor.find()
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(pageSize);
+    const totalVisitors = await Visitor.countDocuments();
+    const totalPages = Math.ceil(totalVisitors / pageSize);
+    res.status(200).json({
+      results: visitors,
+      totalPages,
+      currentPage: page,
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des visiteurs :", error);
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 export const ReadOne = (req: Request, res: Response) => {
   Visitor.findOne({ _id: req.params.id })
     .then((visitor) => res.status(200).json(visitor))
     .catch((error) => res.status(400).json({ error }));
 };
-
-export const ReadAll = async (req: Request, res: Response) => {};
