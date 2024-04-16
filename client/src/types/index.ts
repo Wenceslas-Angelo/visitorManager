@@ -34,5 +34,6 @@ export type VisitorAPIResponse = {
   results: VisitorType[];
   result?: VisitorType;
   currentPage?: number;
+  nextPage?: number;
   totalPages?: number;
 };

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
@@ -43,6 +43,23 @@ export const useReadAllVisitors = (token: string, page: number) => {
     queryFn: () => visitorApi.readAllVisitors(token, page),
   });
   return visitors;
+};
+
+export const useReadAllVisitors2 = (token: string) => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<VisitorAPIResponse>({
+      queryKey: ["allVisitors2"],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }) =>
+        visitorApi.readAllVisitors(token, pageParam as number),
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    });
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
 };
 
 export const useCheckOutVisitor = () => {

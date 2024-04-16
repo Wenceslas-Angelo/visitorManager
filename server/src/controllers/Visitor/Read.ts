@@ -49,6 +49,7 @@ export const ReadAll = async (req: Request, res: Response) => {
       results: visitors,
       totalPages,
       currentPage: page,
+      nextPage: page + 1,
     });
   } catch (error) {
     console.error("Erreur lors de la récupération des visiteurs :", error);
