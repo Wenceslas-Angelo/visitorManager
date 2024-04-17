@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-table";
 import React from "react";
 import { useAppSelector } from "../app/hooks";
-import { useCheckOutVisitor } from "../hooks/useVisitorQuery";
+import { useCheckOutVisitor, useDeleteVisitor } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import { columnDefVisitor } from "../utils/columnDef";
 
@@ -17,11 +17,13 @@ type Props = {
 const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
   const user = useAppSelector((state) => state.auth.user);
   const checkOut = useCheckOutVisitor();
+  const deleteVisitor = useDeleteVisitor();
   const data = visitorsData;
   const columns = columnDefVisitor(
     visitorActive,
     user ? user.token : "",
-    checkOut
+    checkOut,
+    deleteVisitor
   );
   const table = useReactTable({
     columns,
@@ -32,7 +34,7 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-gray-700 bg-gray-200">
+        <thead className="text-gray-500 border-b">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -54,7 +56,7 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
         <tbody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="bg-white border-b hover:bg-gray-300">
+              <tr key={row.id} className="bg-white border-b hover:bg-gray-200">
                 {row.getVisibleCells().map((cell) => (
                   <th
                     key={cell.id}

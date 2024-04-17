@@ -78,4 +78,24 @@ export const visitorApi = {
     const responseAsJson = await response.json();
     return responseAsJson as VisitorAPIResponse;
   },
+
+  delete: async (
+    token: string,
+    idVisitor: string
+  ): Promise<VisitorAPIResponse> => {
+    const response = await fetch(`${API_BASE_URL}/visitor/${idVisitor}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseAsJson = await response.json();
+    return responseAsJson as VisitorAPIResponse;
+  },
 };

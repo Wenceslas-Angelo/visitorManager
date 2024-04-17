@@ -2,13 +2,24 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import React from "react";
-import { VisitorType } from "../types";
+import { BsPencilSquare } from "react-icons/bs";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const columnDefVisitor = (
   visitorActive = false,
   token: string,
   checkOut: UseMutationResult<
     VisitorType,
+    Error,
+    {
+      token: string;
+      idVisitor: string;
+    },
+    unknown
+  >,
+  deleteVisitor: UseMutationResult<
+    VisitorAPIResponse,
     Error,
     {
       token: string;
@@ -56,6 +67,34 @@ export const columnDefVisitor = (
     {
       header: "Motif",
       accessorKey: "purpose",
+    },
+    {
+      header: "Action",
+      accessorKey: "_id",
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-center px-2">
+            <span
+              className="p-2 mr-2 text-white bg-indigo-600 rounded-md cursor-pointer text-md hover:bg-indigo-500"
+              onClick={() => {
+                const idVisitor: string = row.getValue("_id");
+                console.log(idVisitor);
+              }}
+            >
+              <BsPencilSquare />
+            </span>
+            <span
+              className="p-2 ml-2 text-white rounded-md cursor-pointer bg-rose-600 text-md hover:bg-rose-500"
+              onClick={() => {
+                const idVisitor: string = row.getValue("_id");
+                deleteVisitor.mutate({ token, idVisitor });
+              }}
+            >
+              <FaRegTrashCan />
+            </span>
+          </div>
+        );
+      },
     },
   ];
 

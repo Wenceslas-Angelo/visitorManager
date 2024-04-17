@@ -58,10 +58,23 @@ const visitorSlice = createSlice({
       const all: VisitorAPIResponse = action.payload;
       state.allVisitors = all;
     },
+    deleteVisitor(state, action) {
+      const visitorDeleted: VisitorAPIResponse = action.payload;
+
+      state.allVisitors.results = state.allVisitors.results.filter(
+        (visitor) => visitor._id !== visitorDeleted.result?._id
+      );
+      state.allVisitors.totalResults = visitorDeleted.totalResults;
+    },
   },
 });
 
-export const { addVisitor, readAllToday, checkOutVisitor, readAllVisitors } =
-  visitorSlice.actions;
+export const {
+  addVisitor,
+  readAllToday,
+  checkOutVisitor,
+  readAllVisitors,
+  deleteVisitor,
+} = visitorSlice.actions;
 
 export default visitorSlice.reducer;

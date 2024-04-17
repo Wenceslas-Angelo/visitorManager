@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
 import { useFormModalStore } from "../features/store";
-import { addVisitor, checkOutVisitor } from "../features/visitor/visitorSlice";
+import {
+  addVisitor,
+  checkOutVisitor,
+  deleteVisitor,
+} from "../features/visitor/visitorSlice";
 import { VisitorAPIResponse, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
@@ -76,4 +80,20 @@ export const useCheckOutVisitor = () => {
   });
 
   return checkOutVisitorMutation;
+};
+
+export const useDeleteVisitor = () => {
+  const dispatch = useAppDispatch();
+  const deleteVisitorMutation = useMutation({
+    mutationFn: ({ token, idVisitor }: { token: string; idVisitor: string }) =>
+      visitorApi.delete(token, idVisitor),
+    onSuccess: (data) => {
+      dispatch(deleteVisitor(data));
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  return deleteVisitorMutation;
 };
