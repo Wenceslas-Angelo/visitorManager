@@ -66,6 +66,16 @@ const visitorSlice = createSlice({
       );
       state.allVisitors.totalResults = visitorDeleted.totalResults;
     },
+    updateVisitor(state, action) {
+      const newVisitor = action.payload;
+      state.allVisitors.results = state.allVisitors.results.map((visitor) => {
+        if (visitor._id === newVisitor._id) {
+          return newVisitor;
+        }
+
+        return visitor;
+      });
+    },
   },
 });
 
@@ -75,6 +85,7 @@ export const {
   checkOutVisitor,
   readAllVisitors,
   deleteVisitor,
+  updateVisitor,
 } = visitorSlice.actions;
 
 export default visitorSlice.reducer;

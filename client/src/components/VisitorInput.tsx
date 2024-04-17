@@ -11,6 +11,7 @@ type Props = {
   required?: boolean;
   id: "name" | "firstName" | "nationalId" | "purpose" | "badgeNumber";
   label: string;
+  value?: string | number | undefined;
 };
 
 const purposeData = [
@@ -31,6 +32,7 @@ const Input = ({
   required = true,
   id,
   label,
+  value,
 }: Props) => {
   return (
     <div className="flex flex-col w-full m-2">
@@ -53,6 +55,7 @@ const Input = ({
               message: `Field ${id} is required`,
             },
           })}
+          defaultValue={value}
         >
           {purposeData.map((purpose) => (
             <option key={purpose} title={purpose}>
@@ -73,6 +76,7 @@ const Input = ({
           id={id}
           disabled={isLoading}
           autoComplete="off"
+          defaultValue={value}
           data-testid="input"
           {...register(id, {
             required: {

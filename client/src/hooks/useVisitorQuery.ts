@@ -7,6 +7,7 @@ import {
   addVisitor,
   checkOutVisitor,
   deleteVisitor,
+  updateVisitor,
 } from "../features/visitor/visitorSlice";
 import { VisitorAPIResponse, VisitorType } from "../types";
 
@@ -96,4 +97,30 @@ export const useDeleteVisitor = () => {
   });
 
   return deleteVisitorMutation;
+};
+
+export const useUpdateVisitor = () => {
+  const { setFormModalIsOpen, setIdVisitorUpdate } = useFormModalStore();
+  const dispatch = useAppDispatch();
+  const updateVisitorMutation = useMutation({
+    mutationFn: ({
+      visitorData,
+      token,
+      visitorId,
+    }: {
+      visitorData: VisitorType;
+      token: string;
+      visitorId: string;
+    }) => visitorApi.update(visitorData, token, visitorId),
+    onSuccess: (user) => {
+      dispatch(updateVisitor(user));
+      setIdVisitorUpdate("");
+      setFormModalIsOpen();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  return updateVisitorMutation;
 };

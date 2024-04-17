@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import { useAppSelector } from "../app/hooks";
 import { useFormModalStore } from "../features/store";
-import { useCreateVisitor } from "../hooks/useVisitorQuery";
+import { useCreateVisitor, useUpdateVisitor } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import Button from "./Button";
 import Input from "./VisitorInput";
@@ -16,14 +16,34 @@ const FormVisitor = () => {
   } = useForm<VisitorType>();
   const user = useAppSelector((state) => state.auth.user);
   const createVisitorMutation = useCreateVisitor();
-  const { setFormModalIsOpen } = useFormModalStore();
+  const updateVisitorMutation = useUpdateVisitor();
+  const { setFormModalIsOpen, idVisitorUpdate, setIdVisitorUpdate } =
+    useFormModalStore();
+  const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
+
+  const visitorUpdated = idVisitorUpdate
+    ? allVisitors.results.find((visitor) => idVisitorUpdate === visitor._id)
+    : null;
 
   const onSubmit: SubmitHandler<VisitorType> = async (data) => {
     if (user && user.token) {
-      createVisitorMutation.mutate({
-        visitorData: { ...data, userId: user.userId },
-        token: user.token,
-      });
+      idVisitorUpdate && visitorUpdated
+        ? updateVisitorMutation.mutate({
+            visitorData: {
+              ...data,
+              userId: user.userId,
+              startDateTime: visitorUpdated.startDateTime,
+              ...(visitorUpdated.endDateTime && {
+                endDateTime: visitorUpdated.endDateTime,
+              }),
+            },
+            token: user.token,
+            visitorId: idVisitorUpdate,
+          })
+        : createVisitorMutation.mutate({
+            visitorData: { ...data, userId: user.userId },
+            token: user.token,
+          });
     }
   };
 
@@ -34,7 +54,10 @@ const FormVisitor = () => {
           <div className="flex items-center justify-between my-5">
             <h2 className="text-2xl font-semibold">Visitors Details</h2>
             <div
-              onClick={() => setFormModalIsOpen()}
+              onClick={() => {
+                setIdVisitorUpdate("");
+                setFormModalIsOpen();
+              }}
               className="p-2 text-xl cursor-pointer text-rose-400 hover:text-rose-600"
             >
               <FaTimes />
@@ -49,6 +72,7 @@ const FormVisitor = () => {
                 register={register}
                 errors={errors}
                 label="Name"
+                value={idVisitorUpdate ? visitorUpdated?.name : ""}
               />
               <Input
                 type="text"
@@ -57,6 +81,7 @@ const FormVisitor = () => {
                 register={register}
                 errors={errors}
                 label="First Name"
+                value={idVisitorUpdate ? visitorUpdated?.firstName : ""}
               />
             </div>
             <div className="flex">
@@ -67,6 +92,7 @@ const FormVisitor = () => {
                 register={register}
                 errors={errors}
                 label="Purpose"
+                value={idVisitorUpdate ? visitorUpdated?.purpose : ""}
               />
               <Input
                 type="number"
@@ -75,6 +101,7 @@ const FormVisitor = () => {
                 register={register}
                 errors={errors}
                 label="National Number"
+                value={idVisitorUpdate ? visitorUpdated?.nationalId : ""}
               />
             </div>
             <Input
@@ -84,13 +111,24 @@ const FormVisitor = () => {
               register={register}
               errors={errors}
               label="Badge Number"
+              value={idVisitorUpdate ? visitorUpdated?.badgeNumber : undefined}
             />
 
             <div className="flex items-center justify-between px-5 mt-5">
               <div>
-                <Button type="submit">Save</Button>
+                {idVisitorUpdate ? (
+                  <Button type="submit">Update</Button>
+                ) : (
+                  <Button type="submit">Save</Button>
+                )}
               </div>
-              <div onClick={() => setFormModalIsOpen()} className="">
+              <div
+                onClick={() => {
+                  setIdVisitorUpdate("");
+                  setFormModalIsOpen();
+                }}
+                className=""
+              >
                 <Button type="button" variant="secondary">
                   Close
                 </Button>

@@ -26,7 +26,9 @@ export const columnDefVisitor = (
       idVisitor: string;
     },
     unknown
-  >
+  >,
+  setFormModalIsOpen: () => void,
+  setIdVisitorUpdate: (idVisitor: string) => void
 ) => {
   const columns: ColumnDef<VisitorType>[] = [
     {
@@ -78,7 +80,8 @@ export const columnDefVisitor = (
               className="p-2 mr-2 text-white bg-indigo-600 rounded-md cursor-pointer text-md hover:bg-indigo-500"
               onClick={() => {
                 const idVisitor: string = row.getValue("_id");
-                console.log(idVisitor);
+                setIdVisitorUpdate(idVisitor);
+                setFormModalIsOpen();
               }}
             >
               <BsPencilSquare />

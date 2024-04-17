@@ -98,4 +98,25 @@ export const visitorApi = {
     const responseAsJson = await response.json();
     return responseAsJson as VisitorAPIResponse;
   },
+
+  update: async (
+    visitorData: VisitorType,
+    token: string,
+    visitorId: string
+  ): Promise<VisitorType> => {
+    const response = await fetch(`${API_BASE_URL}/visitor/${visitorId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(visitorData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const responseAsJson = await response.json();
+    return responseAsJson.visitor as VisitorType;
+  },
 };

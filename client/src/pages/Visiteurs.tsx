@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import FormVisitor from "../components/FormVisitor";
 import Pagination from "../components/Pagination";
 import VisitorTable from "../components/VisitorTable";
+import { useFormModalStore } from "../features/store";
 import { readAllVisitors } from "../features/visitor/visitorSlice";
 import { useReadAllVisitors2 } from "../hooks/useVisitorQuery";
 import Container from "../utils/Container";
 
 const Visiteurs = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const { formModalIsOpen } = useFormModalStore();
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const allVisitorQuery2 = useReadAllVisitors2(user ? user.token : "");
@@ -30,6 +33,7 @@ const Visiteurs = () => {
           currentPage={currentPage}
         />
       </div>
+      {formModalIsOpen ? <FormVisitor /> : null}
     </Container>
   );
 };

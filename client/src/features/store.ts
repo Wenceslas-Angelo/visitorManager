@@ -2,14 +2,19 @@ import { create } from "zustand";
 
 type FormModalStore = {
   formModalIsOpen: boolean;
+  idVisitorUpdate: string;
   setFormModalIsOpen: () => void;
+  setIdVisitorUpdate: (idVisitor: string) => void;
 };
 
 export const useFormModalStore = create<FormModalStore>()((set) => ({
   formModalIsOpen: false,
-
+  idVisitorUpdate: "",
   setFormModalIsOpen: () => {
     return set((state) => ({ formModalIsOpen: !state.formModalIsOpen }));
+  },
+  setIdVisitorUpdate: (idVisitor: string) => {
+    return set({ idVisitorUpdate: idVisitor });
   },
 }));
 
