@@ -47,6 +47,11 @@ const FormVisitor = () => {
     }
   };
 
+  const handleCloseFormVisitor = () => {
+    setIdVisitorUpdate("");
+    setFormModalIsOpen();
+  };
+
   return (
     <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
       <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
@@ -54,10 +59,7 @@ const FormVisitor = () => {
           <div className="flex items-center justify-between my-5">
             <h2 className="text-2xl font-semibold">Visitors Details</h2>
             <div
-              onClick={() => {
-                setIdVisitorUpdate("");
-                setFormModalIsOpen();
-              }}
+              onClick={() => handleCloseFormVisitor()}
               className="p-2 text-xl cursor-pointer text-rose-400 hover:text-rose-600"
             >
               <FaTimes />
@@ -122,13 +124,7 @@ const FormVisitor = () => {
                   <Button type="submit">Save</Button>
                 )}
               </div>
-              <div
-                onClick={() => {
-                  setIdVisitorUpdate("");
-                  setFormModalIsOpen();
-                }}
-                className=""
-              >
+              <div onClick={() => handleCloseFormVisitor()} className="">
                 <Button type="button" variant="secondary">
                   Close
                 </Button>
