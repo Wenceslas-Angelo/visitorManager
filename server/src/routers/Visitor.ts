@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", Auth, VisitorCtrl.Create);
 router.get("/today", Auth, VisitorCtrl.ReadAllToday);
 router.get("/", Auth, VisitorCtrl.ReadAll);
+router.get("/search", Auth, VisitorCtrl.Search);
 router.get("/:id", Auth, VisitorCtrl.ReadOne);
 router.put("/:id", Auth, VisitorCtrl.UpdateOne);
 router.put("/checkout/:id", Auth, VisitorCtrl.CheckOut);
