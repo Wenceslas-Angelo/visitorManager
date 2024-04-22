@@ -1,11 +1,11 @@
 import { API_BASE_URL } from "../config";
-import { VisitorAPIResponse, VisitorFilters, VisitorType } from "../types";
+import { VisitorFilters, VisitorType } from "../types";
 
 export const visitorApi = {
   create: async (
     visitorData: VisitorType,
     token: string
-  ): Promise<VisitorAPIResponse> => {
+  ): Promise<VisitorType> => {
     const response = await fetch(`${API_BASE_URL}/visitor`, {
       method: "POST",
       headers: {
@@ -19,24 +19,7 @@ export const visitorApi = {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return (await response.json()) as VisitorAPIResponse;
-  },
-
-  readAllToday: async (token: string): Promise<VisitorAPIResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor/today`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
+    return (await response.json()) as VisitorType;
   },
 
   checkOut: async (token: string, idVisitor: string): Promise<VisitorType> => {
@@ -59,11 +42,8 @@ export const visitorApi = {
     return responseAsJson.visitor as VisitorType;
   },
 
-  readAllVisitors: async (
-    token: string,
-    page: number
-  ): Promise<VisitorAPIResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor?page=${page}`, {
+  readAllVisitors: async (token: string): Promise<VisitorType[]> => {
+    const response = await fetch(`${API_BASE_URL}/visitor`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -76,13 +56,10 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
+    return responseAsJson as VisitorType[];
   },
 
-  delete: async (
-    token: string,
-    idVisitor: string
-  ): Promise<VisitorAPIResponse> => {
+  delete: async (token: string, idVisitor: string): Promise<VisitorType> => {
     const response = await fetch(`${API_BASE_URL}/visitor/${idVisitor}`, {
       method: "DELETE",
       headers: {
@@ -96,7 +73,7 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
+    return responseAsJson as VisitorType;
   },
 
   update: async (
@@ -122,10 +99,9 @@ export const visitorApi = {
 
   search: async (
     token: string,
-    page: number,
     filters: VisitorFilters
-  ): Promise<VisitorAPIResponse> => {
-    let queryString = `?page=${page}`;
+  ): Promise<VisitorType[]> => {
+    let queryString = `?`;
     for (const key in filters) {
       if (Object.prototype.hasOwnProperty.call(filters, key)) {
         queryString += `&${key}=${encodeURIComponent(filters[key])}`;
@@ -144,6 +120,6 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson as VisitorAPIResponse;
+    return responseAsJson as VisitorType[];
   },
 };

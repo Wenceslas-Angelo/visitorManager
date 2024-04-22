@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
@@ -9,7 +9,7 @@ import {
   deleteVisitor,
   updateVisitor,
 } from "../features/visitor/visitorSlice";
-import { VisitorAPIResponse, VisitorType } from "../types";
+import { VisitorFilters, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
   const { setFormModalIsOpen } = useFormModalStore();
@@ -34,54 +34,32 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitorToday = (token: string) => {
-  const visitorToday = useQuery<VisitorAPIResponse>({
-    queryKey: ["allVisitorToday"],
-    queryFn: () => visitorApi.readAllToday(token),
-  });
-  return visitorToday;
-};
-
-export const useReadAllVisitors = (token: string, page: number) => {
-  const visitors = useQuery<VisitorAPIResponse>({
+export const useReadAllVisitors = (token: string) => {
+  const visitors = useQuery<VisitorType[]>({
     queryKey: ["allVisitor"],
-    queryFn: () => visitorApi.readAllVisitors(token, page),
+    queryFn: () => visitorApi.readAllVisitors(token),
   });
   return visitors;
 };
 
-export const useReadAllVisitors2 = (token: string) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<VisitorAPIResponse>({
-      queryKey: ["allVisitors2"],
-      initialPageParam: 1,
-      queryFn: ({ pageParam }) =>
-        visitorApi.readAllVisitors(token, pageParam as number),
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-    });
-  return {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  };
-};
+export const useSearchVisitors = () => {
+  const searchVisitorMutation = useMutation({
+    mutationFn: ({
+      token,
+      filtersData,
+    }: {
+      token: string;
+      filtersData: VisitorFilters;
+    }) => visitorApi.search(token, filtersData),
+    onSuccess: (visitors) => {
+      console.log(visitors);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-export const useSearchVisitors = (token: string) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<VisitorAPIResponse>({
-      queryKey: ["searchVisitors"],
-      initialPageParam: 1,
-      queryFn: ({ pageParam }) =>
-        visitorApi.search(token, pageParam as number, {}),
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-    });
-  return {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  };
+  return searchVisitorMutation;
 };
 
 export const useCheckOutVisitor = () => {

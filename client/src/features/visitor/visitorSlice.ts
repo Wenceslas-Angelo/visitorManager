@@ -1,52 +1,58 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { VisitorAPIResponse, VisitorType } from "../../types";
+import moment from "moment";
+import { VisitorType } from "../../types";
 
 type VisitorState = {
-  todayVisitors: VisitorAPIResponse;
+  todayVisitors: VisitorType[];
   todayVisitorsOut: VisitorType[];
   todayVisitorsIn: VisitorType[];
-  allVisitors: VisitorAPIResponse;
+  allVisitors: VisitorType[];
 };
 
 const initialState: VisitorState = {
-  todayVisitors: {
-    totalResults: 0,
-    results: [],
-  },
+  allVisitors: [],
+  todayVisitors: [],
   todayVisitorsOut: [],
   todayVisitorsIn: [],
-  allVisitors: {
-    totalResults: 0,
-    results: [],
-  },
 };
 
 const visitorSlice = createSlice({
   name: "visitors",
   initialState,
   reducers: {
-    readAllToday(state, action) {
-      const allVisitorsToday: VisitorAPIResponse = action.payload;
-      state.todayVisitors = allVisitorsToday;
-      state.todayVisitorsOut = allVisitorsToday.results.filter((visitor) =>
+    readAllVisitors(state, action) {
+      const allVisitors: VisitorType[] = action.payload;
+      state.allVisitors = allVisitors;
+
+      state.todayVisitors = allVisitors.filter((visitor) => {
+        return moment(visitor.startDateTime).isSame(
+          moment().startOf("day"),
+          "day"
+        );
+      });
+
+      state.todayVisitorsOut = state.todayVisitors.filter((visitor) =>
         visitor.endDateTime ? visitor : null
       );
-      state.todayVisitorsIn = allVisitorsToday.results.filter((visitor) =>
+
+      state.todayVisitorsIn = state.todayVisitors.filter((visitor) =>
         visitor.endDateTime ? null : visitor
       );
     },
+
     addVisitor(state, action) {
       const newVisitor = action.payload;
-      state.todayVisitors.results = [
-        newVisitor.result,
-        ...state.todayVisitors.results,
-      ];
-      state.todayVisitors.totalResults = newVisitor.totalResults;
+      state.allVisitors = [newVisitor.result, ...state.allVisitors];
+      state.todayVisitors = [newVisitor.result, ...state.todayVisitors];
       state.todayVisitorsIn = [newVisitor.result, ...state.todayVisitorsIn];
     },
+
     checkOutVisitor(state, action) {
       const checkVisitor: VisitorType = action.payload;
-      state.todayVisitors.results = state.todayVisitors.results.map((visitor) =>
+      state.allVisitors = state.allVisitors.map((visitor) =>
+        visitor._id === checkVisitor._id ? checkVisitor : visitor
+      );
+      state.todayVisitors = state.todayVisitors.map((visitor) =>
         visitor._id === checkVisitor._id ? checkVisitor : visitor
       );
       state.todayVisitorsIn = state.todayVisitorsIn.filter((visitor) =>
@@ -54,25 +60,19 @@ const visitorSlice = createSlice({
       );
       state.todayVisitorsOut = [checkVisitor, ...state.todayVisitorsOut];
     },
-    readAllVisitors(state, action) {
-      const all: VisitorAPIResponse = action.payload;
-      state.allVisitors = all;
-    },
     deleteVisitor(state, action) {
-      const visitorDeleted: VisitorAPIResponse = action.payload;
+      const visitorDeleted: VisitorType = action.payload;
 
-      state.allVisitors.results = state.allVisitors.results.filter(
-        (visitor) => visitor._id !== visitorDeleted.result?._id
+      state.allVisitors = state.allVisitors.filter(
+        (visitor) => visitor._id !== visitorDeleted._id
       );
-      state.allVisitors.totalResults = visitorDeleted.totalResults;
     },
     updateVisitor(state, action) {
-      const newVisitor = action.payload;
-      state.allVisitors.results = state.allVisitors.results.map((visitor) => {
+      const newVisitor: VisitorType = action.payload;
+      state.allVisitors = state.allVisitors.map((visitor) => {
         if (visitor._id === newVisitor._id) {
           return newVisitor;
         }
-
         return visitor;
       });
     },
@@ -81,7 +81,6 @@ const visitorSlice = createSlice({
 
 export const {
   addVisitor,
-  readAllToday,
   checkOutVisitor,
   readAllVisitors,
   deleteVisitor,

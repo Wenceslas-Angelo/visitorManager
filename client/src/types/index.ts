@@ -29,15 +29,6 @@ export type LoginResponse = {
   matricule: number;
 };
 
-export type VisitorAPIResponse = {
-  totalResults: number;
-  results: VisitorType[];
-  result?: VisitorType;
-  currentPage?: number;
-  nextPage?: number;
-  totalPages?: number;
-};
-
 export type VisitorFilters = {
   [key: string]: boolean | string | number;
 };
