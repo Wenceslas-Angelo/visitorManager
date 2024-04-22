@@ -22,8 +22,8 @@ export const useCreateVisitor = () => {
       visitorData: VisitorType;
       token: string;
     }) => visitorApi.create(visitorData, token),
-    onSuccess: (user) => {
-      dispatch(addVisitor(user));
+    onSuccess: (visitor) => {
+      dispatch(addVisitor(visitor));
       setFormModalIsOpen();
     },
     onError: (error) => {

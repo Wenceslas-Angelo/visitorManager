@@ -42,9 +42,9 @@ const visitorSlice = createSlice({
 
     addVisitor(state, action) {
       const newVisitor = action.payload;
-      state.allVisitors = [newVisitor.result, ...state.allVisitors];
-      state.todayVisitors = [newVisitor.result, ...state.todayVisitors];
-      state.todayVisitorsIn = [newVisitor.result, ...state.todayVisitorsIn];
+      state.allVisitors = [newVisitor, ...state.allVisitors];
+      state.todayVisitors = [newVisitor, ...state.todayVisitors];
+      state.todayVisitorsIn = [newVisitor, ...state.todayVisitorsIn];
     },
 
     checkOutVisitor(state, action) {
@@ -62,8 +62,16 @@ const visitorSlice = createSlice({
     },
     deleteVisitor(state, action) {
       const visitorDeleted: VisitorType = action.payload;
-
       state.allVisitors = state.allVisitors.filter(
+        (visitor) => visitor._id !== visitorDeleted._id
+      );
+      state.todayVisitors = state.todayVisitors.filter(
+        (visitor) => visitor._id !== visitorDeleted._id
+      );
+      state.todayVisitorsOut = state.todayVisitorsOut.filter(
+        (visitor) => visitor._id !== visitorDeleted._id
+      );
+      state.todayVisitorsIn = state.todayVisitorsIn.filter(
         (visitor) => visitor._id !== visitorDeleted._id
       );
     },

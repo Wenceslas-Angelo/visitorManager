@@ -19,7 +19,8 @@ export const visitorApi = {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return (await response.json()) as VisitorType;
+    const responseAsJson = await response.json();
+    return responseAsJson.visitor as VisitorType;
   },
 
   checkOut: async (token: string, idVisitor: string): Promise<VisitorType> => {
@@ -56,7 +57,7 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson as VisitorType[];
+    return responseAsJson.visitors as VisitorType[];
   },
 
   delete: async (token: string, idVisitor: string): Promise<VisitorType> => {
@@ -73,7 +74,7 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson as VisitorType;
+    return responseAsJson.visitor as VisitorType;
   },
 
   update: async (

@@ -31,7 +31,7 @@ export const useLogin = () => {
     onSuccess: (user) => {
       dispatch(login(user));
       login(user);
-      navigate("/today");
+      navigate("/visiteurs");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
 import VisitorTable from "../components/VisitorTable";
 import { useFormModalStore } from "../features/store";
-import { readAllToday } from "../features/visitor/visitorSlice";
-import { useReadAllVisitorToday } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
@@ -15,9 +13,6 @@ const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const [query, setQuery] = useState("");
   const { formModalIsOpen } = useFormModalStore();
-  const user = useAppSelector((state) => state.auth.user);
-  const visitorsToday = useReadAllVisitorToday(user ? user.token : "");
-  const dispatch = useAppDispatch();
   const todayVisitor = useAppSelector((state) => state.visitor.todayVisitors);
   const todayVisitorOut = useAppSelector(
     (state) => state.visitor.todayVisitorsOut
@@ -26,17 +21,13 @@ const TodayVisitors = () => {
     (state) => state.visitor.todayVisitorsIn
   );
 
-  useEffect(() => {
-    if (!visitorsToday.data) return;
-    dispatch(readAllToday(visitorsToday.data));
-  }, [dispatch, visitorsToday.data]);
-
   const search = (data: VisitorType[]) => {
     return data.filter(
       (visitor) =>
-        visitor.name.toLowerCase().includes(query.toLowerCase()) ||
-        visitor.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        visitor.purpose.toLowerCase().includes(query.toLowerCase())
+        visitor &&
+        (visitor.name.toLowerCase().includes(query.toLowerCase()) ||
+          visitor.firstName.toLowerCase().includes(query.toLowerCase()) ||
+          visitor.purpose.toLowerCase().includes(query.toLowerCase()))
     );
   };
 
@@ -49,10 +40,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("all")}
         >
-          <CardStat
-            title="Visiteur today"
-            number={todayVisitor.results.length}
-          />
+          <CardStat title="Visiteur today" number={todayVisitor.length} />
         </div>
         <div
           className={`border-b-4 ${
@@ -95,7 +83,11 @@ const TodayVisitors = () => {
         </div>
         <div className="w-full mt-10">
           {tab === "all" ? (
-            <VisitorTable visitorsData={search(todayVisitor.results)} />
+            <VisitorTable
+              visitorsData={
+                todayVisitor.length === 0 ? [] : search(todayVisitor)
+              }
+            />
           ) : tab === "in" ? (
             <VisitorTable
               visitorsData={search(todayVisitorIn)}
