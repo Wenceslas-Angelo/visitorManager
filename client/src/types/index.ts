@@ -37,3 +37,7 @@ export type VisitorAPIResponse = {
   nextPage?: number;
   totalPages?: number;
 };
+
+export type VisitorFilters = {
+  [key: string]: boolean | string | number;
+};

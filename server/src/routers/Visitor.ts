@@ -5,7 +5,6 @@ import Auth from "../middlewares/Auth";
 const router = express.Router();
 
 router.post("/", Auth, VisitorCtrl.Create);
-router.get("/today", Auth, VisitorCtrl.ReadAllToday);
 router.get("/", Auth, VisitorCtrl.ReadAll);
 router.get("/search", Auth, VisitorCtrl.Search);
 router.get("/:id", Auth, VisitorCtrl.ReadOne);

@@ -67,6 +67,23 @@ export const useReadAllVisitors2 = (token: string) => {
   };
 };
 
+export const useSearchVisitors = (token: string) => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<VisitorAPIResponse>({
+      queryKey: ["searchVisitors"],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }) =>
+        visitorApi.search(token, pageParam as number, {}),
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    });
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+};
+
 export const useCheckOutVisitor = () => {
   const dispatch = useAppDispatch();
   const checkOutVisitorMutation = useMutation({

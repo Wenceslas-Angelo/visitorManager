@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../config";
-import { VisitorAPIResponse, VisitorType } from "../types";
+import { VisitorAPIResponse, VisitorFilters, VisitorType } from "../types";
 
 export const visitorApi = {
   create: async (
@@ -118,5 +118,32 @@ export const visitorApi = {
     }
     const responseAsJson = await response.json();
     return responseAsJson.visitor as VisitorType;
+  },
+
+  search: async (
+    token: string,
+    page: number,
+    filters: VisitorFilters
+  ): Promise<VisitorAPIResponse> => {
+    let queryString = `?page=${page}`;
+    for (const key in filters) {
+      if (Object.prototype.hasOwnProperty.call(filters, key)) {
+        queryString += `&${key}=${encodeURIComponent(filters[key])}`;
+      }
+    }
+    const response = await fetch(`${API_BASE_URL}/visitor${queryString}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseAsJson = await response.json();
+    return responseAsJson as VisitorAPIResponse;
   },
 };
