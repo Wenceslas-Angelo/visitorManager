@@ -33,3 +33,21 @@ export const useCurrentPageStore = create<CurrentPageStore>()((set) => ({
     return set((state) => ({ currentPage: state.currentPage + 1 }));
   },
 }));
+
+type DeleteModalStore = {
+  deleteModalIsOpen: boolean;
+  idVisitorDeleted: string;
+  setDeleteModalIsOpen: () => void;
+  setIdVisitorDeleted: (idVisitor: string) => void;
+};
+
+export const useDeleteModalStore = create<DeleteModalStore>()((set) => ({
+  deleteModalIsOpen: false,
+  idVisitorDeleted: "",
+  setDeleteModalIsOpen: () => {
+    return set((state) => ({ deleteModalIsOpen: !state.deleteModalIsOpen }));
+  },
+  setIdVisitorDeleted: (idVisitor: string) => {
+    return set({ idVisitorDeleted: idVisitor });
+  },
+}));

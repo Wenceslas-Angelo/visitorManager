@@ -5,7 +5,13 @@ type Props = {
   children: React.ReactNode;
   type: "submit" | "button";
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary" | "outline" | "icon" | "disabled";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "icon"
+    | "disabled"
+    | "danger";
   disabled?: boolean;
   isLoading?: boolean;
 };
@@ -27,6 +33,9 @@ const Button = ({
     case "secondary":
       variantStyles =
         "bg-green-200 hover:bg-green-300/50 text-green-600 rounded-lg";
+      break;
+    case "danger":
+      variantStyles = "bg-rose-600 hover:bg-rose-300/50 text-white rounded-lg";
       break;
     case "outline":
       variantStyles =

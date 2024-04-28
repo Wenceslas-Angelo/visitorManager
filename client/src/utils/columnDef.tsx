@@ -4,7 +4,7 @@ import moment from "moment";
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { VisitorAPIResponse, VisitorType } from "../types";
+import { VisitorType } from "../types";
 
 export const columnDefVisitor = (
   visitorActive = false,
@@ -18,17 +18,10 @@ export const columnDefVisitor = (
     },
     unknown
   >,
-  deleteVisitor: UseMutationResult<
-    VisitorAPIResponse,
-    Error,
-    {
-      token: string;
-      idVisitor: string;
-    },
-    unknown
-  >,
   setFormModalIsOpen: () => void,
-  setIdVisitorUpdate: (idVisitor: string) => void
+  setIdVisitorUpdate: (idVisitor: string) => void,
+  setDeleteModalIsOpen: () => void,
+  setIdVisitorDelete: (idVisitor: string) => void
 ) => {
   const columns: ColumnDef<VisitorType>[] = [
     {
@@ -90,7 +83,8 @@ export const columnDefVisitor = (
               className="p-2 ml-2 text-white rounded-md cursor-pointer bg-rose-600 text-md hover:bg-rose-500"
               onClick={() => {
                 const idVisitor: string = row.getValue("_id");
-                deleteVisitor.mutate({ token, idVisitor });
+                setIdVisitorDelete(idVisitor);
+                setDeleteModalIsOpen();
               }}
             >
               <FaRegTrashCan />

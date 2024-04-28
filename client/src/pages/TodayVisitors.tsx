@@ -4,8 +4,9 @@ import { useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
+import ModaleDelete from "../components/ModaleDelete";
 import VisitorTable from "../components/VisitorTable";
-import { useFormModalStore } from "../features/store";
+import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
@@ -13,6 +14,7 @@ const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const [query, setQuery] = useState("");
   const { formModalIsOpen } = useFormModalStore();
+  const { deleteModalIsOpen } = useDeleteModalStore();
   const todayVisitor = useAppSelector((state) => state.visitor.todayVisitors);
   const todayVisitorOut = useAppSelector(
     (state) => state.visitor.todayVisitorsOut
@@ -98,6 +100,7 @@ const TodayVisitors = () => {
           )}
         </div>
         {formModalIsOpen ? <FormVisitor /> : null}
+        {deleteModalIsOpen ? <ModaleDelete /> : null}
       </div>
     </Container>
   );

@@ -3,13 +3,15 @@ import { FiSearch } from "react-icons/fi";
 import { useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import FormVisitor from "../components/FormVisitor";
+import ModaleDelete from "../components/ModaleDelete";
 import VisitorTable from "../components/VisitorTable";
-import { useFormModalStore } from "../features/store";
+import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
 const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
+  const { deleteModalIsOpen } = useDeleteModalStore();
   const [query, setQuery] = useState("");
 
   const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
@@ -51,6 +53,7 @@ const Visiteurs = () => {
       </div>
 
       {formModalIsOpen ? <FormVisitor /> : null}
+      {deleteModalIsOpen ? <ModaleDelete /> : null}
     </Container>
   );
 };
