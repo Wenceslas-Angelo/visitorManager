@@ -53,7 +53,7 @@ export const visitorApi = {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`${response.statusText}`);
     }
 
     const responseAsJson = await response.json();

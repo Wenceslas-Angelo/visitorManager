@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
 import FormVisitor from "../components/FormVisitor";
 import VisitorTable from "../components/VisitorTable";
 import { useFormModalStore } from "../features/store";
-import { readAllVisitors } from "../features/visitor/visitorSlice";
-import { useReadAllVisitors } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
 
 const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
   const [query, setQuery] = useState("");
-  const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
-  const allVisitorQuery = useReadAllVisitors(user ? user.token : "");
-  const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
-  useEffect(() => {
-    if (!allVisitorQuery.data) return;
-    dispatch(readAllVisitors(allVisitorQuery.data));
-  }, [dispatch, allVisitorQuery.data]);
+  const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
   const search = (data: VisitorType[]) => {
     return data.filter(
