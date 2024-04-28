@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegEye, FaRegTrashCan } from "react-icons/fa6";
 import { VisitorType } from "../types";
 
 export const columnDefVisitor = (
@@ -69,8 +69,11 @@ export const columnDefVisitor = (
       cell: ({ row }) => {
         return (
           <div className="flex justify-center px-2">
+            <span className="p-2 text-white rounded-md cursor-pointer bg-gray-600 text-md hover:bg-gray-500">
+              <FaRegEye />
+            </span>
             <span
-              className="p-2 mr-2 text-white bg-indigo-600 rounded-md cursor-pointer text-md hover:bg-indigo-500"
+              className="p-2 mx-2 text-white bg-indigo-600 rounded-md cursor-pointer text-md hover:bg-indigo-500"
               onClick={() => {
                 const idVisitor: string = row.getValue("_id");
                 setIdVisitorUpdate(idVisitor);
@@ -80,7 +83,7 @@ export const columnDefVisitor = (
               <BsPencilSquare />
             </span>
             <span
-              className="p-2 ml-2 text-white rounded-md cursor-pointer bg-rose-600 text-md hover:bg-rose-500"
+              className="p-2 text-white rounded-md cursor-pointer bg-rose-600 text-md hover:bg-rose-500"
               onClick={() => {
                 const idVisitor: string = row.getValue("_id");
                 setIdVisitorDelete(idVisitor);
