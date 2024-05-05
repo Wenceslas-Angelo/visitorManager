@@ -19,8 +19,8 @@ const Pagination = ({ data }: Props) => {
       <VisitorTable visitorsData={displayData} />
       <div className="my-10">
         <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
+          previousLabel={"Précédent"}
+          nextLabel={"Suivant"}
           pageCount={Math.ceil(data.length / dataPerPage)}
           onPageChange={({ selected }) => setPageNumber(selected)}
           containerClassName={"paginationBtns"}

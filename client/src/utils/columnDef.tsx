@@ -35,7 +35,7 @@ export const columnDefVisitor = (
       },
     },
     {
-      header: "Arrivee-Depart",
+      header: "Arrivée-Départ",
       accessorKey: "endDateTime",
       cell: ({ row }) => {
         const formattedTimeIn = moment(row.getValue("startDateTime")).format(
@@ -69,7 +69,7 @@ export const columnDefVisitor = (
       cell: ({ row }) => {
         return (
           <div className="flex justify-center px-2">
-            <span className="p-2 text-white rounded-md cursor-pointer bg-gray-600 text-md hover:bg-gray-500">
+            <span className="p-2 text-white bg-gray-600 rounded-md cursor-pointer text-md hover:bg-gray-500">
               <FaRegEye />
             </span>
             <span
@@ -112,7 +112,7 @@ export const columnDefVisitor = (
       accessorKey: "purpose",
     },
     {
-      header: "ID national",
+      header: "C.I.N.",
       accessorKey: "nationalId",
     },
 
@@ -121,7 +121,7 @@ export const columnDefVisitor = (
       accessorKey: "badgeNumber",
     },
     {
-      header: "Check Out",
+      header: "Sortie",
       accessorKey: "_id",
       cell: ({ row }) => {
         return (

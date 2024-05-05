@@ -13,7 +13,7 @@ import Container from "../utils/Container";
 const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const [query, setQuery] = useState("");
-  const [selectedOption, setSelectedOption] = useState("All");
+  const [selectedOption, setSelectedOption] = useState("Toutes");
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
   const todayVisitor = useAppSelector((state) => state.visitor.todayVisitors);
@@ -27,7 +27,7 @@ const TodayVisitors = () => {
   const search = (data: VisitorType[]) => {
     let filteredData = data;
 
-    if (selectedOption !== "All") {
+    if (selectedOption !== "Toutes") {
       filteredData = filteredData.filter(
         (visitor) =>
           visitor &&
@@ -54,7 +54,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("all")}
         >
-          <CardStat title="Visiteur today" number={todayVisitor.length} />
+          <CardStat title="Visiteur " number={todayVisitor.length} />
         </div>
         <div
           className={`border-b-4 ${
@@ -62,7 +62,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat title="Visiteur Out" number={todayVisitorOut.length} />
+          <CardStat title="Sorti" number={todayVisitorOut.length} />
         </div>
         <div
           className={`border-b-4 ${
@@ -70,7 +70,7 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat title="Visiteur In" number={todayVisitorIn.length} />
+          <CardStat title="Entrée" number={todayVisitorIn.length} />
         </div>
       </div>
 

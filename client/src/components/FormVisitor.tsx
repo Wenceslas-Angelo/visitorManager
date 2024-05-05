@@ -57,7 +57,7 @@ const FormVisitor = () => {
       <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
         <div className="w-full p-5 m-2 text-xl bg-white rounded-md">
           <div className="flex items-center justify-between my-5">
-            <h2 className="text-2xl font-semibold">Visitors Details</h2>
+            <h2 className="text-2xl font-semibold">Détails du visiteurs</h2>
             <div
               onClick={() => handleCloseFormVisitor()}
               className="p-2 text-xl cursor-pointer text-rose-400 hover:text-rose-600"
@@ -69,64 +69,64 @@ const FormVisitor = () => {
             <div className="flex">
               <Input
                 type="text"
-                placeholder="name"
+                placeholder="Nom"
                 id="name"
                 register={register}
                 errors={errors}
-                label="Name"
+                label="Nom"
                 value={idVisitorUpdate ? visitorUpdated?.name : ""}
               />
               <Input
                 type="text"
-                placeholder="first name"
+                placeholder="Prénom"
                 id="firstName"
                 register={register}
                 errors={errors}
-                label="First Name"
+                label="Prénom"
                 value={idVisitorUpdate ? visitorUpdated?.firstName : ""}
               />
             </div>
             <div className="flex">
               <Input
                 type="text"
-                placeholder="Purpose"
+                placeholder=""
                 id="purpose"
                 register={register}
                 errors={errors}
-                label="Purpose"
+                label="Motif de la visite"
                 value={idVisitorUpdate ? visitorUpdated?.purpose : ""}
               />
               <Input
                 type="number"
-                placeholder="National Number"
+                placeholder="Numero d' identite nationale du visiteur"
                 id="nationalId"
                 register={register}
                 errors={errors}
-                label="National Number"
+                label="C. I. N."
                 value={idVisitorUpdate ? visitorUpdated?.nationalId : ""}
               />
             </div>
             <Input
               type="number"
-              placeholder="Badge Number"
+              placeholder="Numéro de badge"
               id="badgeNumber"
               register={register}
               errors={errors}
-              label="Badge Number"
+              label="Numéro de badge"
               value={idVisitorUpdate ? visitorUpdated?.badgeNumber : undefined}
             />
 
             <div className="flex items-center justify-between px-5 mt-5">
               <div>
                 {idVisitorUpdate ? (
-                  <Button type="submit">Update</Button>
+                  <Button type="submit">Modifier</Button>
                 ) : (
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">Enregistrer</Button>
                 )}
               </div>
               <div onClick={() => handleCloseFormVisitor()} className="">
                 <Button type="button" variant="secondary">
-                  Close
+                  Annuler
                 </Button>
               </div>
             </div>

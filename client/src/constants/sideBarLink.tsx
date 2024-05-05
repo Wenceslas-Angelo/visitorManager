@@ -13,7 +13,7 @@ export const sideBarLinks = [
   {
     icon: <RxDashboard fontSize={20} />,
     route: "/today",
-    label: "Today",
+    label: "Aujourd'hui",
   },
 
   // {

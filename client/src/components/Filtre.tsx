@@ -21,7 +21,7 @@ const Filtre = ({ query, setQuery, setSelectedOption }: Props) => {
         data-testid="input"
         onChange={(e) => setSelectedOption(e.target.value)}
       >
-        <option title="all">All</option>
+        <option title="toutes">Toutes</option>
         {purposeData.map((purpose) => (
           <option key={purpose} title={purpose}>
             {purpose}
