@@ -4,7 +4,7 @@ import BtnAddVisitor from "../components/BtnAddVisitor";
 import FormVisitor from "../components/FormVisitor";
 import ModaleDelete from "../components/ModaleDelete";
 import Search from "../components/Search";
-import VisitorTable from "../components/VisitorTable";
+import Pagination from "../components/Pagination";
 import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
@@ -35,7 +35,7 @@ const Visiteurs = () => {
             <BtnAddVisitor />
           </div>
         </div>
-        <VisitorTable visitorsData={search(allVisitor)} />
+        <Pagination data={search(allVisitor)} />
       </div>
 
       {formModalIsOpen ? <FormVisitor /> : null}

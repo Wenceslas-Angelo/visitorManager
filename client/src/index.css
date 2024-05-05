@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.paginationBtns {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  width: 80%;
+  height: 40px;
+}
+
+.paginationBtns a {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px solid rgb(22 163 74);
+  color: rgb(22 163 74);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.paginationBtns a:hover {
+  background-color: rgb(22 163 74);
+  color: white;
+}
+
+.paginationActive a {
+  font-weight: bold;
+  background-color: rgb(22 163 74);
+  color: white;
+}
+
+.paginationDesabled a {
+  background-color: gray;
+  color: white;
+  border: 1px solid gray;
+}
+
+.paginationDesabled a:hover {
+  background-color: gray;
+  color: white;
+}
