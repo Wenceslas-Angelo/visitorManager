@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { VisitorType } from "../types";
+import { purposeData } from "../constants";
 
 type Props = {
   type: "number" | "text";
@@ -10,18 +11,9 @@ type Props = {
   errors: FieldErrors<VisitorType>;
   required?: boolean;
   id: "name" | "firstName" | "nationalId" | "purpose" | "badgeNumber";
-  label: string;
+  label?: string;
   value?: string | number | undefined;
 };
-
-const purposeData = [
-  "Simple visite",
-  "Stagiaire",
-  "client",
-  "Courrier",
-  "facture",
-  "livraison",
-];
 
 const Input = ({
   type,
@@ -41,7 +33,7 @@ const Input = ({
         <select
           className={`w-full px-4 py-3 text-lg font-light bg-white border
         ${
-          errors[id]
+          errors && errors[id]
             ? "border-rose-400 focus:ring-rose-600 placeholder-rose-600"
             : "border-gray-400 focus:ring-green-600 placeholder-gray-600"
         } rounded focus:outline-none focus:ring-1`}
@@ -69,7 +61,7 @@ const Input = ({
           placeholder={placeholder}
           className={`w-full px-4 py-3 text-lg font-light bg-white border
          ${
-           errors[id]
+           errors && errors[id]
              ? "border-rose-400 focus:ring-rose-600 placeholder-rose-600"
              : "border-gray-400 focus:ring-green-600 placeholder-gray-600"
          } rounded focus:outline-none focus:ring-1`}

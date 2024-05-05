@@ -16,8 +16,8 @@ const Search = ({ setQuery, query }: Props) => {
   };
 
   return (
-    <form className="w-full mt-10">
-      <div className="relative w-[50%]">
+    <form className="">
+      <div className="relative w-64">
         <input
           type="text"
           name="search"

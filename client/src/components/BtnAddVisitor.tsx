@@ -6,7 +6,7 @@ import Button from "./Button";
 const BtnAddVisitor = () => {
   const { setFormModalIsOpen } = useFormModalStore();
   return (
-    <div className="flex justify-end mt-10">
+    <div className="flex justify-end">
       <Button type="button" variant="primary" size="small">
         <div className="flex items-center" onClick={() => setFormModalIsOpen()}>
           <span className="text-xl">
