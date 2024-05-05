@@ -30,7 +30,7 @@ const Visiteurs = () => {
     <Container>
       <div className="w-full">
         <div className="flex items-center justify-between mb-5">
-          <Search setQuery={setQuery} />
+          <Search query={query} setQuery={setQuery} />
           <div className="w-40 ">
             <BtnAddVisitor />
           </div>

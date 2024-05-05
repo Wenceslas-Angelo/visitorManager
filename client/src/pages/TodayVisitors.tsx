@@ -4,11 +4,11 @@ import BtnAddVisitor from "../components/BtnAddVisitor";
 import CardStat from "../components/CardStat";
 import FormVisitor from "../components/FormVisitor";
 import ModaleDelete from "../components/ModaleDelete";
+import Search from "../components/Search";
 import VisitorTable from "../components/VisitorTable";
 import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { VisitorType } from "../types";
 import Container from "../utils/Container";
-import Search from "../components/Search";
 
 const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
@@ -64,7 +64,7 @@ const TodayVisitors = () => {
 
       <div className="w-full">
         <div className="flex items-center justify-between">
-          <Search setQuery={setQuery} />
+          <Search query={query} setQuery={setQuery} />
           <div className="w-40 ">
             <BtnAddVisitor />
           </div>
