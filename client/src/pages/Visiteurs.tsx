@@ -13,14 +13,14 @@ const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
   const [query, setQuery] = useState("");
-  const [selectedOption, setSelectedOption] = useState("All");
+  const [selectedOption, setSelectedOption] = useState("all");
 
   const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
   const search = (data: VisitorType[]) => {
     let filteredData = data;
 
-    if (selectedOption !== "All") {
+    if (selectedOption !== "all") {
       filteredData = filteredData.filter(
         (visitor) =>
           visitor &&

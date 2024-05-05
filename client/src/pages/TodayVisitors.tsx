@@ -13,7 +13,7 @@ import Container from "../utils/Container";
 const TodayVisitors = () => {
   const [tab, setTab] = useState<"all" | "out" | "in">("all");
   const [query, setQuery] = useState("");
-  const [selectedOption, setSelectedOption] = useState("Toutes");
+  const [selectedOption, setSelectedOption] = useState("all");
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
   const todayVisitor = useAppSelector((state) => state.visitor.todayVisitors);
@@ -27,7 +27,7 @@ const TodayVisitors = () => {
   const search = (data: VisitorType[]) => {
     let filteredData = data;
 
-    if (selectedOption !== "Toutes") {
+    if (selectedOption !== "all") {
       filteredData = filteredData.filter(
         (visitor) =>
           visitor &&
