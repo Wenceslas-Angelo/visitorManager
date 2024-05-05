@@ -7,9 +7,15 @@ type Props = {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  showDateFilter?: boolean;
 };
 
-const Filtre = ({ query, setQuery, setSelectedOption }: Props) => {
+const Filtre = ({
+  query,
+  setQuery,
+  setSelectedOption,
+  showDateFilter = false,
+}: Props) => {
   return (
     <div className="flex items-center w-full">
       <Search query={query} setQuery={setQuery} />
@@ -28,6 +34,13 @@ const Filtre = ({ query, setQuery, setSelectedOption }: Props) => {
           </option>
         ))}
       </select>
+      {showDateFilter ? (
+        <input
+          type="date"
+          id="dateFiltre"
+          className="px-4 py-2 pl-10 ml-5 text-lg placeholder-gray-600 border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
+        />
+      ) : null}
     </div>
   );
 };

@@ -47,6 +47,7 @@ const Visiteurs = () => {
             setSelectedOption={setSelectedOption}
             query={query}
             setQuery={setQuery}
+            showDateFilter={true}
           />
           <div className="w-40 ">
             <BtnAddVisitor />
