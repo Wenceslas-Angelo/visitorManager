@@ -53,7 +53,7 @@ const FormVisitor = () => {
   };
 
   return (
-    <div className="absolute top-0 left-0 z-30 w-full h-screen bg-black/50 ">
+    <div className="fixed top-0 left-0 z-30 w-full h-screen bg-black/50 ">
       <div className="flex items-center justify-center h-full max-w-3xl mx-auto">
         <div className="w-full p-5 m-2 text-xl bg-white rounded-md">
           <div className="flex items-center justify-between my-5">

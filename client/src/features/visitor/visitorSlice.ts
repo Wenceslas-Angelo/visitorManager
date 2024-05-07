@@ -83,6 +83,12 @@ const visitorSlice = createSlice({
         }
         return visitor;
       });
+      state.todayVisitors = state.todayVisitors.map((visitor) => {
+        if (visitor._id === newVisitor._id) {
+          return newVisitor;
+        }
+        return visitor;
+      });
     },
   },
 });

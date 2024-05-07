@@ -54,7 +54,10 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("all")}
         >
-          <CardStat title="Visiteur " number={todayVisitor.length} />
+          <CardStat
+            title={todayVisitor.length > 1 ? "Visiteurs" : "Visiteur"}
+            number={todayVisitor.length}
+          />
         </div>
         <div
           className={`border-b-4 ${
@@ -62,7 +65,10 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("out")}
         >
-          <CardStat title="Sorti" number={todayVisitorOut.length} />
+          <CardStat
+            title={todayVisitorOut.length > 1 ? "Sortis" : "Sorti"}
+            number={todayVisitorOut.length}
+          />
         </div>
         <div
           className={`border-b-4 ${
@@ -70,7 +76,10 @@ const TodayVisitors = () => {
           } cursor-pointer rounded-md`}
           onClick={() => setTab("in")}
         >
-          <CardStat title="Entrée" number={todayVisitorIn.length} />
+          <CardStat
+            title={todayVisitorIn.length > 1 ? "Entrées" : "Entrée"}
+            number={todayVisitorIn.length}
+          />
         </div>
       </div>
 

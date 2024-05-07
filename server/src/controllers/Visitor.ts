@@ -4,6 +4,7 @@ import Visitor from "../models/Visitor";
 const Create = (req: Request, res: Response) => {
   const newVisitor = new Visitor({
     ...req.body,
+    startDateTime: new Date(),
   });
   newVisitor
     .save()
