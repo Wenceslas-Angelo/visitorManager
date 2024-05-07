@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { useAppSelector } from "../app/hooks";
 import BtnAddVisitor from "../components/BtnAddVisitor";
@@ -14,6 +15,7 @@ const Visiteurs = () => {
   const { deleteModalIsOpen } = useDeleteModalStore();
   const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("all");
+  const [dateField, setDateField] = useState("");
 
   const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
@@ -25,6 +27,14 @@ const Visiteurs = () => {
         (visitor) =>
           visitor &&
           visitor.purpose.toLowerCase() === selectedOption.toLowerCase()
+      );
+    }
+
+    if (dateField !== "") {
+      filteredData = filteredData.filter(
+        (visitor) =>
+          visitor &&
+          moment(visitor.startDateTime).format("YYYY-MM-DD") === dateField
       );
     }
 
@@ -48,6 +58,8 @@ const Visiteurs = () => {
             query={query}
             setQuery={setQuery}
             showDateFilter={true}
+            dateField={dateField}
+            setDateField={setDateField}
           />
           <div className="w-40 ">
             <BtnAddVisitor />

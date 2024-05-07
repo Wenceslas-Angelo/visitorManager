@@ -31,8 +31,7 @@ const Button = ({
       variantStyles = "bg-green-600 hover:bg-green-500 text-white rounded-lg";
       break;
     case "secondary":
-      variantStyles =
-        "bg-green-200 hover:bg-green-300/50 text-green-600 rounded-lg";
+      variantStyles = "bg-gray-400 hover:bg-gray-400/50 rounded-lg";
       break;
     case "danger":
       variantStyles = "bg-rose-600 hover:bg-rose-300/50 text-white rounded-lg";
