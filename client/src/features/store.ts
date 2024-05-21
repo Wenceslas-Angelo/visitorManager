@@ -51,3 +51,13 @@ export const useDeleteModalStore = create<DeleteModalStore>()((set) => ({
     return set({ idVisitorDeleted: idVisitor });
   },
 }));
+
+type PageStore = {
+  page: number;
+  setPage: (page: number) => void;
+};
+
+export const usePageStore = create<PageStore>()((set) => ({
+  page: 1,
+  setPage: (page) => set({ page }),
+}));

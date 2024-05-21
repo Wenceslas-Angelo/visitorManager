@@ -16,7 +16,7 @@ const ModaleDelete = () => {
   const deleteVisitor = useDeleteVisitor();
   const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
   const visitorDeleted = idVisitorDeleted
-    ? allVisitors.find((visitor) => idVisitorDeleted === visitor._id)
+    ? allVisitors.visitors.find((visitor) => idVisitorDeleted === visitor._id)
     : null;
 
   return (

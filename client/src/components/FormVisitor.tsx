@@ -22,7 +22,7 @@ const FormVisitor = () => {
   const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
 
   const visitorUpdated = idVisitorUpdate
-    ? allVisitors.find((visitor) => idVisitorUpdate === visitor._id)
+    ? allVisitors.visitors.find((visitor) => idVisitorUpdate === visitor._id)
     : null;
 
   const onSubmit: SubmitHandler<VisitorType> = async (data) => {

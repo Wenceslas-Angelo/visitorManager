@@ -34,9 +34,9 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitors = (token: string, page = 1) => {
+export const useReadAllVisitors = (token: string, page: number) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["allVisitor"],
+    queryKey: ["allVisitor", page],
     queryFn: () => visitorApi.readAllVisitors(token, page),
   });
   return visitors;

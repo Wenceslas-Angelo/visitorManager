@@ -1,28 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactPaginate from "react-paginate";
 import { VisitorType } from "../types";
 import VisitorTable from "./VisitorTable";
+import { usePageStore } from "../features/store";
 
 type Props = {
   data: VisitorType[];
+  pageCount: number;
 };
 
-const Pagination = ({ data }: Props) => {
-  const [pageNumber, setPageNumber] = useState(0);
-  const dataPerPage = 10;
-  const pageVisited = pageNumber * dataPerPage;
-
-  const displayData = data.slice(pageVisited, pageVisited + dataPerPage);
-
+const Pagination = ({ data, pageCount }: Props) => {
+  const { setPage } = usePageStore();
   return (
     <div>
-      <VisitorTable visitorsData={displayData} />
+      <VisitorTable visitorsData={data} />
       <div className="my-10">
         <ReactPaginate
           previousLabel={"Précédent"}
           nextLabel={"Suivant"}
-          pageCount={Math.ceil(data.length / dataPerPage)}
-          onPageChange={({ selected }) => setPageNumber(selected)}
+          pageCount={pageCount}
+          onPageChange={({ selected }) => setPage(selected + 1)}
           containerClassName={"paginationBtns"}
           previousLinkClassName={"previousBtn"}
           nextLinkClassName={"nextBtn"}
