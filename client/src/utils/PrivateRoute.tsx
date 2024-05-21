@@ -2,20 +2,21 @@ import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { logout } from "../features/auth/authSlice";
+import { usePageStore, useSearchStore } from "../features/store";
 import { readAllVisitors } from "../features/visitor/visitorSlice";
 import { useReadAllVisitors } from "../hooks/useVisitorQuery";
-import { usePageStore, useSearchStore } from "../features/store";
 
 const PrivateRoute = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const { page } = usePageStore();
-  const { searchQuery } = useSearchStore();
+  const { searchQuery, purposeQuery } = useSearchStore();
   const allVisitorQuery = useReadAllVisitors(
     user ? user.token : "",
     page,
-    searchQuery
+    searchQuery,
+    purposeQuery
   );
 
   if (allVisitorQuery.error?.message === "Unauthorized") {

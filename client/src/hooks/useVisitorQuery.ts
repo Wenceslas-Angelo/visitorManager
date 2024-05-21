@@ -37,11 +37,13 @@ export const useCreateVisitor = () => {
 export const useReadAllVisitors = (
   token: string,
   page: number,
-  searchQuery: string
+  searchQuery: string,
+  purposeQuery: string
 ) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["allVisitor", page, searchQuery],
-    queryFn: () => visitorApi.readAllVisitors(token, page, searchQuery),
+    queryKey: ["allVisitor", page, searchQuery, purposeQuery],
+    queryFn: () =>
+      visitorApi.readAllVisitors(token, page, searchQuery, purposeQuery),
   });
   return visitors;
 };

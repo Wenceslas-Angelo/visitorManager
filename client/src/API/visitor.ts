@@ -46,10 +46,11 @@ export const visitorApi = {
   readAllVisitors: async (
     token: string,
     page: number,
-    searchQuery: string
+    searchQuery: string,
+    purposeQuery: string
   ): Promise<ReadAllVisitorsResponse> => {
     const response = await fetch(
-      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}`,
+      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}&purpose=${purposeQuery}`,
       {
         method: "GET",
         headers: {

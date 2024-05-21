@@ -17,6 +17,7 @@ const ReadAll = (req: Request, res: Response) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
+  const purpose = req.query.purpose || "";
 
   const query = {
     ...(search && {
@@ -25,6 +26,7 @@ const ReadAll = (req: Request, res: Response) => {
         { firstName: { $regex: search, $options: "i" } },
       ],
     }),
+    ...(purpose && { purpose: { $regex: purpose, $options: "i" } }),
   };
 
   Visitor.find(query)

@@ -1,21 +1,20 @@
 import React from "react";
 import { purposeData } from "../constants";
+import { useSearchStore } from "../features/store";
 import Search from "./Search";
 
 type Props = {
-  selectedOption: string;
-  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
   showDateFilter?: boolean;
   dateField?: string;
   setDateField?: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Filtre = ({
-  setSelectedOption,
   showDateFilter = false,
   dateField = "",
   setDateField,
 }: Props) => {
+  const { setPurposeQuery } = useSearchStore();
   return (
     <div className="flex items-center w-full">
       <Search />
@@ -25,9 +24,9 @@ const Filtre = ({
         id="purpose"
         autoComplete="off"
         data-testid="input"
-        onChange={(e) => setSelectedOption(e.target.value)}
+        onChange={(e) => setPurposeQuery(e.target.value)}
       >
-        <option value="all">Touts les motifs</option>
+        <option value="">Touts les motifs</option>
         {purposeData.map((purpose) => (
           <option key={purpose} value={purpose}>
             {purpose}

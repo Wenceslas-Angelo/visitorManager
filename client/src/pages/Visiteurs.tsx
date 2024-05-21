@@ -13,21 +13,12 @@ import Container from "../utils/Container";
 const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
-  const [selectedOption, setSelectedOption] = useState("all");
   const [dateField, setDateField] = useState("");
 
   const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
   const search = (data: VisitorType[]) => {
     let filteredData = data;
-
-    if (selectedOption !== "all") {
-      filteredData = filteredData.filter(
-        (visitor) =>
-          visitor &&
-          visitor.purpose.toLowerCase() === selectedOption.toLowerCase()
-      );
-    }
 
     if (dateField !== "") {
       filteredData = filteredData.filter(
@@ -45,8 +36,6 @@ const Visiteurs = () => {
       <div className="w-full">
         <div className="flex items-center justify-between my-10">
           <Filtre
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
             showDateFilter={true}
             dateField={dateField}
             setDateField={setDateField}
