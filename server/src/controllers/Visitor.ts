@@ -13,13 +13,24 @@ const Create = (req: Request, res: Response) => {
 };
 
 const ReadAll = (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+
   Visitor.find()
     .sort({ _id: -1 })
-    .then((visitors) =>
+    .skip(skip)
+    .limit(limit)
+    .then(async (visitors) => {
+      const totalVisitors = await Visitor.countDocuments();
+
       res.status(200).json({
         visitors,
-      })
-    )
+        totalVisitors,
+        totalPages: Math.ceil(totalVisitors / limit),
+        currentPage: page,
+      });
+    })
     .catch((error) =>
       res.status(500).json({
         error: error.message,

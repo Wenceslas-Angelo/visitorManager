@@ -65,7 +65,7 @@ const Visiteurs = () => {
             <BtnAddVisitor />
           </div>
         </div>
-        <Pagination data={search(allVisitor)} />
+        <Pagination data={search(allVisitor.visitors)} />
       </div>
 
       {formModalIsOpen ? <FormVisitor /> : null}

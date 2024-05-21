@@ -1,16 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { VisitorType } from "../../types";
+import { ReadAllVisitorsResponse, VisitorType } from "../../types";
 
 type VisitorState = {
   todayVisitors: VisitorType[];
   todayVisitorsOut: VisitorType[];
   todayVisitorsIn: VisitorType[];
-  allVisitors: VisitorType[];
+  allVisitors: ReadAllVisitorsResponse;
 };
 
 const initialState: VisitorState = {
-  allVisitors: [],
+  allVisitors: {
+    visitors: [],
+    totalPages: 0,
+    totalVisitors: 0,
+    currentPage: 0,
+  },
   todayVisitors: [],
   todayVisitorsOut: [],
   todayVisitorsIn: [],
@@ -21,10 +26,10 @@ const visitorSlice = createSlice({
   initialState,
   reducers: {
     readAllVisitors(state, action) {
-      const allVisitors: VisitorType[] = action.payload;
+      const allVisitors: ReadAllVisitorsResponse = action.payload;
       state.allVisitors = allVisitors;
-
-      state.todayVisitors = allVisitors.filter((visitor) => {
+      console.log(allVisitors);
+      state.todayVisitors = allVisitors.visitors.filter((visitor) => {
         return moment(visitor.startDateTime).isSame(
           moment().startOf("day"),
           "day"
@@ -42,14 +47,14 @@ const visitorSlice = createSlice({
 
     addVisitor(state, action) {
       const newVisitor = action.payload;
-      state.allVisitors = [newVisitor, ...state.allVisitors];
+      state.allVisitors.visitors = [newVisitor, ...state.allVisitors.visitors];
       state.todayVisitors = [newVisitor, ...state.todayVisitors];
       state.todayVisitorsIn = [newVisitor, ...state.todayVisitorsIn];
     },
 
     checkOutVisitor(state, action) {
       const checkVisitor: VisitorType = action.payload;
-      state.allVisitors = state.allVisitors.map((visitor) =>
+      state.allVisitors.visitors = state.allVisitors.visitors.map((visitor) =>
         visitor._id === checkVisitor._id ? checkVisitor : visitor
       );
       state.todayVisitors = state.todayVisitors.map((visitor) =>
@@ -62,7 +67,7 @@ const visitorSlice = createSlice({
     },
     deleteVisitor(state, action) {
       const visitorDeleted: VisitorType = action.payload;
-      state.allVisitors = state.allVisitors.filter(
+      state.allVisitors.visitors = state.allVisitors.visitors.filter(
         (visitor) => visitor._id !== visitorDeleted._id
       );
       state.todayVisitors = state.todayVisitors.filter(
@@ -77,7 +82,7 @@ const visitorSlice = createSlice({
     },
     updateVisitor(state, action) {
       const newVisitor: VisitorType = action.payload;
-      state.allVisitors = state.allVisitors.map((visitor) => {
+      state.allVisitors.visitors = state.allVisitors.visitors.map((visitor) => {
         if (visitor._id === newVisitor._id) {
           return newVisitor;
         }

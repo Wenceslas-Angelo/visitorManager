@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../config";
-import { VisitorFilters, VisitorType } from "../types";
+import { ReadAllVisitorsResponse, VisitorFilters, VisitorType } from "../types";
 
 export const visitorApi = {
   create: async (
@@ -43,8 +43,11 @@ export const visitorApi = {
     return responseAsJson.visitor as VisitorType;
   },
 
-  readAllVisitors: async (token: string): Promise<VisitorType[]> => {
-    const response = await fetch(`${API_BASE_URL}/visitor`, {
+  readAllVisitors: async (
+    token: string,
+    page: number
+  ): Promise<ReadAllVisitorsResponse> => {
+    const response = await fetch(`${API_BASE_URL}/visitor?page=${page}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +60,7 @@ export const visitorApi = {
     }
 
     const responseAsJson = await response.json();
-    return responseAsJson.visitors as VisitorType[];
+    return responseAsJson as ReadAllVisitorsResponse;
   },
 
   delete: async (token: string, idVisitor: string): Promise<VisitorType> => {

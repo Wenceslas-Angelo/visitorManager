@@ -17,6 +17,13 @@ export type VisitorType = {
   badgeNumber: number;
 };
 
+export type ReadAllVisitorsResponse = {
+  visitors: VisitorType[];
+  totalVisitors: number;
+  totalPages: number;
+  currentPage: number;
+};
+
 export type SignUpResponse = {
   message: string;
 };

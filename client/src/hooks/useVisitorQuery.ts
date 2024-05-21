@@ -9,7 +9,7 @@ import {
   deleteVisitor,
   updateVisitor,
 } from "../features/visitor/visitorSlice";
-import { VisitorFilters, VisitorType } from "../types";
+import { ReadAllVisitorsResponse, VisitorFilters, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
   const { setFormModalIsOpen } = useFormModalStore();
@@ -34,10 +34,10 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitors = (token: string) => {
-  const visitors = useQuery<VisitorType[]>({
+export const useReadAllVisitors = (token: string, page = 1) => {
+  const visitors = useQuery<ReadAllVisitorsResponse>({
     queryKey: ["allVisitor"],
-    queryFn: () => visitorApi.readAllVisitors(token),
+    queryFn: () => visitorApi.readAllVisitors(token, page),
   });
   return visitors;
 };
