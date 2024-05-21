@@ -13,7 +13,6 @@ import Container from "../utils/Container";
 const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
-  const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("all");
   const [dateField, setDateField] = useState("");
 
@@ -38,13 +37,6 @@ const Visiteurs = () => {
       );
     }
 
-    filteredData = filteredData.filter(
-      (visitor) =>
-        visitor &&
-        (visitor.name.toLowerCase().includes(query.toLowerCase()) ||
-          visitor.firstName.toLowerCase().includes(query.toLowerCase()))
-    );
-
     return filteredData;
   };
 
@@ -55,8 +47,6 @@ const Visiteurs = () => {
           <Filtre
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
-            query={query}
-            setQuery={setQuery}
             showDateFilter={true}
             dateField={dateField}
             setDateField={setDateField}

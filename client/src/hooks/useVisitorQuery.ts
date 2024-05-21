@@ -34,10 +34,14 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitors = (token: string, page: number) => {
+export const useReadAllVisitors = (
+  token: string,
+  page: number,
+  searchQuery: string
+) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["allVisitor", page],
-    queryFn: () => visitorApi.readAllVisitors(token, page),
+    queryKey: ["allVisitor", page, searchQuery],
+    queryFn: () => visitorApi.readAllVisitors(token, page, searchQuery),
   });
   return visitors;
 };

@@ -16,13 +16,23 @@ const ReadAll = (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
+  const search = req.query.search || "";
 
-  Visitor.find()
+  const query = {
+    ...(search && {
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { firstName: { $regex: search, $options: "i" } },
+      ],
+    }),
+  };
+
+  Visitor.find(query)
     .sort({ _id: -1 })
     .skip(skip)
     .limit(limit)
     .then(async (visitors) => {
-      const totalVisitors = await Visitor.countDocuments();
+      const totalVisitors = await Visitor.countDocuments(query);
 
       res.status(200).json({
         visitors,

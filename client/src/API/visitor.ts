@@ -45,15 +45,19 @@ export const visitorApi = {
 
   readAllVisitors: async (
     token: string,
-    page: number
+    page: number,
+    searchQuery: string
   ): Promise<ReadAllVisitorsResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor?page=${page}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`${response.statusText}`);

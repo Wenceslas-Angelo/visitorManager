@@ -4,14 +4,19 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { logout } from "../features/auth/authSlice";
 import { readAllVisitors } from "../features/visitor/visitorSlice";
 import { useReadAllVisitors } from "../hooks/useVisitorQuery";
-import { usePageStore } from "../features/store";
+import { usePageStore, useSearchStore } from "../features/store";
 
 const PrivateRoute = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const { page } = usePageStore();
-  const allVisitorQuery = useReadAllVisitors(user ? user.token : "", page);
+  const { searchQuery } = useSearchStore();
+  const allVisitorQuery = useReadAllVisitors(
+    user ? user.token : "",
+    page,
+    searchQuery
+  );
 
   if (allVisitorQuery.error?.message === "Unauthorized") {
     dispatch(logout());

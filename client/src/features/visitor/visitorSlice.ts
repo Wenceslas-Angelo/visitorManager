@@ -28,7 +28,7 @@ const visitorSlice = createSlice({
     readAllVisitors(state, action) {
       const allVisitors: ReadAllVisitorsResponse = action.payload;
       state.allVisitors = allVisitors;
-      console.log(allVisitors);
+
       state.todayVisitors = allVisitors.visitors.filter((visitor) => {
         return moment(visitor.startDateTime).isSame(
           moment().startOf("day"),
