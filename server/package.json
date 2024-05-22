@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "add-visitors": "ts-node ./src/__tests__/seed.ts"
   },
   "keywords": [],
   "author": "",
