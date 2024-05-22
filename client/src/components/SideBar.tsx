@@ -1,8 +1,7 @@
 import React from "react";
 import { MdLogout } from "react-icons/md";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import smmcLogo from "../assets/SMMC-Logo.png";
 import { sideBarLinks } from "../constants/sideBarLink";
 import { logout } from "../features/auth/authSlice";
 
@@ -13,14 +12,9 @@ const SideBar = () => {
 
   return (
     <section
-      className="sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-gray-300 pb-5 pt-10 max-md:hidden;
+      className="sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto pb-5 pt-10 max-md:hidden;
 "
     >
-      <div className="flex justify-center mb-10">
-        <Link to="/">
-          <img src={smmcLogo} alt="Logo SMMC" className="w-40 " />
-        </Link>
-      </div>
       <div className="flex flex-col flex-1 w-full gap-6 px-6">
         {sideBarLinks.map((link, index) => (
           <NavLink

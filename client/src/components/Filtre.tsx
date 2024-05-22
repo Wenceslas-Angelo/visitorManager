@@ -10,7 +10,7 @@ type Props = {
 const Filtre = ({ showDateFilter = false }: Props) => {
   const { setPurposeQuery, dateQuery, setDateQuery } = useSearchStore();
   return (
-    <div className="flex items-center w-full">
+    <div className="flex items-center">
       <Search />
 
       <select
