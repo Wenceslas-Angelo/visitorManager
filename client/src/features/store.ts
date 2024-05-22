@@ -67,6 +67,8 @@ type SearchStore = {
   setSearchQuery: (query: string) => void;
   purposeQuery: string;
   setPurposeQuery: (query: string) => void;
+  dateQuery: string;
+  setDateQuery: (query: string) => void;
 };
 
 export const useSearchStore = create<SearchStore>()((set) => ({
@@ -74,4 +76,6 @@ export const useSearchStore = create<SearchStore>()((set) => ({
   setSearchQuery: (query) => set({ searchQuery: query }),
   purposeQuery: "",
   setPurposeQuery: (query) => set({ purposeQuery: query }),
+  dateQuery: "",
+  setDateQuery: (query) => set({ dateQuery: query }),
 }));

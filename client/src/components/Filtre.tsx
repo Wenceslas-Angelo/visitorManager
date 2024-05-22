@@ -5,16 +5,10 @@ import Search from "./Search";
 
 type Props = {
   showDateFilter?: boolean;
-  dateField?: string;
-  setDateField?: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Filtre = ({
-  showDateFilter = false,
-  dateField = "",
-  setDateField,
-}: Props) => {
-  const { setPurposeQuery } = useSearchStore();
+const Filtre = ({ showDateFilter = false }: Props) => {
+  const { setPurposeQuery, dateQuery, setDateQuery } = useSearchStore();
   return (
     <div className="flex items-center w-full">
       <Search />
@@ -33,13 +27,13 @@ const Filtre = ({
           </option>
         ))}
       </select>
-      {showDateFilter && setDateField ? (
+      {showDateFilter ? (
         <input
           type="date"
           id="dateFiltre"
           className="px-4 py-2 pl-10 ml-5 text-lg placeholder-gray-600 border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
-          value={dateField}
-          onChange={(e) => setDateField(e.target.value)}
+          value={dateQuery}
+          onChange={(e) => setDateQuery(e.target.value)}
         />
       ) : null}
     </div>

@@ -18,6 +18,7 @@ const ReadAll = (req: Request, res: Response) => {
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
   const purpose = req.query.purpose || "";
+  const startDate = (req.query.date as string) || "";
 
   const query = {
     ...(search && {
@@ -27,6 +28,12 @@ const ReadAll = (req: Request, res: Response) => {
       ],
     }),
     ...(purpose && { purpose: { $regex: purpose, $options: "i" } }),
+    ...(startDate && {
+      startDateTime: {
+        $gte: new Date(new Date(startDate).setHours(0, 0, 0, 0)),
+        $lt: new Date(new Date(startDate).setHours(23, 59, 59, 999)),
+      },
+    }),
   };
 
   Visitor.find(query)
