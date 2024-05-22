@@ -14,7 +14,7 @@ const Filtre = ({ showDateFilter = false }: Props) => {
       <Search />
 
       <select
-        className="px-4 py-2 pl-10 ml-5 text-lg bg-white border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
+        className="px-4 py-2 pl-10 ml-5 bg-white border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
         id="purpose"
         autoComplete="off"
         data-testid="input"
@@ -31,7 +31,7 @@ const Filtre = ({ showDateFilter = false }: Props) => {
         <input
           type="date"
           id="dateFiltre"
-          className="px-4 py-2 pl-10 ml-5 text-lg placeholder-gray-600 border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
+          className="px-4 py-2 pl-10 ml-5 placeholder-gray-600 border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
           value={dateQuery}
           onChange={(e) => setDateQuery(e.target.value)}
         />

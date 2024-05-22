@@ -7,9 +7,9 @@ import Filtre from "./Filtre";
 
 const Header = () => {
   return (
-    <header className="py-2 px-5 flex justify-between items-center">
+    <header className="pt-4 px-5 flex justify-between items-center">
       <div className="flex items-center">
-        <div className="cursor-pointer mr-5">
+        <div className="cursor-pointer mr-5 hover:bg-gray-200 p-1 rounded-md">
           <HiBars3 fontSize={32} />
         </div>
         <Link to="/">
@@ -17,7 +17,7 @@ const Header = () => {
         </Link>
       </div>
 
-      <Filtre />
+      <Filtre showDateFilter />
 
       <BtnAddVisitor />
     </header>

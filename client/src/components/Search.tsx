@@ -14,14 +14,14 @@ const Search = () => {
 
   return (
     <form className="">
-      <div className="relative w-80">
+      <div className="relative">
         <input
           type="text"
           name="search"
           value={searchQuery}
           id="search"
-          placeholder="Rechercher par nom et Prénom"
-          className="w-full px-4 py-2 pl-10 text-lg placeholder-gray-600 border border-gray-400 rounded-lg outline-none focus:border-green-600 focus:ring-green-600"
+          placeholder="Rechercher"
+          className="px-4 py-2 pl-10 placeholder-gray-600 border border-gray-400 rounded-lg outline-none focus:border-green-600 focus:ring-green-600"
           onChange={(e) => handleChange(e)}
         />
         <div
