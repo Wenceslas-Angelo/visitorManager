@@ -2,14 +2,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
-import { useFormModalStore } from "../features/store";
+import { useFormModalStore, userefetchKeyStore } from "../features/store";
 import {
   addVisitor,
   checkOutVisitor,
   deleteVisitor,
   updateVisitor,
 } from "../features/visitor/visitorSlice";
-import { ReadAllVisitorsResponse, VisitorFilters, VisitorType } from "../types";
+import { ReadAllVisitorsResponse, VisitorType } from "../types";
 
 export const useCreateVisitor = () => {
   const { setFormModalIsOpen } = useFormModalStore();
@@ -44,9 +44,11 @@ export const useReadAllVisitors = (
   inTodayQuery: boolean,
   outTodayQuery: boolean
 ) => {
+  const { refetchKey } = userefetchKeyStore();
   const visitors = useQuery<ReadAllVisitorsResponse>({
     queryKey: [
       "allVisitor",
+      refetchKey,
       page,
       searchQuery,
       purposeQuery,
@@ -68,26 +70,6 @@ export const useReadAllVisitors = (
       ),
   });
   return visitors;
-};
-
-export const useSearchVisitors = () => {
-  const searchVisitorMutation = useMutation({
-    mutationFn: ({
-      token,
-      filtersData,
-    }: {
-      token: string;
-      filtersData: VisitorFilters;
-    }) => visitorApi.search(token, filtersData),
-    onSuccess: (visitors) => {
-      console.log(visitors);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  return searchVisitorMutation;
 };
 
 export const useCheckOutVisitor = () => {

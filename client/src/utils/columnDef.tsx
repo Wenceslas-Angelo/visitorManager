@@ -21,7 +21,8 @@ export const columnDefVisitor = (
   setFormModalIsOpen: () => void,
   setIdVisitorUpdate: (idVisitor: string) => void,
   setDeleteModalIsOpen: () => void,
-  setIdVisitorDelete: (idVisitor: string) => void
+  setIdVisitorDelete: (idVisitor: string) => void,
+  setRefetchKey: () => void
 ) => {
   const columns: ColumnDef<VisitorType>[] = [
     {
@@ -130,6 +131,7 @@ export const columnDefVisitor = (
             onClick={() => {
               const idVisitor: string = row.getValue("_id");
               checkOut.mutate({ token, idVisitor });
+              setRefetchKey();
             }}
           />
         );

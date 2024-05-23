@@ -35,7 +35,3 @@ export type LoginResponse = {
   firstName: string;
   matricule: number;
 };
-
-export type VisitorFilters = {
-  [key: string]: boolean | string | number;
-};
