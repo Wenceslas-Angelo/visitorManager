@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import moment from "moment";
 import Visitor from "../models/Visitor";
 
 const Create = (req: Request, res: Response) => {
@@ -18,9 +19,11 @@ const ReadAll = (req: Request, res: Response) => {
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
   const purpose = req.query.purpose || "";
-  const startDate = (req.query.date as string) || "";
+  const today = req.query.today === "true" ? true : false;
+  const inToday = req.query.inToday === "true" ? true : false;
+  const outToday = req.query.outToday === "true" ? true : false;
 
-  const query = {
+  const query: { [key: string]: any } = {
     ...(search && {
       $or: [
         { name: { $regex: search, $options: "i" } },
@@ -28,13 +31,23 @@ const ReadAll = (req: Request, res: Response) => {
       ],
     }),
     ...(purpose && { purpose: { $regex: purpose, $options: "i" } }),
-    ...(startDate && {
-      startDateTime: {
-        $gte: new Date(new Date(startDate).setHours(0, 0, 0, 0)),
-        $lt: new Date(new Date(startDate).setHours(23, 59, 59, 999)),
-      },
-    }),
   };
+
+  if (today) {
+    const startOfToday = moment().startOf("day").toDate();
+    const endOfToday = moment().endOf("day").toDate();
+    query.startDateTime = { $gte: startOfToday, $lt: endOfToday };
+  }
+
+  if (inToday) {
+    query.endDateTime = { $exists: false };
+  }
+
+  if (outToday) {
+    const startOfToday = moment().startOf("day").toDate();
+    const endOfToday = moment().endOf("day").toDate();
+    query.endDateTime = { $gte: startOfToday, $lt: endOfToday };
+  }
 
   Visitor.find(query)
     .sort({ _id: -1 })
