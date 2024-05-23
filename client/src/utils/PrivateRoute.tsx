@@ -11,13 +11,23 @@ const PrivateRoute = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const { page } = usePageStore();
-  const { searchQuery, purposeQuery, dateQuery } = useSearchStore();
+  const {
+    searchQuery,
+    purposeQuery,
+    dateQuery,
+    todayQuery,
+    inTodayQuery,
+    outTodayQuery,
+  } = useSearchStore();
   const allVisitorQuery = useReadAllVisitors(
     user ? user.token : "",
     page,
     searchQuery,
     purposeQuery,
-    dateQuery
+    dateQuery,
+    todayQuery,
+    inTodayQuery,
+    outTodayQuery
   );
 
   if (allVisitorQuery.error?.message === "Unauthorized") {

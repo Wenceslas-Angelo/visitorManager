@@ -69,6 +69,12 @@ type SearchStore = {
   setPurposeQuery: (query: string) => void;
   dateQuery: string;
   setDateQuery: (query: string) => void;
+  todayQuery: boolean;
+  setTodayQuery: (query: boolean) => void;
+  inTodayQuery: boolean;
+  setInTodayQuery: (query: boolean) => void;
+  outTodayQuery: boolean;
+  setOutTodayQuery: (query: boolean) => void;
 };
 
 export const useSearchStore = create<SearchStore>()((set) => ({
@@ -78,4 +84,10 @@ export const useSearchStore = create<SearchStore>()((set) => ({
   setPurposeQuery: (query) => set({ purposeQuery: query }),
   dateQuery: "",
   setDateQuery: (query) => set({ dateQuery: query }),
+  todayQuery: false,
+  setTodayQuery: (query) => set({ todayQuery: query }),
+  inTodayQuery: false,
+  setInTodayQuery: (query) => set({ inTodayQuery: query }),
+  outTodayQuery: false,
+  setOutTodayQuery: (query) => set({ outTodayQuery: query }),
 }));

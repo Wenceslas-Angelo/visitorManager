@@ -12,18 +12,17 @@ export const sideBarLinks = [
   },
   {
     icon: <RxDashboard fontSize={20} />,
-    route: "/today",
+    route: "/today-all",
     label: "Aujourd'hui",
   },
-
-  // {
-  //   icon: <FiSearch fontSize={25} />,
-  //   route: "/rechercher",
-  //   label: "Rechercher",
-  // },
-  // {
-  //   icon: <IoSettingsOutline fontSize={23} />,
-  //   route: "/paramettre",
-  //   label: "Paramettre",
-  // },
+  {
+    icon: <RxDashboard fontSize={20} />,
+    route: "/today-in",
+    label: "Entrees",
+  },
+  {
+    icon: <RxDashboard fontSize={20} />,
+    route: "/today-out",
+    label: "Sortis",
+  },
 ];

@@ -1,19 +1,20 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
+import { usePageStore } from "../features/store";
 import { VisitorType } from "../types";
 import VisitorTable from "./VisitorTable";
-import { usePageStore } from "../features/store";
 
 type Props = {
   data: VisitorType[];
   pageCount: number;
+  visitorActive?: boolean;
 };
 
-const Pagination = ({ data, pageCount }: Props) => {
+const Pagination = ({ data, pageCount, visitorActive }: Props) => {
   const { setPage } = usePageStore();
   return (
     <div>
-      <VisitorTable visitorsData={data} />
+      <VisitorTable visitorsData={data} visitorActive={visitorActive} />
       <div className="my-10">
         <ReactPaginate
           previousLabel={"Précédent"}

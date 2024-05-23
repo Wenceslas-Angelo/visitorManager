@@ -48,10 +48,13 @@ export const visitorApi = {
     page: number,
     searchQuery: string,
     purposeQuery: string,
-    dateQuery: string
+    dateQuery: string,
+    todayQuery: boolean,
+    inTodayQuery: boolean,
+    outTodayQuery: boolean
   ): Promise<ReadAllVisitorsResponse> => {
     const response = await fetch(
-      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}&purpose=${purposeQuery}&date=${dateQuery}`,
+      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}&purpose=${purposeQuery}&date=${dateQuery}&today=${todayQuery}&inToday=${inTodayQuery}&outToday=${outTodayQuery}`,
       {
         method: "GET",
         headers: {
