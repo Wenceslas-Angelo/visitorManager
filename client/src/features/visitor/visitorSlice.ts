@@ -30,8 +30,8 @@ const visitorSlice = createSlice({
 
     checkOutVisitor(state, action) {
       const checkVisitor: VisitorType = action.payload;
-      state.allVisitors.visitors = state.allVisitors.visitors.map((visitor) =>
-        visitor._id === checkVisitor._id ? checkVisitor : visitor
+      state.allVisitors.visitors = state.allVisitors.visitors.filter(
+        (visitor) => visitor._id !== checkVisitor._id
       );
     },
     deleteVisitor(state, action) {

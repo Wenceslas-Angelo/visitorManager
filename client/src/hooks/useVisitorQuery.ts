@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { visitorApi } from "../API/visitor";
 import { useAppDispatch } from "../app/hooks";
-import { useFormModalStore, userefetchKeyStore } from "../features/store";
+import { useFormModalStore } from "../features/store";
 import {
   addVisitor,
   checkOutVisitor,
@@ -44,11 +44,9 @@ export const useReadAllVisitors = (
   inTodayQuery: boolean,
   outTodayQuery: boolean
 ) => {
-  const { refetchKey } = userefetchKeyStore();
   const visitors = useQuery<ReadAllVisitorsResponse>({
     queryKey: [
       "allVisitor",
-      refetchKey,
       page,
       searchQuery,
       purposeQuery,

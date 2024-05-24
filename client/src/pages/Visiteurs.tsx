@@ -13,12 +13,14 @@ import Container from "../utils/Container";
 const Visiteurs = () => {
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
-  const { setTodayQuery } = useSearchStore();
+  const { setTodayQuery, setInTodayQuery, setOutTodayQuery } = useSearchStore();
   const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
   useEffect(() => {
     setTodayQuery(false);
-  }, [setTodayQuery]);
+    setInTodayQuery(false);
+    setOutTodayQuery(false);
+  }, [setTodayQuery, setInTodayQuery, setOutTodayQuery]);
 
   return (
     <Container>

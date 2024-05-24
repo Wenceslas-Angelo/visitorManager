@@ -91,13 +91,3 @@ export const useSearchStore = create<SearchStore>()((set) => ({
   outTodayQuery: false,
   setOutTodayQuery: (query) => set({ outTodayQuery: query }),
 }));
-
-type RefetchKeyStore = {
-  refetchKey: number;
-  setRefetchKey: () => void;
-};
-
-export const userefetchKeyStore = create<RefetchKeyStore>()((set) => ({
-  refetchKey: 0,
-  setRefetchKey: () => set((state) => ({ refetchKey: state.refetchKey + 1 })),
-}));

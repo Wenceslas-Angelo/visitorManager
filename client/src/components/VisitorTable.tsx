@@ -5,11 +5,7 @@ import {
 } from "@tanstack/react-table";
 import React from "react";
 import { useAppSelector } from "../app/hooks";
-import {
-  useDeleteModalStore,
-  useFormModalStore,
-  userefetchKeyStore,
-} from "../features/store";
+import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { useCheckOutVisitor } from "../hooks/useVisitorQuery";
 import { VisitorType } from "../types";
 import { columnDefVisitor } from "../utils/columnDef";
@@ -22,7 +18,6 @@ type Props = {
 const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
   const user = useAppSelector((state) => state.auth.user);
   const checkOut = useCheckOutVisitor();
-  const { setRefetchKey } = userefetchKeyStore();
   const { setFormModalIsOpen, setIdVisitorUpdate } = useFormModalStore();
   const { setDeleteModalIsOpen, setIdVisitorDeleted } = useDeleteModalStore();
   const data = visitorsData;
@@ -33,8 +28,7 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
     setFormModalIsOpen,
     setIdVisitorUpdate,
     setDeleteModalIsOpen,
-    setIdVisitorDeleted,
-    setRefetchKey
+    setIdVisitorDeleted
   );
   const table = useReactTable({
     columns,

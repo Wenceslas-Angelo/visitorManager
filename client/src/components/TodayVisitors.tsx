@@ -22,17 +22,13 @@ const TodayVisitors = ({ variant, visitorActive = false }: Props) => {
   const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
 
   useEffect(() => {
-    if (variant === "all") {
-      setTodayQuery(true);
-      setInTodayQuery(false);
-      setOutTodayQuery(false);
-    } else if (variant === "in") {
-      setInTodayQuery(true);
-      setOutTodayQuery(false);
-    } else {
-      setOutTodayQuery(true);
-      setInTodayQuery(false);
-    }
+    setTodayQuery(true);
+
+    const inQuery = variant === "in";
+    const outQuery = variant !== "all" && variant !== "in";
+
+    setInTodayQuery(inQuery);
+    setOutTodayQuery(outQuery);
   }, [setTodayQuery, setInTodayQuery, setOutTodayQuery, variant]);
 
   return (
