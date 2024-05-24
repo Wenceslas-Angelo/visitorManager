@@ -4,11 +4,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { useAppSelector } from "../app/hooks";
-import { useDeleteModalStore, useFormModalStore } from "../features/store";
-import { useCheckOutVisitor } from "../hooks/useVisitorQuery";
+import useColumnDefVisitor from "../hooks/useColumnDefVisitor";
 import { VisitorType } from "../types";
-import { columnDefVisitor } from "../utils/columnDef";
 
 type Props = {
   visitorsData: VisitorType[];
@@ -16,20 +13,9 @@ type Props = {
 };
 
 const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
-  const user = useAppSelector((state) => state.auth.user);
-  const checkOut = useCheckOutVisitor();
-  const { setFormModalIsOpen, setIdVisitorUpdate } = useFormModalStore();
-  const { setDeleteModalIsOpen, setIdVisitorDeleted } = useDeleteModalStore();
+  const columns = useColumnDefVisitor(visitorActive);
   const data = visitorsData;
-  const columns = columnDefVisitor(
-    visitorActive,
-    user ? user.token : "",
-    checkOut,
-    setFormModalIsOpen,
-    setIdVisitorUpdate,
-    setDeleteModalIsOpen,
-    setIdVisitorDeleted
-  );
+
   const table = useReactTable({
     columns,
     data,
