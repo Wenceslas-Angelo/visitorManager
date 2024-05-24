@@ -40,11 +40,11 @@ const useColumnDefVisitor = (
     const idVisitor: string = row.getValue("_id");
     return (
       <div className="flex justify-center px-2">
-        <span className="p-2 text-white bg-gray-600 rounded-md cursor-pointer text-md hover:bg-gray-500">
+        <span className="p-2 text-white bg-gray-600 rounded-md cursor-pointer hover:bg-gray-500">
           <FaRegEye />
         </span>
         <span
-          className="p-2 mx-2 text-white bg-indigo-600 rounded-md cursor-pointer text-md hover:bg-indigo-500"
+          className="p-2 mx-2 text-white bg-indigo-600 rounded-md cursor-pointer hover:bg-indigo-500"
           onClick={() => {
             setIdVisitorUpdate(idVisitor);
             setFormModalIsOpen();
@@ -53,7 +53,7 @@ const useColumnDefVisitor = (
           <BsPencilSquare />
         </span>
         <span
-          className="p-2 text-white rounded-md cursor-pointer bg-rose-600 text-md hover:bg-rose-500"
+          className="p-2 text-white rounded-md cursor-pointer bg-rose-600 hover:bg-rose-500"
           onClick={() => {
             setIdVisitorDeleted(idVisitor);
             setDeleteModalIsOpen();

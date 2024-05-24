@@ -24,14 +24,14 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
 
   return (
     <div className="relative overflow-x-auto">
-      <table className="w-full text-sm text-left text-gray-500">
+      <table className="w-full text-left text-gray-500">
         <thead className="text-gray-500 border-b">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-6 py-3 text-[16px] text-center"
+                  className="px-6 py-3 text-[14px] text-center"
                 >
                   {header.isPlaceholder
                     ? null
@@ -51,7 +51,7 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
                 {row.getVisibleCells().map((cell) => (
                   <th
                     key={cell.id}
-                    className="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap"
+                    className="px-6 py-4 text-center text-[14px] font-medium text-gray-900 whitespace-nowrap"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </th>
@@ -59,7 +59,7 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
               </tr>
             ))
           ) : (
-            <tr className="py-5 text-xl text-center">
+            <tr className="py-5 text-center">
               <th>NO RESULTS</th>
             </tr>
           )}
