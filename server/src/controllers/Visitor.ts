@@ -19,6 +19,7 @@ const ReadAll = (req: Request, res: Response) => {
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
   const purpose = req.query.purpose || "";
+  const date = (req.query.date as string) || "";
   const today = req.query.today === "true" ? true : false;
   const inToday = req.query.inToday === "true" ? true : false;
   const outToday = req.query.outToday === "true" ? true : false;
@@ -47,6 +48,12 @@ const ReadAll = (req: Request, res: Response) => {
     const startOfToday = moment().startOf("day").toDate();
     const endOfToday = moment().endOf("day").toDate();
     query.endDateTime = { $gte: startOfToday, $lt: endOfToday };
+  }
+
+  if (date) {
+    const startDate = moment(date).startOf("day").toDate();
+    const endDate = moment(date).endOf("day").toDate();
+    query.startDateTime = { $gte: startDate, $lt: endDate };
   }
 
   Visitor.find(query)
