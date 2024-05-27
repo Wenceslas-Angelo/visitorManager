@@ -18,18 +18,19 @@ type Props = {
 const TodayVisitors = ({ variant, visitorActive = false }: Props) => {
   const { formModalIsOpen } = useFormModalStore();
   const { deleteModalIsOpen } = useDeleteModalStore();
-  const { setTodayQuery, setInTodayQuery, setOutTodayQuery } = useSearchStore();
+  const { setTodayQuery, setInTodayQuery, setOutTodayQuery, setDateQuery } =
+    useSearchStore();
   const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
 
   useEffect(() => {
     setTodayQuery(true);
-
+    setDateQuery("");
     const inQuery = variant === "in";
     const outQuery = variant !== "all" && variant !== "in";
 
     setInTodayQuery(inQuery);
     setOutTodayQuery(outQuery);
-  }, [setTodayQuery, setInTodayQuery, setOutTodayQuery, variant]);
+  }, [setTodayQuery, setInTodayQuery, setOutTodayQuery, setDateQuery, variant]);
 
   return (
     <Container>

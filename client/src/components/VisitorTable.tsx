@@ -45,24 +45,26 @@ const VisitorTable = ({ visitorsData, visitorActive = false }: Props) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="bg-white border-b hover:bg-gray-200">
-                {row.getVisibleCells().map((cell) => (
-                  <th
-                    key={cell.id}
-                    className="px-6 py-4 text-center text-[14px] font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </th>
-                ))}
-              </tr>
-            ))
-          ) : (
-            <tr className="py-5 text-center">
-              <th>NO RESULTS</th>
-            </tr>
-          )}
+          {table.getRowModel().rows?.length
+            ? table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="bg-white border-b hover:bg-gray-200"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <th
+                      key={cell.id}
+                      className="px-6 py-4 text-center text-[14px] font-medium text-gray-900 whitespace-nowrap"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </th>
+                  ))}
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
     </div>
