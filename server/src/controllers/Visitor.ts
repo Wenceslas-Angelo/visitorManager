@@ -17,51 +17,13 @@ const ReadAll = (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
-  const search = req.query.search || "";
-  const purpose = req.query.purpose || "";
-  const date = (req.query.date as string) || "";
-  const today = req.query.today === "true" ? true : false;
-  const inToday = req.query.inToday === "true" ? true : false;
-  const outToday = req.query.outToday === "true" ? true : false;
 
-  const query: { [key: string]: any } = {
-    ...(search && {
-      $or: [
-        { name: { $regex: search, $options: "i" } },
-        { firstName: { $regex: search, $options: "i" } },
-      ],
-    }),
-    ...(purpose && { purpose: { $regex: purpose, $options: "i" } }),
-  };
-
-  if (today) {
-    const startOfToday = moment().startOf("day").toDate();
-    const endOfToday = moment().endOf("day").toDate();
-    query.startDateTime = { $gte: startOfToday, $lt: endOfToday };
-  }
-
-  if (inToday) {
-    query.endDateTime = { $exists: false };
-  }
-
-  if (outToday) {
-    const startOfToday = moment().startOf("day").toDate();
-    const endOfToday = moment().endOf("day").toDate();
-    query.endDateTime = { $gte: startOfToday, $lt: endOfToday };
-  }
-
-  if (date) {
-    const startDate = moment(date).startOf("day").toDate();
-    const endDate = moment(date).endOf("day").toDate();
-    query.startDateTime = { $gte: startDate, $lt: endDate };
-  }
-
-  Visitor.find(query)
+  Visitor.find()
     .sort({ _id: -1 })
     .skip(skip)
     .limit(limit)
     .then(async (visitors) => {
-      const totalVisitors = await Visitor.countDocuments(query);
+      const totalVisitors = await Visitor.countDocuments();
 
       res.status(200).json({
         visitors,
@@ -77,9 +39,36 @@ const ReadAll = (req: Request, res: Response) => {
     );
 };
 
+const ReadAllToday = (req: Request, res: Response) => {
+  const startOfToday = moment().startOf("day").toDate();
+  const endOfToday = moment().endOf("day").toDate();
+  const query = {
+    startDateTime: {
+      $gte: startOfToday,
+      $lt: endOfToday,
+    },
+  };
+
+  Visitor.find(query)
+    .sort({ _id: -1 })
+    .then(async (visitors) => {
+      const totalVisitors = await Visitor.countDocuments(query);
+
+      res.status(200).json({
+        visitors,
+        totalVisitors,
+      });
+    })
+    .catch((error) =>
+      res.status(500).json({
+        error: error.message,
+      })
+    );
+};
+
 const ReadOne = (req: Request, res: Response) => {
   Visitor.findOne({ _id: req.params.id })
-    .then((visitor) => res.status(200).json(visitor))
+    .then((visitor) => res.status(200).json({ visitor }))
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -106,27 +95,58 @@ const DeleteOne = (req: Request, res: Response) => {
 };
 
 const Search = async (req: Request, res: Response) => {
-  const filter: any = {};
-  for (const key in req.query) {
-    if (key !== "page") {
-      filter[key] = req.query[key];
-    }
+  const search = req.query.search || "";
+  const purpose = req.query.purpose || "";
+  const date = (req.query.date as string) || "";
+  const today = req.query.today ? true : false;
+
+  const filter: { [key: string]: any } = {
+    ...(search && {
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { firstName: { $regex: search, $options: "i" } },
+      ],
+    }),
+    ...(purpose && { purpose: { $regex: purpose, $options: "i" } }),
+  };
+
+  if (date) {
+    const startDate = moment(date).startOf("day").toDate();
+    const endDate = moment(date).endOf("day").toDate();
+    filter.startDateTime = { $gte: startDate, $lt: endDate };
+  }
+
+  if (today) {
+    const startOfToday = moment().startOf("day").toDate();
+    const endOfToday = moment().endOf("day").toDate();
+    filter.startDateTime = {
+      $gte: startOfToday,
+      $lt: endOfToday,
+    };
   }
 
   Visitor.find(filter)
     .sort({ _id: -1 })
-    .then((visitors) =>
+    .then(async (visitors) => {
+      const totalVisitors = await Visitor.countDocuments(filter);
+
       res.status(200).json({
         visitors,
+        totalVisitors,
+      });
+    })
+    .catch((error) =>
+      res.status(500).json({
+        error: error.message,
       })
-    )
-    .catch((error) => res.status(500).json({ error }));
+    );
 };
 
 const VisitorCtrl = {
   Create,
   ReadAll,
   ReadOne,
+  ReadAllToday,
   UpdateOne,
   CheckOut,
   DeleteOne,

@@ -34,40 +34,28 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitors = (
-  token: string,
-  page: number,
-  searchQuery: string,
-  purposeQuery: string,
-  dateQuery: string,
-  todayQuery: boolean,
-  inTodayQuery: boolean,
-  outTodayQuery: boolean
-) => {
+export const useReadAllVisitors = (token: string, page: number) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: [
-      "allVisitor",
-      page,
-      searchQuery,
-      purposeQuery,
-      dateQuery,
-      todayQuery,
-      inTodayQuery,
-      outTodayQuery,
-    ],
-    queryFn: () =>
-      visitorApi.readAllVisitors(
-        token,
-        page,
-        searchQuery,
-        purposeQuery,
-        dateQuery,
-        todayQuery,
-        inTodayQuery,
-        outTodayQuery
-      ),
+    queryKey: ["allVisitor", page],
+    queryFn: () => visitorApi.readAllVisitors(token, page),
   });
   return visitors;
+};
+
+export const useReadAllTodayVisitors = (token: string) => {
+  const visitors = useQuery<ReadAllVisitorsResponse>({
+    queryKey: ["allVisitorToday"],
+    queryFn: () => visitorApi.readAllVisitorsToday(token),
+  });
+  return visitors;
+};
+
+export const useReadOneVisitor = (token: string, idVisitor: string) => {
+  const visitor = useQuery<VisitorType>({
+    queryKey: ["oneVisitor"],
+    queryFn: () => visitorApi.readOne(token, idVisitor),
+  });
+  return visitor;
 };
 
 export const useCheckOutVisitor = () => {
@@ -126,4 +114,17 @@ export const useUpdateVisitor = () => {
   });
 
   return updateVisitorMutation;
+};
+
+export const useSearchVisitors = (
+  token: string,
+  searchQuery: string,
+  purposeQuery: string,
+  date: string
+) => {
+  const visitors = useQuery<ReadAllVisitorsResponse>({
+    queryKey: ["searchVisitor", searchQuery, purposeQuery, date],
+    queryFn: () => visitorApi.search(token, searchQuery, purposeQuery, date),
+  });
+  return visitors;
 };

@@ -27,4 +27,9 @@ export const sideBarLinks = [
       },
     ],
   },
+  {
+    icon: <HiOutlineUserGroup fontSize={25} />,
+    route: "/search",
+    label: "Rechercher",
+  },
 ];

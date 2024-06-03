@@ -20,8 +20,8 @@ export type VisitorType = {
 export type ReadAllVisitorsResponse = {
   visitors: VisitorType[];
   totalVisitors: number;
-  totalPages: number;
-  currentPage: number;
+  totalPages?: number;
+  currentPage?: number;
 };
 
 export type SignUpResponse = {

@@ -2,7 +2,7 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { useAppSelector } from "../app/hooks";
 import { useDeleteModalStore } from "../features/store";
-import { useDeleteVisitor } from "../hooks/useVisitorQuery";
+import { useDeleteVisitor, useReadOneVisitor } from "../hooks/useVisitorQuery";
 import Button from "./Button";
 
 const ModaleDelete = () => {
@@ -14,10 +14,10 @@ const ModaleDelete = () => {
     setDeleteModalIsOpen();
   };
   const deleteVisitor = useDeleteVisitor();
-  const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
-  const visitorDeleted = idVisitorDeleted
-    ? allVisitors.visitors.find((visitor) => idVisitorDeleted === visitor._id)
-    : null;
+  const visitorDeleted = useReadOneVisitor(
+    user ? user.token : "",
+    idVisitorDeleted
+  ).data;
 
   return (
     <div className="fixed top-0 left-0 z-30 w-full h-screen bg-black/50 ">

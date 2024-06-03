@@ -2,7 +2,7 @@ import { CellContext, ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { FaRegEye, FaRegTrashCan } from "react-icons/fa6";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { useAppSelector } from "../app/hooks";
 import { useDeleteModalStore, useFormModalStore } from "../features/store";
 import { useCheckOutVisitor } from "../hooks/useVisitorQuery";
@@ -40,9 +40,6 @@ const useColumnDefVisitor = (
     const idVisitor: string = row.getValue("_id");
     return (
       <div className="flex justify-center px-2">
-        <span className="p-2 text-white bg-gray-600 rounded-md cursor-pointer hover:bg-gray-500">
-          <FaRegEye />
-        </span>
         <span
           className="p-2 mx-2 text-white bg-indigo-600 rounded-md cursor-pointer hover:bg-indigo-500"
           onClick={() => {

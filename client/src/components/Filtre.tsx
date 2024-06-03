@@ -17,7 +17,6 @@ const Filtre = ({ showDateFilter = false }: Props) => {
         className="px-4 py-2 pl-10 ml-5 bg-white border border-gray-400 rounded-lg outline-none w-52 focus:border-green-600 focus:ring-green-600"
         id="purpose"
         autoComplete="off"
-        data-testid="input"
         onChange={(e) => setPurposeQuery(e.target.value)}
       >
         <option value="">Touts les motifs</option>
