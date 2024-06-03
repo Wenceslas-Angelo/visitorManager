@@ -4,7 +4,7 @@ import ModaleDelete from "../components/ModaleDelete";
 import Pagination from "../components/Pagination";
 import VisitorTable from "../components/VisitorTable";
 import { useDeleteModalStore, useFormModalStore } from "../features/store";
-import { useVisitors } from "../hooks/useVisitor";
+import { useVisitors } from "../hooks/useVisitors";
 import Container from "../utils/Container";
 
 const Visiteurs = () => {
