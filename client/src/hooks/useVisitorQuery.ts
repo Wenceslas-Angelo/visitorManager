@@ -34,18 +34,30 @@ export const useCreateVisitor = () => {
   return createVisitorMutation;
 };
 
-export const useReadAllVisitors = (token: string, page: number) => {
+export const useReadAllVisitors = (
+  token: string,
+  page: number,
+  searchQuery: string,
+  purposeQuery: string,
+  date: string
+) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["allVisitor", page],
-    queryFn: () => visitorApi.readAllVisitors(token, page),
+    queryKey: ["allVisitor", page, searchQuery, purposeQuery, date],
+    queryFn: () =>
+      visitorApi.readAllVisitors(token, page, searchQuery, purposeQuery, date),
   });
   return visitors;
 };
 
-export const useReadAllTodayVisitors = (token: string) => {
+export const useReadAllTodayVisitors = (
+  token: string,
+  searchQuery: string,
+  purposeQuery: string
+) => {
   const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["allVisitorToday"],
-    queryFn: () => visitorApi.readAllVisitorsToday(token),
+    queryKey: ["allVisitorToday", searchQuery, purposeQuery],
+    queryFn: () =>
+      visitorApi.readAllVisitorsToday(token, searchQuery, purposeQuery),
   });
   return visitors;
 };
@@ -114,17 +126,4 @@ export const useUpdateVisitor = () => {
   });
 
   return updateVisitorMutation;
-};
-
-export const useSearchVisitors = (
-  token: string,
-  searchQuery: string,
-  purposeQuery: string,
-  date: string
-) => {
-  const visitors = useQuery<ReadAllVisitorsResponse>({
-    queryKey: ["searchVisitor", searchQuery, purposeQuery, date],
-    queryFn: () => visitorApi.search(token, searchQuery, purposeQuery, date),
-  });
-  return visitors;
 };

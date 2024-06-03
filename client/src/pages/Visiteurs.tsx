@@ -12,10 +12,7 @@ import {
   useSearchStore,
 } from "../features/store";
 import { readAllVisitors } from "../features/visitor/visitorSlice";
-import {
-  useReadAllVisitors,
-  useSearchVisitors,
-} from "../hooks/useVisitorQuery";
+import { useReadAllVisitors } from "../hooks/useVisitorQuery";
 import Container from "../utils/Container";
 
 const Visiteurs = () => {
@@ -26,14 +23,14 @@ const Visiteurs = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const { page } = usePageStore();
-  const allVisitorQuery = useReadAllVisitors(user ? user.token : "", page);
-  const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
-  const searchVisitorsQuery = useSearchVisitors(
+  const allVisitorQuery = useReadAllVisitors(
     user ? user.token : "",
+    page,
     searchQuery,
     purposeQuery,
     dateQuery
   );
+  const allVisitor = useAppSelector((state) => state.visitor.allVisitors);
 
   if (allVisitorQuery.error?.message === "Unauthorized") {
     dispatch(logout());
@@ -42,21 +39,8 @@ const Visiteurs = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
     if (!allVisitorQuery.data) return;
-    if (searchQuery || purposeQuery || dateQuery) {
-      if (!searchVisitorsQuery.data) return;
-      dispatch(readAllVisitors(searchVisitorsQuery.data));
-    } else {
-      dispatch(readAllVisitors(allVisitorQuery.data));
-    }
-  }, [
-    dispatch,
-    allVisitorQuery.data,
-    isAuthenticated,
-    searchVisitorsQuery.data,
-    searchQuery,
-    purposeQuery,
-    dateQuery,
-  ]);
+    dispatch(readAllVisitors(allVisitorQuery.data));
+  }, [dispatch, allVisitorQuery.data, isAuthenticated]);
 
   return (
     <Container>

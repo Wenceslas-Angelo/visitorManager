@@ -45,15 +45,21 @@ export const visitorApi = {
 
   readAllVisitors: async (
     token: string,
-    page: number
+    page: number,
+    searchQuery: string,
+    purposeQuery: string,
+    date: string
   ): Promise<ReadAllVisitorsResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor?page=${page}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/visitor?page=${page}&search=${searchQuery}&purpose=${purposeQuery}&date=${date}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`${response.statusText}`);
@@ -64,32 +70,12 @@ export const visitorApi = {
   },
 
   readAllVisitorsToday: async (
-    token: string
-  ): Promise<ReadAllVisitorsResponse> => {
-    const response = await fetch(`${API_BASE_URL}/visitor/today`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`${response.statusText}`);
-    }
-
-    const responseAsJson = await response.json();
-    return responseAsJson as ReadAllVisitorsResponse;
-  },
-
-  search: async (
     token: string,
     searchQuery: string,
-    purposeQuery: string,
-    date: string
+    purposeQuery: string
   ): Promise<ReadAllVisitorsResponse> => {
     const response = await fetch(
-      `${API_BASE_URL}/visitor/search?search=${searchQuery}&purpose=${purposeQuery}&date=${date}`,
+      `${API_BASE_URL}/visitor/today?search=${searchQuery}&purpose=${purposeQuery}`,
       {
         method: "GET",
         headers: {
