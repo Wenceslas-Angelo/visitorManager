@@ -1,17 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { logout } from "../features/auth/authSlice";
+import { useAuth } from "../hooks/useAuth";
 
 const PrivateRoute = () => {
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (!isAuthenticated) {
-      dispatch(logout());
-    }
-  }, [isAuthenticated, dispatch]);
-
+  const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Outlet /> : <Navigate to="/connexion" />;
 };
 
