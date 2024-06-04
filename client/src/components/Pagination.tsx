@@ -15,7 +15,7 @@ const Pagination = ({ data, pageCount, visitorActive }: Props) => {
   return (
     <div>
       <VisitorTable visitorsData={data} visitorActive={visitorActive} />
-      <div className="my-10">
+      <div className="my-10 flex justify-center items-center">
         <ReactPaginate
           previousLabel={"Précédent"}
           nextLabel={"Suivant"}
