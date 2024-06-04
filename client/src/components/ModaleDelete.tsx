@@ -2,11 +2,15 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { useAppSelector } from "../app/hooks";
 import { useDeleteModalStore } from "../features/store";
-import { useDeleteVisitor, useReadOneVisitor } from "../hooks/useVisitorQuery";
+import { useDeleteVisitor } from "../hooks/useVisitorQuery";
 import Button from "./Button";
 
 const ModaleDelete = () => {
   const user = useAppSelector((state) => state.auth.user);
+  const allVisitors = useAppSelector((state) => state.visitor.allVisitors);
+  const allVisitorsToday = useAppSelector(
+    (state) => state.visitor.allVisitorsToday
+  );
   const { setDeleteModalIsOpen, setIdVisitorDeleted, idVisitorDeleted } =
     useDeleteModalStore();
   const handleClose = () => {
@@ -14,10 +18,16 @@ const ModaleDelete = () => {
     setDeleteModalIsOpen();
   };
   const deleteVisitor = useDeleteVisitor();
-  const visitorDeleted = useReadOneVisitor(
-    user ? user.token : "",
-    idVisitorDeleted
-  ).data;
+
+  let visitorDeleted = allVisitors.visitors.find(
+    (visitor) => visitor._id === idVisitorDeleted
+  );
+
+  if (!visitorDeleted) {
+    visitorDeleted = allVisitorsToday.visitors.find(
+      (visitor) => visitor._id === idVisitorDeleted
+    );
+  }
 
   return (
     <div className="fixed top-0 left-0 z-30 w-full h-screen bg-black/50 ">
@@ -33,21 +43,40 @@ const ModaleDelete = () => {
             </div>
           </div>
           <div>
-            <div>
-              <p>
-                <span className="font-semibold">Nom</span>:{" "}
-                <span className="text-gray-600">{visitorDeleted?.name}</span>
-              </p>
-              <p>
-                <span className="font-semibold">Prenom</span>:{" "}
-                <span className="text-gray-600">
-                  {visitorDeleted?.firstName}
-                </span>
-              </p>
-              <p>
-                <span className="font-semibold">Motif</span>:{" "}
-                <span className="text-gray-600">{visitorDeleted?.purpose}</span>
-              </p>
+            <div className="flex justify-around">
+              <div>
+                <p>
+                  <span className="font-semibold">Nom</span>:{" "}
+                  <span className="text-gray-600">{visitorDeleted?.name}</span>
+                </p>
+                <p>
+                  <span className="font-semibold">Prenom</span>:{" "}
+                  <span className="text-gray-600">
+                    {visitorDeleted?.firstName}
+                  </span>
+                </p>
+                <p>
+                  <span className="font-semibold">Motif</span>:{" "}
+                  <span className="text-gray-600">
+                    {visitorDeleted?.purpose}
+                  </span>
+                </p>
+              </div>
+
+              <div>
+                <p>
+                  <span className="font-semibold">Badge</span>:{" "}
+                  <span className="text-gray-600">
+                    {visitorDeleted?.badgeNumber}
+                  </span>
+                </p>
+                <p>
+                  <span className="font-semibold">C.I.N.</span>:{" "}
+                  <span className="text-gray-600">
+                    {visitorDeleted?.nationalId}
+                  </span>
+                </p>
+              </div>
             </div>
             <div className="flex items-center justify-between px-5 mt-5">
               <div

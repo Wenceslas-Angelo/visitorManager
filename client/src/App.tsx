@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Search from "./pages/Search";
 import TodayAll from "./pages/TodayAll";
 import TodayIn from "./pages/TodayIn";
 import TodayOut from "./pages/TodayOut";
@@ -18,7 +17,6 @@ const App = () => {
           <Route path="/today-all" element={<TodayAll />} />
           <Route path="/today-in" element={<TodayIn />} />
           <Route path="/today-out" element={<TodayOut />} />
-          <Route path="/search" element={<Search />} />
         </Route>
         <Route path="/inscription" element={<Register />} />
         <Route path="/connexion" element={<Login />} />
