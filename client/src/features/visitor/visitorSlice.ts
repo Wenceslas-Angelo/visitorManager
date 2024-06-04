@@ -39,6 +39,7 @@ const visitorSlice = createSlice({
         newVisitor,
         ...state.allVisitorsToday.visitors,
       ];
+      state.allVisitors.visitors = [newVisitor, ...state.allVisitors.visitors];
     },
 
     checkOutVisitor(state, action) {
